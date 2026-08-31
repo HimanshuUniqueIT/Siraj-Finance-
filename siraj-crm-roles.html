@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siraj CRM — User Stories & Prerequisites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#1c1b1b; --navy-900:#2b2a29; --navy-800:#3a3836;
+    --steel-100:#f2f0ee; --steel-200:#e3dfda; --steel-400:#a9a09a; --steel-600:#726a63;
+    --ink:#1c1b1b; --ink-soft:#54504b;
+    --gold:#c9a13b; --gold-dark:#a8752a;
+    --teal:#0f6e56; --teal-bg:#e1f5ee;
+    --coral:#993c1d; --coral-bg:#faece7;
+    --purple:#726a63; --purple-bg:#efece8;
+    --bg:#f7f5f2; --card:#ffffff; --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,-apple-system,sans-serif; font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.disp{font-family:'Plus Jakarta Sans',system-ui,sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  .topband{background:linear-gradient(180deg,var(--navy-950),var(--navy-900)); color:#fff; padding:26px 28px 26px; border-bottom:3px solid var(--gold);}
+  .topband-inner{max-width:1720px;margin:0 auto; display:flex; align-items:center; gap:22px;}
+  .topband-logo{height:56px; width:auto; flex-shrink:0; background:#fff; padding:8px 14px; border-radius:8px;}
+  .topband-text{min-width:0;}
+  .eyebrow{text-transform:uppercase; letter-spacing:.12em; font-size:15px; color:var(--steel-400); font-weight:500; margin:0 0 10px;}
+  .topband h1{font-size:34px; font-weight:600; margin:0 0 4px; letter-spacing:-.01em;}
+  .topband p{margin:0; font-size:18px; color:var(--steel-400); max-width:900px; line-height:1.6;}
+
+  .shell{max-width:1720px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:32px; padding:32px 28px 70px;}
+  @media (max-width:860px){.shell{grid-template-columns:1fr; padding:20px;}}
+
+  .side{position:sticky; top:20px; align-self:start;}
+  .side-label{font-size:14px; text-transform:uppercase; letter-spacing:.1em; color:var(--steel-600); font-weight:600; margin:0 0 10px 4px;}
+  .role-btn{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+    background:transparent; border:none; border-left:3px solid transparent;
+    padding:12px 14px; margin-bottom:3px; border-radius:0 8px 8px 0; cursor:pointer;
+    font-family:'Inter',sans-serif; font-size:17px; font-weight:500; color:var(--ink-soft);
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .role-btn .rb-dot{width:8px;height:8px;border-radius:50%; background:var(--steel-400); flex-shrink:0;}
+  .role-btn:hover{background:var(--steel-100);}
+  .role-btn.active{background:#fff; border-left-color:var(--gold); color:var(--navy-950); box-shadow:0 1px 3px rgba(10,28,51,.08);}
+  .role-btn.active .rb-dot{background:var(--gold-dark);}
+  .role-count{margin-left:auto; font-size:13.5px; color:var(--steel-600); font-family:'IBM Plex Mono',monospace;}
+
+  .panel{min-width:0;}
+  .role-head{background:var(--card); border:1px solid var(--steel-200); border-radius:var(--radius); padding:28px 32px; margin-bottom:22px;}
+  .role-head .rh-top{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .role-head h2{font-size:32px; margin:0 0 8px; color:var(--navy-950);}
+  .role-head .mandate{font-size:19.5px; color:var(--ink-soft); line-height:1.65; margin:0; max-width:900px;}
+  .badge{display:inline-block; font-size:15px; font-weight:600; letter-spacing:.03em; padding:7px 14px; border-radius:20px; background:var(--teal-bg); color:var(--teal); white-space:nowrap;}
+
+  .flow{position:relative; padding-left:6px;}
+  .step{display:grid; grid-template-columns:46px 1fr; gap:18px; position:relative; padding-bottom:26px;}
+  .step:last-child{padding-bottom:0;}
+  .step-rail{position:relative; display:flex; justify-content:center;}
+  .step-num{width:38px;height:38px; border-radius:50%; background:var(--navy-900); color:#fff; display:flex;align-items:center;justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:500; z-index:2; flex-shrink:0;}
+  .step-line{position:absolute; top:38px; bottom:-26px; left:50%; transform:translateX(-50%); width:2px; background:var(--steel-200); z-index:1;}
+  .step:last-child .step-line{display:none;}
+  .step-card{background:var(--card); border:1px solid var(--steel-200); border-radius:var(--radius); padding:20px 24px;}
+  .step-card .sc-top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:5px;}
+  .step-card h3{font-size:21px; margin:0; color:var(--navy-950); font-weight:600;}
+  .step-card p{margin:0; font-size:18px; color:var(--ink-soft); line-height:1.65;}
+  .tag{font-size:13.5px; font-weight:600; padding:5px 12px; border-radius:6px; white-space:nowrap; font-family:'IBM Plex Mono',monospace; letter-spacing:.02em;}
+  .tag.sys{background:var(--steel-100); color:var(--steel-600);}
+  .tag.gate{background:var(--coral-bg); color:var(--coral);}
+  .tag.out{background:var(--teal-bg); color:var(--teal);}
+  .tag.role{background:var(--navy-900); color:#fff;}
+  .tag.ai{background:var(--purple-bg); color:var(--purple);}
+  .tag.auto{background:var(--steel-100); color:var(--steel-600);}
+  .auto-note{margin-top:10px; font-size:16.5px; color:var(--steel-600); line-height:1.6; font-style:italic;}
+  .auto-note b{font-style:normal; font-weight:600; color:var(--ink-soft);}
+
+  .ai-block{margin-top:14px; padding:16px 18px; background:var(--purple-bg); border-radius:8px; border-left:3px solid var(--purple);}
+  .ai-block .ai-label{font-size:13.5px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--purple); margin-bottom:10px; display:block;}
+  .ai-row{display:grid; grid-template-columns:90px 1fr; gap:12px; margin-bottom:8px;}
+  .ai-row:last-child{margin-bottom:0;}
+  .ai-row .ai-k{font-size:15px; font-weight:600; color:var(--purple);}
+  .ai-row .ai-v{font-size:17px; color:var(--ink-soft); line-height:1.6;}
+
+  .example-btn{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+    background:var(--navy-900); border:none; border-left:3px solid transparent;
+    padding:10px 12px; margin-bottom:14px; border-radius:8px; cursor:pointer;
+    font-family:'Inter',sans-serif; font-size:15.5px; font-weight:600; color:#fff;
+    transition:background .15s;
+  }
+  .example-btn:hover{background:var(--navy-800);}
+  .example-btn.active{background:var(--gold); color:var(--navy-950); border-left-color:var(--gold-dark);}
+  .example-btn i{font-size:17px;}
+  .example-btn{font-size:17px;}
+  .impl-card{background:var(--card); border:1px solid var(--steel-200); border-radius:var(--radius); padding:28px 32px; margin-top:8px;}
+  .impl-card h3{font-size:25px; margin:0 0 6px; color:var(--navy-950);}
+  .impl-card>p{font-size:18px; color:var(--ink-soft); line-height:1.65; margin:0 0 20px;}
+  .impl-row{display:grid; grid-template-columns:230px 1fr; gap:20px; padding:18px 0; border-top:1px solid var(--steel-200);}
+  .impl-row:first-of-type{border-top:none;}
+  .impl-mod{font-size:17px; font-weight:600; color:var(--navy-900); line-height:1.5;}
+  .impl-mod .impl-phase{display:block; font-size:13.5px; font-weight:500; color:var(--steel-600); font-family:'IBM Plex Mono',monospace; margin-top:4px;}
+  .impl-detail{font-size:18px; color:var(--ink-soft); line-height:1.65;}
+  .nav-divider{border:none; border-top:1px solid var(--steel-200); margin:14px 4px 12px;}
+
+  .explain-card{background:var(--card); border:1px solid var(--steel-200); border-radius:var(--radius); padding:28px 32px; margin-bottom:22px;}
+  .explain-card h3{font-size:23px; margin:0 0 10px; color:var(--navy-950);}
+  .explain-card p{font-size:18px; color:var(--ink-soft); line-height:1.7; margin:0 0 14px;}
+  .explain-card p:last-child{margin-bottom:0;}
+  .check-table{width:100%; border-collapse:collapse; margin-top:6px;}
+  .check-table th{text-align:left; font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(--steel-600); font-weight:600; padding:0 14px 10px 0; border-bottom:2px solid var(--steel-200);}
+  .check-table td{font-size:17.5px; color:var(--ink-soft); line-height:1.6; padding:16px 14px 16px 0; border-bottom:1px solid var(--steel-200); vertical-align:top;}
+  .check-table tr:last-child td{border-bottom:none;}
+  .check-table td.chk-name{font-weight:600; color:var(--navy-950); white-space:nowrap;}
+  .vendor-list{list-style:none; padding:0; margin:10px 0 0;}
+  .vendor-list li{display:flex; gap:14px; padding:14px 0; border-top:1px solid var(--steel-200); font-size:17.5px; color:var(--ink-soft); line-height:1.6;}
+  .vendor-list li:first-child{border-top:none;}
+  .vendor-list b{color:var(--navy-950); min-width:290px; flex-shrink:0;}
+  .simple-list{list-style:none; padding:0; margin:10px 0 0;}
+  .simple-list li{display:flex; gap:12px; padding:13px 0; border-top:1px solid var(--steel-200); font-size:17.5px; color:var(--ink-soft); line-height:1.6;}
+  .simple-list li:first-child{border-top:none;}
+  .simple-list li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold-dark);flex-shrink:0;margin-top:8px;}
+  .priority-pill{font-size:13px; font-weight:600; padding:4px 10px; border-radius:12px; background:var(--coral-bg); color:var(--coral); white-space:nowrap; font-family:'IBM Plex Mono',monospace;}
+  .fr-id{font-family:'IBM Plex Mono',monospace; font-size:15.5px; color:var(--steel-600); font-weight:600;}
+  .flow-num-list{counter-reset:flownum; margin:10px 0 0; padding:0;}
+  .flow-num-item{display:grid; grid-template-columns:38px 1fr; gap:16px; padding:14px 0; border-top:1px solid var(--steel-200);}
+  .flow-num-item:first-child{border-top:none;}
+  .flow-num-item .fn-badge{width:32px; height:32px; border-radius:50%; background:var(--navy-900); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:500;}
+  .flow-num-item .fn-text{font-size:17.5px; color:var(--ink-soft); line-height:1.65;}
+  .flow-num-item .fn-text b{color:var(--navy-950);}
+  .open-item{background:var(--coral-bg); border-radius:8px; padding:16px 18px; margin-top:10px; font-size:17px; color:var(--coral); line-height:1.6;}
+  .open-item b{display:block; margin-bottom:4px;}
+
+  .glossary-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:0;}
+  @media (max-width:900px){.glossary-grid{grid-template-columns:1fr;}}
+  .gloss-item{padding:18px 20px 18px 0; border-top:1px solid var(--steel-200);}
+  .glossary-grid .gloss-item:nth-child(1),
+  .glossary-grid .gloss-item:nth-child(2){border-top:none;}
+  .gloss-term{display:flex; align-items:baseline; gap:10px; margin-bottom:6px;}
+  .gloss-term .gt-short{font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; color:var(--navy-950);}
+  .gloss-term .gt-long{font-size:15.5px; color:var(--steel-600); font-style:italic;}
+  .gloss-def{font-size:17.5px; color:var(--ink-soft); line-height:1.65; margin:0;}
+
+  footer{max-width:1720px; margin:0 auto; padding:0 28px 40px; font-size:15.5px; color:var(--steel-600);}
+
+  .step-card{cursor:pointer; transition:border-color .15s, box-shadow .15s;}
+  .step-card:hover{border-color:var(--gold); box-shadow:0 2px 8px rgba(10,28,51,.08);}
+  .step-card .sc-hint{font-size:13.5px; color:var(--steel-600); margin-top:10px; display:flex; align-items:center; gap:5px;}
+
+  .illus-backdrop{
+    position:fixed; inset:0; background:rgba(10,28,51,.35);
+    opacity:0; pointer-events:none; transition:opacity .2s; z-index:40;
+  }
+  .illus-backdrop.open{opacity:1; pointer-events:auto;}
+
+  .illus-panel{
+    position:fixed; top:0; right:0; height:100%; width:420px; max-width:88vw;
+    background:var(--card); box-shadow:-8px 0 24px rgba(10,28,51,.18);
+    transform:translateX(100%); transition:transform .25s ease; z-index:50;
+    display:flex; flex-direction:column; overflow-y:auto;
+  }
+  .illus-panel.open{transform:translateX(0);}
+  .illus-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:22px 24px 14px; border-bottom:1px solid var(--steel-200);}
+  .illus-head h3{font-size:21.5px; margin:0; color:var(--navy-950); line-height:1.4;}
+  .illus-close{
+    background:var(--steel-100); border:none; border-radius:50%; width:32px; height:32px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+    font-size:18px; color:var(--ink-soft); line-height:1;
+  }
+  .illus-close:hover{background:var(--steel-200);}
+  .illus-art{padding:28px 24px 8px; display:flex; justify-content:center;}
+  .illus-art svg{width:100%; max-width:260px; height:auto;}
+  .illus-caption{padding:14px 24px 28px; font-size:17px; color:var(--ink-soft); line-height:1.65;}
+  .illus-caption b{color:var(--navy-950);}
+</style>
+</head>
+<body>
+
+<div class="topband">
+  <div class="topband-inner">
+    <img class="topband-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAScAAABhCAYAAACULGeEAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAJV2SURBVHja1JTPbtNAEMZ/G9trNyFxk4YKSsMB9YTUN+CCkPoQfRB4L16gQnBHFSe4oKpVC0VtHDtO7PX+YQCBuEElkGBmZ7XSjD7N981o1dNHU7IQk4YEQqCfKF6cz9nJh+yu1qg4xeSGnoqhTTg6L3l8f8Tl6ZKd2Qi/XJDmOW+LmqJV7A8TFqVl63ZC0zbodICPPYnSmJMSPdnARQ1REmO7WPI9rDe4sxWJ4BWuYlPlGOOnd/b6z4oL89y2/iXeEyKHcdKLy6ivG5hucDyvOJhtYsqlYGourzomeczrpWUUwcPpgNIXDNyI7rRCSe9HJ3Oe3BuC1ngX6FRDI9zzVYypK7LdMXblhbvCmxrfS6VUY0NLJ6HEb2RK6jsLn5b8FZPelXDXk+0/Ctv5gJz/1hrnZWYgYySLer8npcTaer7T7se9m077n7UvGry6qHlTXXO4L7qst4mDFq7hl5rUcqXvC3S0Ijy4C+4nVeQZPLw7/sBonDKb5div+RYWV9/2X3Y0mmyR9OU/cI52XaOzDBsFztqPjMVvqT4+qX/AfhZATIMtAP/8BiUMRiNTf7GdgdXKJa6Z8lu4BdlSfv/4yzAKRsEoGDkAIIBYBo1LgCXz75//GISEuBOco6R61awEhP79Z2JQNhfkE5DinH1o/iPje+ffVPxj/v+RaTTeRsEoGPYAIIAGRT7/D+w7/Pr5j1tag2diSJHafDUrfqE/v4BdCmCb/Nf3vwzCspwM3qVqGUa+0ptZmFi0/gJbV6NgFIyC4Q0AAmjACydQAcTwn0ndMFZmi0euVJ6IPDvDrx//QF1UxNgHsEXFws7E4JSqauuVp7uPnYcl5M9oN28UjIJhDQACaEC7daDWEZcQc7BpkMQkTQcBqf//GcEFESMTM/ZCjOEvg7aLmDiwm7fq0Oy73Rcuvqv/8/ffD8bReBwFo2DYAYAAGpCW039gs+j393+s4socTa7Zoqu0HPikQF01SAGEr/vHwPDz618GaS1+xsBGvTJTD+m1IizM8r/+jHbzRsEoGG4AIIDoXjiBpu7//WWRU7XgWe2ZK1IrocrB9Ov7P3DBgwKAzSEWNiYGJmbMdhFoHIqNh5UhpFTXK7/McB8jC7Pb6GzeKBgFwwsABBBdCydQN46Z5b+rVYTIfodEUX9OXiaG3z8wWz2gAomJkZHh0cXPf35++QMupNABqKX1F1jQGfrLK/mW6WwWVuCr+P3zPxPD/9FIHQWjYDgAgACiW+H0+9s/RiEt7kKnLKGNei5cSv/+gQoYzJKEhZWJ4d9vBoYTq1+cXFd8xWnbhHuT3z/9zsDKwcSAvhoOPMsHbEXJ6wux+TeZtavYSC759f2PCKh1NgpGwSgY2gAggGg+IA7qrv368V9EXZd1glkwVzS/GCuwQPnPwMgExIyopQ2oAHr/7BfDgaVP5jy7/KOY7d//T4ePvjx87s6ni1nFmr3yFsL8f38xYjSOfgG7dLzCHAwuOeqR3KJsWjd3Pc36+f7Xsf/czKMxPApGwRAFAAFE08IJ1DLiYGc0N3XmnGnoyqXPDOyegZYJMDKiFhpMwEYRaKnAvTNfPh1b8ab8wdOXM8R4BMDduz8s/xmev/gxd2fvzava3lIzzCMV9FnYmIFdOnS7/oKXydvEKOnLqfPtvDvhWsnvt99n/h9JjSig//9Tcb/J3z8MkHAG1SE0Ccf/REmTa/U/YLr6z4iqH5Qe/v76h2EmMwsjfHwTpOY/1M9/gGoZ/uEKAyoGCiPJErhlcWj5A8x2f4C9Cti8018Q4+8/vNtXQA0IRhZGxv8gU//9//cPGDjgHs9flGQHJoCS4MkuWKMExGf+Dw2n/6jqoV02YSD+BpT6DlL7F6SXBaEQIIBYaFcwMTLwCLAm24Vz9CoYsPKDulpgTzGhhhwzKyPYI2c2vrt8bMvTdLb/3MfZuVkYfv77ycAqxszA+oWRgRWo59+XXyeOzbjt9PbVr4kOCcoxAlJcDH9+Ynbzfn//xyBjKMhT3Gw44+Die0ZPr30s+8f2/+NwL5T+/f7NwPj3KwO3CC/Dv7+Uz14C04mRjOz/yRzc/8GZFZo8IemeESkHMCLvNGREk2NA2ofIiEQxwhM+Rm5CFoOqxbATSR0jih4omxGSpu6e+bLw26e/s0CVHxMQgtIHOzdziJIpbyELG1ANsAQCKwemr0eXvhx89/RnFaiAYoVsMwWKMxirWQhN5BJgY/z/9z+aGxih1jKiuhubnxkQhdt/eJn2H4qg9H9EefcfqUaFs///Ryqskdj/UQxFMwtW7EDUgMZx/118t0/++f9azj9sklK6ArMERNiF/v79j6r+P9Q+SFCyPrv17Sr7m185Pxn+f+WWFkqUseRPAZYkkIILmEWBqtk/vfz9i+mvcMyv//9u/gcGOL84cwWvML/r0+tMUUCFL8GGsrAwsADp+5//MHz69odBl5NRk+E/y3spFrFrgsJsE/kFWU3ePWfsAVq9DuQMgACieuEEGkv6+e0ft4w5e6exD3e2kAwzsPZhgHkUtdkG7MZ9f/+X4fiqN2vunP2W/YflzytOoMtYgUX8H+Y/DP/YWBgUBbgYvjL+Zfj96RcDGxfru9tHnse9v/vukmOOXqOSsQjnr5//UEpx8PgWsHXGJ8nB4JapmnZm82Odc3u/Zfz99+/ysC6fgJH+4817Bi5+RgY+cR6GfxQur/j3h0FY3ey/lbD0X3BGB3fDYV1xWAaEFgRgNhM0BzLBMiemOkiGRiQEeAsaWArAMzqymXA9sMzPhN1uRiT7QGYBCxig+xnePvhx9OfHv8A8ASmsQK1ATl5mOfNgUStuARZgWoW4B1RB7p725MObhz8YWIBsJiZIC5SJhVHI2FfcWkKFF7znE9NdyH5hAvsDrgbqL2T3ggoScMsWVgCBWhoMkMIfIv4PwWaAbLr+D8pQUPWwVjGIhpsDk2eAtlr+IQqs/1DzwYUOtGz9+vH7G8YPPxmY/rJzKBvyOyga8vOAJ6Wg5v9nQNjHzMrE8ODi5x/3L36uOPj881czFQETgwDxiXK6XLwgtaBlPW+f/fz/9t6PQ+cffll0+dXXpxayPHZiMhye4qpsyaJybKIfXv/z/PH93wKww4BuBYaCEgsHozvDT7a5wIg68uv3HwY2JjYBGWWOEDE5Fskfnxjk/0I6QQwAAUS1wgkUbL9+AWsmARZNKz/mmeZ+TLZsXKBFlf/B3TaUjATks3IyMby69fPn/Gkv6r48+darJs0HOm+A4ferLwzcjKwM34T+ghdkcoMSCwcwsX0HJjpghmNjY/r/7uGn7i2dV86bh8vPMPKVVwYNov9Gay2AmuOgrqJ5iLyVkBTX3rNrn+Z9/P5xBdtw7tIBE9Tb22/BkcFNYQEFar2DunV/fjNACyd43kNtIKE1lhiQ5y3Q1CG6ADA2tMZm/I/SYMJogMH1/MdvNyPETJA7//0F54VfsEYAkr9+g9IGKG3BCicQDWzZ/0Du+kHxX6Daf0C1TIQLJ4g/UAun/yQWTv9RCqf/uAqn/+QXTsBu3Q/QaRPAbATi/v4LTCNgv8ELJ4heUIH99Na3v1dm3Q8/+/7Hvmu//wslhwoultfm4n3z+CfD4ztfrry6+2PFtw9/NwINvfLu/W8GbnZmDn0T/uU65rxSf6BuFZFmiX546sNCRm6m//8YmbmE1NjmGuvyOTy4/CPgye3f+T+Yvt5gYuaQ5eTllAQvM/r//zcsvgACiIVaBRPTH0YGIX7GUJtQlknyJowSoDADt5iYMPv2oEi9tP3T/SvbP2Xde/xjhwDbf3AEcjJyMvxh/AJ0ICvD3x//GURkuMp42DjYHz382MrNww408QvDf1AByMnCACxx9+xdeMvh7f1vU20SlP04eYFdwa9/UGt/kGeBgaRqKSLKL8a+9PgCBsOXL3/XAQPu5/AsnxjBievtnXfgOOGRoKCAgmW2UTCswL/f/37/B6UJ5v9vX9z5el1Gk8eKCdzSRBrrAXZ5P7z4yXB568vii0++bGIX5uRochKbxcHLJL5z5YuFv1//Xv76zaeDHKwcPzjYWRlA3TgjcW5gl41JTkSMjRtY1oPzHjOwYSylymH/ZNt3wz//Oa5JGHDPUTXhcmABthDULDjduAWZD1w+whAI7CS9+/7p/ztuXgYheEUExAABRPFSAlAp9/37fxY9NfaW7DzO5XJG/yX+/obUXBij7+yMwC7ff4Yjqz7vODbzlfPvdz93gLp2/4FV3U+gZ1iBLSZQ//fn9z8CGibi80PLNDu9SpSaNEyFl/758U8UGLDgM5s+fAbViv+AhRTzk6v7n4etrzvf9vzax39sXCwYXUfwaQc//jKIyHMxOReolalZCm3kYWBSHK7LDSC1+X+Gd3feMnx58QXYNRk9w2EUIHosYnLcJoz/mNSAHciPd0++Dzu96cVh8MA1sKUEajiwcTIzfPv4h+HCtjcTn7z4OnEZsNv1lp1Z+9enX8f2bnplsunwm4S/f//t5Hz7/wfrHwZ+YEEWwcTEZPzv11+GXz9+y3DwMvPCF1RDChlWFm1hHhYBTj5JeXY/Vk5GyEA8qFUlxyrO9ZZR8f+HXzcvnn/rdvfiz+v//zJwgsb3QIUlQABR1HICN53/MCkoW/yfZOTB6MvJB2ktgQIBfeySFdg1e/Xw3//jy952vnz0r5GFjenHH6AvFLiALSFmLgZQM5AR2NRm5mEzMQqRmmEaIW3Myg7qIzAzeOWqRJzb/Ern1NKbmcAm+JHvQHXswILqGzAwuTjZfj458qJ60/PvZ62SVadq2opKgHvOaIUjqCkPCniLECl3YQnWfRd2vM76/evfdkZmxmFZQIHC4B2wBQWKBx4qjEGNgmHQagJmek0HMXVGZuadF/e8igJ2oI5fP/Ha/8/nvwsMfcT9vn75w/D89tcbz298Wf3n7Z/W/8ACi4eNmUGQnfn85+9/zvIA87C+GBewS8ygIqDOFyVvwBvOysOidf3wJ8fv194wcAqwyrFxSzCBWiyg1tj3z/8Ybp7+1vTnz79DjMAM+eLOj1ViCqyJsO74j09//zDI8j/hBJ/F+P3siwe/3FjZmPlh7gUIILILJ9BYEjMrg7tRCMd0VYs/ikxMzIiCCbkbB3QkC9CW2yd+vTy5+Wf+95c/VrIAWzh/GSGZSJjlHwMTGxPDR6BH+CXZEs3DpbrVrASFQQsxwbN7jKBV5UwM5qFSOqIK3FuPLH5Y8fjRp+nsohwMp55+Y9AU+c8gwMHC8OPrn3W7p1y6+uaO3AyTEHkHVg5m0MJPjMgB9avVbEUUeMU41p/d9KL57bNf7f/ZGf4N2wLq9jswf7SAGpSzGOStRiCz0Q8Zd/rPoGUvrMDBw7z53PZXyYyvfm88uPp++MV7HxKlWZhuffvKvP/jn7//9j77xGAqzsVQZSbJ8Pvv/39fv/9l4+FlcdLS5I4TUeb0EpVn5wft8Hh46euP25df3xWT5mXgUeJSZIZOmoBaR1e3v1n+/syHJlZ5bgYmdhaG72//Tv308m8UvyQzOwN4AfX/T7/+MDx9/fsPjyAHu97fX3+PPb774ck/6HgVQACR3OYH6fsNLITk1DiKrYL/rFe3+qcIWhTyF1s3jg0868Owf833ozOmvnL+9fXfSlAL6s/3vwzvgM1AZj4Oht/AFtDP7/845LU4+z3ypOapWvAL/wEPViJiAMQGDWCqWAjz+VZqTdNzkpr2/89/3j9/QANofxmYoE1SYHF28+LOJ/47JtyY8u7JVwZWYEsJvZsHiiCQ+eLK3Oy2sTItCnq8K/78/if+79/w6+bBu3jAAurry9Eu3ogGsPVH/yGnzSqZCAhbhkkt5+JiTWXjZf/x79Of6T++/d7Lzvmf9+uff9rnXn1j/PwLvJ6JCViQZWhaCOy3DZLYrushFCmtwcnPzAJpPHz/8vclJxfbR1ZWNgYObhZlUP4G2XH7zNdTT66/z3r3+ddfRhY2oY/f/jMsuv7+7KkLX3exMEJmYIHlwKc3X78+3XD7vZCMCvs2XkGWus/vf3ECMcOXD78YAAKIpNQK6kuy/mMUk1VjWuKexNIjqfSPE9jEw9i0C+7GsTMwfHjxj2HvnG8zz+754f3k6++rLKxAOXZ2YE+NFToVAhqwZtTUdebf7pMvWSAsxwYeH8K6cPI/aMPvHwZBaU6GiGaDTLMwxV3sTIx6/4GFHKs4B8P/Pz/AU8DAAPr08ML73B19N5Punnr7ETSmhW3zMKibx8XPwmAeJB5q4Ci2l4uF3Q4yazE8CyjQIPnoGNQogI/DAitoKVVuTqsMhVmapiK1AowsfJwCnHGcfGwr/vz9z+Qgy/dfm5+DlV+Wfa5NuMR0HWchKwFJNvBMIGiPLHiRJWh8+Ou/xyKSXF++sXxgYONhUGNjZ2Z4cOX7/XuXvkW9/P7/w3deNm1BabZ1fMzM4rKsvxje33sz5ePrv+B0+PXL7/cCf7/8SNQUEhGXZ+HXseFqNHOSijBzkmYAYYAAIjqlggoSZmYmq+Qg3r2mHv+iOXj/Q2bj0ABo2QCo7Hl0meHj1mk/0i8f/pTBzsX0kRlYcPwGwv9srMCuHxPDL2CXi4uPJcgxWW63daSwA6gQ+fPrP0Yhh1GoAAOViZWJwSJeyaK2zXSXlBhP5A9goQUKLSZmNoaP73+Dx5Z+fPw9f9+se66nVj0+AwpE0HIDbH4CZVw9e1Ftu2DJrVxCLDmgFbTDsoBioPUgOSMDw+jBWkMKgCpo0CmzVpHSTQY+Emc0rEXn/vz+f74sH+tlN2k+DnFlrjkmPiIJXAIsYLXg/PIfEd2gcd0fn/88+QVeRs/AxyfEovjs1vfvD9Y8iz999fXdX7xcbHbekpO0bbnt2XiZQiylhRj4WJn3P7r1/RDIoN8/mR+xcouCFsbKgcoM0CwhKzsTLysbEwMIAwQQUakUNPvGwcWYbOjKvEXLkkkHvI7kD6Y6aIOI4fzOPxf3Lf7i8e3D/1lMbKBZy98MmkKckLUeoBsxfjMwK+nzNLhmCK/ScuCVBreg0M5ygm0nAJ9IwIg5sAfagqDnKiUeVGu4TEKVr/XXj79s//6zMHz69Aus/i8zUN2vf6dPz7ntdWDhgyVf3v1mAA+wY2kNgrqWkiqcPFbx0pNlzMRmAQtA/v/DsIACYdAg+dDv4o2WgtQsoPhF2RjULYRUb114O/3x27ermBgY2UQVOWeZ+InGsXEzY92gD8uHXz//fcbMwMEgxC6s8usrI9+tfe/y7z/9fPg4MB9KSHNUq5pwO3HxMzOIq7Knf3v8nfP/d+bfL57+mPIJ2Hr6/YvhETMzM6jhIM3KzggZEwYvdYKUIwABxIS/G/cf1D/llZTmmWHqyjVHQum/4O/fmN04EAB1476+Z2A4sur/yvO7/7j//PnzBKSAAVoOLJzk+VgZfv0GNwnlNe15NoZUS9ZLqLAxg89y+o+a7tg4mBk+vfzFsGPqw503j797B7o+iglt2wtIz89vfxkk1fkZ/GsMq/QDVbf8/fVXGbTH7hfQV0effmJgZQadcsD4+uG597E7J10teXr98w9WYLMTfdAe1szlFWZhMPUTT1Uy4tsJNN9w2C03gK4feXsb2MUbHYMaBcg9CGBSEJHhNAH2cPj+/vv/B7S3hxm0xecvrqQEGfT++/P/Y3ZOJob/zAzKD6997/386f9sPmUhhkwzSXdHF4EKZi5GYBnyn0FKhV2Xh5/ZmwXYO/rz7f+Wpzd/PgSWLW9ePf/E8P3rDzlsDQeAAGLC0SUFt2QYudn0ZPU5durYsqfzCjCCVwuDJRlRu3GsHAwMz24x/ty75H/Jrct/IjjZGV+Ctgx8/PCdgU+QEzyI/uPHPwZ2VmZncz/uXXbRvN7sPKCznNC6cUCzQH3W+2c/fVnVcCt72+ZnHlNab3hf3PDiCshOZixdM9AYFQcfG4NThqarfbLqLmFxLo+fQLEfv/8wMAG7bKAuIGh91funH3sPLnjofXnf65uggIUMoKO3EP+DxTVt+cwNPQV3cfCwxPwZZpcpwBa5vRsdgxoFqGPlDPqOYpbKCuLNf378/ffyytuSu6c/PQStf8KajoDJBjQ08/Pn/wd/3n9n+H33/YnvN961fP/zi4GDm01a35xnhqgsGxuoYAJV8jz8TAxilsLZDGK8wCzG9P3Fg1/TP3/69Ri0nIiVg1kS2xAOQABhX0oANIydlSFc04a/X1SBSZKR6S94No6ZBbMbBypxrx9hvHdpH1Pmr3//d7EDC6qHH34zCHGyAY35CblPElgICckzF1qH8LfK6rJxghdp/kY9MgW8ARgYSGc3v75xdvO7jKd3Ph1k4Wdk+Pab8cT+hffd7177ONEtQzWEV4wLY2wKtAQfvFPVT0ZJXJ5r47Y5t+v/P/7YAcp4/6VZGIB9YgY2NtAlnv/3Hdvw3P3j8x9TDNxEfdi4mcAbhVGaqtB9SzKaXCLc/MyLL+/9rffu5f96Btb/34dTAQUK63d330LWQUnwMPxHW2YA6gWCjnIHxTlobAHEJrh9hRFt6Ing9hUkdVi3r6DvrUPer8cA3yrydwAOQQUfiMjMhLa3jpG0vXX/IVtO8G9fYUBsX/mLtLfuP3Tbyj9G+IZicCHzD0pD9cL3GOMRB1sHJEC7LAzdRXIPvf+268fHf1tvH/lQKibPsUpQig2yjQnaMPkP2cPL8P7l7zc//zKe/Q/swfx/9OnxZwGgMXwcrLoGQtMUDLkVQGaD9ykyQhoxMips9s9v/7T9+4fpwP8f/+YCw4VLUoqPQUyaTRy0b5OJiQF51zQDQACxoJeg337+Y7NV52/SMOIqFxABHU3yjwG8PRPtaCTQzNvPb4wMFw+wbr275VsuswTzfRY+JvDU/tWPPxlsuPmAra8foCNSRDXN+PvNAnmi+cWBBcXP/5B0xYTcJWRi+PrhL8Px1W/XXNz/rICPh/spKzMwxfHLMrB/fM3w+8/vZ+e2vwj9+fFvpW28YoO8oTAbvBWH1AUFFTRS2gJsweU67SIL2Y2envtY8Jfz/zMmoGV/gQXVP0bQqZosD++ffR/w4fmXBkMvyUoROQ5m9ALqP/SoDH4xFgYTX/HSmyc+GT67+Sse2HR9NrwKKEbwIDkoEXGK8ILHA2HVKLBA+v/5HSN4nRrkVAJYXkMqcVA23zKgHjwAL5z+Yymc/mNOeDAilWZwM/8xoO7+R7cPskmXR4QF64wsLcPu6/tfDD++/AWfaIBSOCHnL5TCiQGp4EEUTvACCVq6YBROsJIETS9i/9w/pNMOEAXff2iB8x+qGVKgwbpFiNMKEOIQM4EVNqOMBu+ka6d/X/j/8ffqq4feL9W2F4xGthOW7x5f+rDu7+tPj5m5gOWGCBPDD75/DKIC3AVSyhx+Xz/+BfdEYPoYIQU6I68Qc9brJ78OAjszb0BB95fxPyfQDaJfP/xn+PEVfI8AxMtAOYAAYkHOkMBWg5K0Mus0JT02dxZ2YAb98x9jfAa8TIANWOs+Y/x3bsfftrevmBpYmP7/BXb6GBh/AbtQrMzABANZl8TDx25i5M4+09ib0wjUJQN345gQVSvIbNAs3fOb338fWPG66cOj3y0szL8Z/nNwMjCbGDJIq2gzsL17wPDt/HEGdvbPDC/ufGhf03TunFOS1jQ9L2klUML8gzZYB+rm8QqxMXjlaIRe2PJc68T22xn//jAe+cvGDMxwPxlYQZCT5e/Lq29qD937dsYgXHaKgi6PDCgA0U8aAZkNCgctax4XJqZvq+9f/+nzn+n/e0ay8sH/QVlAgVLB+3vALt7b3wxM3NwMjKAqEZIrzp/byezOyMj8j/Tx6P8k+peMAGUEDz384eZj9vTMFynjFmRmoNcYISgtX9798tr5bS/yWdmYEWMdjNRMDv+Jk6Gml6G1ELAFw/6PgY3hN8c/hucPv+W+W/5rITTNI+bqgKXyz9cfLzN8/sTwDZhkvogA9f1jZGRlZD9x+eAn979/MUemQUYDy5gfnOz/mRnBx0qBxpIZ/rx48Dv35aO/3NDC9RpMPUAAsUC6MuBmmqu8Htt0KVVWZZBD/mKZjQOfiwOMi4dXGF9cP8qU9+nVl9VsAhyQy+iBfTXQdlomNm6Gv78YGLh5mZJcQvl6FAxYBMGbgNG6caCaDjS+c3X/50dnNn/M+fD5+2ZeYKT/YuFl+KnnysApLsfA/PkjA6OMNgMjsyAD+7WDDMw/X4HGrnYemHXH/dW9L1PsElXdOfjZwX1f1LEjyCC7ga+kNr8U6/aTq56WPX/5fjpobIz100/wIlAWdtAK8r8bj29+cfv1U+7puraidqCpzH9/kGqH/5AZCZCrVY05rT5/+Nn1+vm/VGzjVQRLAdCq2UE6SA7env7hEwPj568MzMACClpIvf/zh2nXwJSp//FmU3CZCtq7ygweDhD/PwDDgn9+/X374+uvPf/+sJLpN8YBjXO8XVZw6xTa4mVieA/sRez+jz6vwgQ5BwvUYP0PpBnB5zsBG99//x/+9eM/yplUyDEIygrMqCvjf//7w3D0P/REPzZmUJEFkQQIIBZI/5HRTt2Efb2oPBM3eDwIS2SDxh7+AAusW6cYD985+y+bhY3hMgc3M8PLp58Z2EH7bziANdfvP6BNwLyBVrytjkFsuaJywNbSr/8o4wyQbhwjw8/v/xn2L3iz++bhr9mc/My32Vn/MPwR1mFgVjFm+MfDzwBs44E39zL++MbALibCwCLiz/Dr4hEGlpdXGZhYGO5c2vbU5/3TH60O6Wpl4so8DL++otbW4JnGP/8YFAyFefhFOacdWHnH8NmNj+X///x7//f/L2BBywIeLP/O8Ofa1ROvPb6/YujQdubP4wN2EX6hjS6BxqGYgGlQRZ87+du7/2uAgbmTkZTmE6hg+v2VYTDfDwPungD7cn8/fWL49+0rpIACDyoOvhYfKH2ycrMxCEhyAQuo/+wDFF7M4HE4FmD6/k94UgGYOxhA1dxfYNZjRBn0/QcWG8hQRt9Fg560QWmDEe4PSJfwHxO4GcTwlp2b4Yq4HgPz97cMqp/vMDD/B3V1WeEGwvz3D14E/IcPwP9HriBBzSrQiRoMHAwfga02EBsgADNXz5MwFEXvawstgoB8KBBxIko0ujhp4udg/CEa3YyDBn+EJg5Gf4RRRgcHFwc1xK9FB4IYBowmWChFKX31vlIMkJi4GJn6hr77XtPec885r7lCNxW5cNSWQCBxtvs4zcBUKgA8Xmh7xbywyfNEZb2S3nJVyGZUiMWDVk8ciA9P8wfjC8KM0EXqSc61mp3st4DXJw0uk8r23Vlhy+kwND3gherAJNj6RkwPQceN4Jw5h8eT+FCUfappSYq0jcYnQPAFwLg+B9FlrzGwOd64Sk2tDO7G5yMhU5rVoIX5mDKvV4TFpaHl25P82P3R86pepTdSyAV6BcEPgcom8ZWXbGVNPvxMjc727IRjkr9mtLYiZYzKHeRJoN++nn1QTzkb0X9bKZmzTFX1mzZ3tBHFKqGOICUXO/p0yShj4XOH8Htw/PduUBnTHwGKgRJ74+9EgozgBxmvjQQntSpEaQkioGA66n8CUixic9Q6QJKWvbF12Ziz0ka3+hyxDrQSoznWYQm7WyYipA035FCteH0RUCnqMpQkGj5BRnSACEUIGJrJvNg6eeKENPGCxovQsAWpRXVJW7dTNkfBeGXKmeMvAZg5d5YGgiCOz2UvZ4wmZ5JDE/ABYixECYqonaa30Y9hE7+BvZ1goYWNoIi1KGhlJwStNCIYFQUjSXwkl7s8zN06sypEUUghxGuHY2eXnd/O7J8d2euRXaqfRX6rX6mUy95zI7FrxEpmZa0SwLKtagFPVSCZNAURSXlzqc7ZoSm2HB7nIdrk4hGw9FXdIEXuMl7OHm5lYhVD2nS7ODCPCo/hSWBaNyivRaG8yU1Nc1qbd9Gnqi15XY+mn18W7IK+6KAGaG09YPmyOJ4JytMDFK6M7f2lxEX6zlwZm+maoMv1n8o8KsVGpoPjnoDz4Hjndr5asjfIQYWcFF0PAcoFa/1kL3vRN9q62jvcGqF/7G+9krVOFr2+tPsxiz2vjzO4zLgY0itmazbU3yOJN6Ztd+PJU99RT4+6M6f3oA0Ei5Lk/1eAYgIB7xMhGN0wH6SYFwOYiUyiFhRnGOx34IVunhOQkj+C+i+gRH4QTMgHhwCiBG4Eh5+bAjQZB1YcaIk/FGAwpKGtDDKCox1MAaVkrgQl3OTBACYETIGjlA5OnwY2wshAqDpkt7j/oWyJ8yrkmtshbgcgZOehA+03OK+05BbjKqLb6fu8LPgURKRagfYjn7AEqOl7E4C5s3lpI4gC+JvZj+wmxolbk1TRgwiKF1HEg6UEFU/+Cb200IOHHvwXPPUg6Mm/oPTmQXLy2oIeBFsUFI2gRTQGlaDVbJrddTN9b9f4RUDRi4eFZWaW99h985v35uOt6v6TnlORx1jdWs8yqEQ3mBJNKF3S1aI7f92y77rQ5jFIXO9hamziXzIfYC7dwSmdws1Kyu0EYgirX4v26uYPZ6Jse7+jpgrFqACtfwTASgNz8YVxbumGMZ1MN39uMM1ghEwIoUVM8+tJvtpfKlcmFbtUYMICdyAD6tpPUA82SN76ynxurLh3NpP51D0hWgw683M/FAgyEtDhYas58TbyfTVb6Ctsl6aMuGb7jgO+4gfbDVDTlW/Zw9Gxw9Ts4Kj4GInd/luPQBV/o+jxmDpycV7ZYk/ZIkRpYH0EroHRx9MHeY4e5Dh6rLGXsOSeiT+AYq1O1pvHra2y1UyGPRYQsPpy2TMmvm/sRj7antKmceYPc4W9AuqGgKL8/GfMBIepQec/QihdBZ6JBC3ETi827sSrgs8s4XWJXR42WBI7s4AeWYQ0wsED/iIolZgO+0xAnsdRFz1cnaXkSqhDC4IDh0s4Id3QAPLeLuhqEq58QlYV2hUH3NM/sJArgtRNeJ/qBU3X4NizISXJjKuBDAVBVr0TDRCkKHg94AJlNwYdhoegRh+HvcNWSWxGqVqXiVF3vq6F90OEGgQXTYjnqPC/AGL5+uvL75eP2OZKKPBO4eBlwliqDmqB8QoxcBgFc5Q9ufzP7MrBb2lANbdlFQUYRH9DtrH8Z/p37P7F/wd4hRkdOLgZEOtOwN04RoYvb/4x7Fr+Zc624x+KHWR5PrEy/mH4r2TK8OQzJ4MwMzODALAb9+/ff0NeUZGZQgL8pmysLJBTCRghh8pxsbExyMjLh776+Ennw/v3GQy/fhz6z8nL8EvPFdg05mVge3WBgZXx39dHl95nbOi8et4mUqFD0VhQADw7+Pc/SncA1M0TkuZgsI2RKbmw/ZXRgwsf04GRcoeVlYnh7ctvDMIirAzf/v9/9/T+j4S/q3+c17IXbBGRY+X5AwxokJNALTNWzr/6X55+AZ9NTbgL8p+BnYONQUxZnOjsA6yMWISlmBdKKDML/ftLSeEEPfebCXoGOCOEDz5lkAmLHJI4E9N/6PG50PUnTKjXeUHODUc6rha+tACEmJAKOVxniCOvB8K1PAHXOicmRHcA1PrlZGT4NwgG9FiAGf81sDA4xyoLLpDA4Q86ixvaEvgP8WsJ0OmxYD4LC6igugwrhr4wcDGcB2Z9gz/PGCT+fSG5BcUELZQegQslPoaf4JYapFBEjPgwgAsP8BnhYLl/4PksFnBb6i+4XfcSWGidfwcZouYGSoLkQC0qFujplMzMzCH8fHw1QO5eIHcmsCadxMbGxgFk5wDFroDMBB8CzAwvYFmB8TQLSGsC8V0GSAH97R9icFufmYlpCzQtdAPVloGYAAHEwsD8h+HrF5aZN07+UlI1YSviFsAsoEARzwo+WpPBwZeXfd/Vo0x5377/Ww/av8YIkT9/8ziT94dn/9rN/BjyBGUgekDT8A8u/flybO23qhev/k/+/u8nw39g0++3jisDm7wyw//Dx4Atql8MvDzc0XxcXBNFhISEIb2s/8hrscB9VKDjGaSFBTU5NNS2vuLlKfv3/ft0pp+/GP6ZWTH8fizGwHBtP7C/+5PhzcufM/fMvH3FyFtqlp6HhBao1Ybt4DnQeU8mARJOAhJs+y7s+JH59+//rb9+AAvNv2wMoHVRoDv0Pt39MPHCd4YrKha802U02FWZmCF7APkFuCREhVgYmIkqnBighdh/opMaSB0Ly//PHJz/hbDNmhI/hIQogJiQCydm5MLpP5IcWuHEhCic8F5wgFE4MSAVJJBxR/yLMBnxnCHOCC0DmTALJ6hh4Pj9zzDAE2D/wWM1t0EtECDN+h9RIKFVSr/hNCPjP9TxKch4zyVWSYYH/36QkGIQbvj6H1i5MrBAC6V/GC1WRvjg/H8GRuhoFFIhAZfHcsk2uEADzeQBcRAjM7M+kK/AyMLyDKjHHTxVx8BgA5S7wgBd1/QfddzjJxKNXk8jhwM8xQMEEAvIOcDGy5+Pb/8UX9zz7ZKqEW+fqCKLEHht1z/UGZI/wPDWNmaUkZZhXXVpP0PbyycMLewcjL+ZgM09Ng6ubxcuf88/fpvxdFoS70QpLQahS3v/3Dy9+Ufa6xdfD/FJAJuW3AIMv/XdGf5xioC7WMBCiYuPh6dNWkw0j4OdnfE/dAEZtpkw2OpaEXFxHg5+/mkvXr40+f7lezHj3z8f/vMCCydTP4a/Vw4wsP54DVTMcfTU2rsOr299mGwRoxTOLcjC8Osr9oPnVMwFZHlFWNdd2vW29fnDz21//zH+MZHkA3ZFIeNU//8y7r188pXDh9f8U1WNuAM4uEBLIBh4wGcLMzD+I764IX3Q998/7DOnJI5vMzCi8WG5hhGKGWCLLP8jxBmQxJHVYl0hjq1gQVqmgDRVQ+IKcVh3CalbirawkxHb9NIAAFCGfsokwPCBkQtlXAmUqNEy6X98o2ug4uIv0MNvGbnJ7NYBK17MtRXSDJAuFegckTtQGgbkuLm5VRkg0z+gLtUrBqQC6y+kG8QEzH8mXFxc/CzMzM/+/f1bDWws3P32/ftZYD7ey8PD8xtIiwF9eRXUCgLi5yBz0Pz+n8hRRbg8QACxgI8cAOYzZmBX6tvjrwtvfGa6/OUrz2w5DWYj0FQp+nKFX8ByT0DyP4tl8N+6SweZDJ9cZc76++fPE1Br5w/QI8/fMi45tPb3LYbd30N/Pv0z4d8/tqdMwNYZm6wBgwGvAsNfYEHy/9tXYD+YWVXP0GCGsKCgEysLC2TZAIFEBi7lgXbwcnAwsEtJJT1nZtH5+O17OsOv7xcYhEUZfgHD+D+wycr86ynD/59/Xt/c9ijq44e/5yxCZBsl1bg4QJuMkWfgwGfT/PzHIKrAyWYRJtbIyslo8OLOj2wBNqbnP4FdTyZgdxI0jsDA8u/Z83s/Q7++Z6jRsuCoBbbGeP+Pbo0fBUjl6V9g8fSQWZioqXq8ZkEzHDMDBRdToCdNRsZqIE4CskDHoloCWzcPgfkNNFJXBsxz+VLS0uKgxgKwe/YAaHsmMF/s4OHlZfj9+zcDJweHLFDNTKB6TylJSVA+BXXHZv39968QVHBBbZoExAZAO0DdPC4gbgHiVkrDFSCAmP4ahzL8NPJn+M8lAMyDP0HN9XPXLn92uXTsy4IfXyDbVDDGRIDlGTvQCRZ+f3wNXP/sZ2Zjcfvxh5FB7Ns/BmMRDoYnH36d2nf+Syk789+nLMx/GVikgV1NGX0GIQ52YLfoNygQAgV4+A+ICAs7AUtiyKAaRq3PCFkMhqXAAgYMA6hAk5OWMpMQEd4D7HNG/wO17YEOY1IxYvitacvwj4ObgZ3137+3z753bZh+KeDavtf3QcsUsHXFQAUUOxczg1WIWKCuo8ABYKPX4S9omw3QLz/+/AR389jYmf88fPa9YcGa15Gfnv+5zMz8nxmySYlITK2pYeh+N6phVlTMgg+z0QozEo/Z8WNWKAaxGUHDJXQAoNbKcyY+cKsJW6HCSOT5O4zUOqcHM8+AxoNA68F4QbJv371j+P3nTzwwb7UBsfiP79+3/Pz16zEwXyoA+T1//vzhVlZUZDA1NWXW0dHpB4p5AvHbL1++bAAWSOxAdgGwACtlZ2dn4ARNXEFaWaCzv4WgdnFQwxsAAcTyX0QJvMLzO68Qw7fP7Azi354CM8Cf96+f/U/88+XnJRVjllYxecx5JthmUE3rPyoCEmzrT+9gqPlwn7Gfh5WR4cc/JgYhYGYHFSKMkuoM/OIawHLjF+hWWmYWVpZqUSGBGl5uLlZY6wU9MEGFAajUfv/50yt+Hl4xLk4OBvRjdGHdPzFBAWE2VpVFLz5+Mvz961cN068fP34r6zL84RJl4Py6EZg6vzB8/vVr5+n1T53fPP0+w9BDzA00A/fr21+Mbh4oXamY86lxCTJvunroQ82nNz8ngWcrfwHt//wTWOAxMbx493vVN75/W0CrgYhJS///MzBQ7Wwo0GkCz/99+fXj/1vQJCCxY06I4SA0PrSvxsSEMhYNWXQH2+MGHSgHq2VCu/GXEe3mXkbE2Adqb/Y/6uA2AzIb2u9jRM1YKGtgsPUhkffgod8wDN5ky8D448u/t4x0msh7DuzSIYFAIHYEj3EzMEwB4md0K5iQCyiEmf+gU8B/P3369P/evXsMmhoaKRzAwgWo7sLXr199gfR0ID8D6A5ZYJdN5vPnzzeBBZE0Pz+/GzRol7x//74A2KDYz87B4QBUEwo0bwJ47Ow//J7gP5ChIuKafYSiBiCAWEB7TUDLCf+xcAJbUHYMvz8+Yvh4aReDOBc7w9dP//qvHf15/vtnllnKeoyqjGjZ4T/0bjpp1f9cfCL/+s5wchk+vctYKMTF+pYbtBsZ2C36I64OmdJj4VLiEBWZLCws6MXGygoZ9Ea5yho+h87w7cd3hmcvX8949/F9JzcHZ5yCrGwdHw83M3qP9T+0kOLn4WFiY2cvfmFgoPf1779Mxp/f7jJy8zH88Qxj+HX3AgPz/SMMzMz/7l8/+tb/4/Pvdab+EuXC0hxM37/9wyjw/v76zyChzMnLI8Ay8dK+t/qPb/0uZPzL9Onv1z8MjNzskBYd0ImktLpBM3yoaYXMGhpoxuNrv1e9e/WvAtjqYaZmWv7/n5Hs8TH8Qwf/cYwoEBxyoDh7sjD9/wzaxAWOKyba9sIZocPXUFs8gRGeCg3Y1XgKpz80KZgwC6i/sHEkbm7uv8bGxqAunSQovX///v0RaFxIWFDwL3ScCbJHlwU0pA5uDfGCHfrv30tpGRlQK+ktdGuKOCN4Sdf/32gD/YhBbcTA+C+kAgtE/2aEVmr/IFeg/8bmfIAAYoEOkor///v3LePfX38+A7tgV27eZ5Dj+8Xw5+1roGPYD9w898Px2UvGSeYOrEE8gpiZDLS2iVvgP4NtEmvstYMM+pcP/0/784f5JBfrbwbGl9cZ/ouD9scx8zJzcioyMzHhCEdIjff+w4ev795/Kvnx5/eMP3/+Mnz/8bPp2YtXV77x804RFxGWBLWqMIb6QXfYAbuH0tparq/fvt3//sPHnP9//m76z8bB8EfZlIGTm4vh1+1zDGwsv368f/KjauuMOxcMvaQmaZgIiIOaP9hm8zj5mBiMPYWS+ETYdR+c/pTx+8//c6Buqa44A8PP//+IysSgcAJ1nUCH51Ej/YEvL2Vm/ALsYr1mHLbHMFGvEGGEHk8yAAPmsJmpr3haESBHCQILJm4azjP+B9/5zsgoAqvfQEnyz+/f/1hZWH6A8hwLC4siJzu7KLDAYUGUs/95gWJcf1lBu1EZ/gLVMf/6+VP0zp07oBaXAAuo4Pr//xtQDtRc/AxNmpIMiCt0xYEKeOBu+P+fH+gGbmga5gZ6VhqI34DnYBnBsSQJn1gAtk6YofEFEEAsLEzglZuxwExqwsLMlP7/z8+PLNxCDH8MDRj+XtjHwPLpJbDk+/t0/bHv4Sw/hap1HBhrxWQxa23QlDcz838GfVcmPX5xpq0nt/4r+fn+9wKmJxeB3UZ2hn/Mahe/vXvv8Offn4migkIRHGysDLB+EROkGc7w+t27K5/fvstk/MdwhAm0IBLUdwG6D9i8XPfi9Zvrv3//nSEhKmzHzs4GPz4CXkCBpjmBtJigoCwbC8uq12/fNf3987ud6ffv/4xyhgzPmQUZJB+eYeD6+orhxLOvq24tfHg19O3vGcq2gjbg5QZodwCDD9sD1rZq5lymPHwM268dYCwEii0T42EGn23DykjcVgNwF4mJmqkNtMMHYuZwvDGGJq2HwbllCHSM22Kg2z4zMDAw0axwgnSz1KH8j8A89YUVmFGBaWgTsIDRALJ1Wbm4TvxHFCZcQDctAnVJgYUQP1AcnNdZmJnDRUREOIH6zaHq1IB4P1Dtd6g9Ukj+SASK28A6N9ACWA1aIisB5fZACzUmBshiTGlIYcTC8Pzp02evXr4E532AAGKBdmeAPTC2cCFhYZXPX75k/Pn+7Qywo8bw09SP4d+DCwyMNw8BC4k/f96/+dt4fOH387renJNVjBnlmJjRWzBAs4AZV8mQUVhQnHX+yU1/jZ9cYS1ne3z52/9bdxgY3H1f/WLgjXpw/8E5EXGxFmFBATbw5Xo/fzI8fvx0JRMzcwHQUS8wNh5CunvXgW7z+f7zR5u0uFgOHw8PvFuH3C0DYQFeHnY2FtbWV+/eGvz6+Ssf2BR6/p+Dh+GvsQfDn+sHGBhfXAMFy9UbO154P7/xud0oVDKLV5iZ4Rf6uU7Qg+ek1DnFuARZlt46/s3o5Zvf1SyMTD+JXewMOo0BdIYVO/TKHGq2L0AD/KMFFMmDw/QGf9GWEvxFikOV/7T2O/xKqP+PgfwGIPPt9x8/QBV+KxcXlyiw+xYGKjAYoYfhQQsMdQZE3voEaiWxsrJKyUhLZ4Bm6IA9lSdA9RJAOQ00G0HdM1BhxccAWVKAHgcfoK0tFSw9p5+/fvzYcffBg2Vfv34FiwEEEAvKgBkzszEnF+d2TS3NYmCrYxFodfVvBUOGf+zcDGyfDwOL+p8Mv9793nR5H+fVT2//z9B3YnTh4v+PerzKf0g3T0CSkcEpgSvnwi52g2v7fqT/ffPqGvutIwxM3E7/z1y62i0uJ33eUFt7JiMTk+zrN29rDx8+0uXo6PgfsnToP66u3+efv3/nPn7+8oKY8O9uEUFBQaRARZrNAxYGwNaVpKhYKDsrq96nL1/T//3+efA/uyDDN2MfYOiLMnDeOcHA9PvXpxfX/2YfWvXvgq6dYLeMOhc/+FTev6hdM9BRvXyCTAy6DlzFHBcYjJ/f+Z0JtOIGMQUU5Kzz/+CV8rToAMEKqP//R24Zg9fvA1s4MQILJo7/SIPewPTKi0in/4qA6f8plbt1oLYGN7AAkf/39+9dYJ7+AqzYpYCioDVIB0D55Qsw8//69esTGzt7B7DQWfzlyxcpoMOKubm4DEGFC7DAKgMWQq///wPPo4PWPr0HmuXx6/dvEaA594C9mQP/mZjUgK0vGeTLWIByT4D4IzBRqv5HmrGDeu4DUOw+kC0PmtVDO4LlLzBsHgG7jqe/ffv2HzbMAxBALOgDwmysbCLySkoLf/3+qf///99qpn9/fvwTV2YwcBdl+Hl1D7C7c5uBnZn37pULXwO+vOdtMfViKBAGNsp+oa1kBnV9QFO/ZgFsNoLijDtOrvqf9/vV6w2sJ9cycLxjYWDT1Njz/PlLD4Z376WZxUQPEBs9TJDENvfWg4cXv37/NktGXNwQdIPDP7SzWsHL85mZQAN96sD+9aYfv35V/v/7d9pvYPNOwcCUgU1KhOHH0QMMbH8/Mnz89HX28S1fLum9kpypYsarD1qn/wdtHAp8TDHQPxomnA7srEybXtz/bcbEwviBuH4YbUdowNtOmMnTS4OhHgqHlxixhuHfP/+xFkrgq8hYcBz09odpoAptdmilyQWk5wP5j0HjUEA2aNbbDpo+7337/n0SJyfnXyZqJhDI8MZcYKEU/Of//xlAkcVAe0HLAXiBdsYA5beLCIPXY7kA7V0LLMQuc3BwgNKxBsjNwMLhxMNHj6ZISkqC9rWCZ9yhwyZz/0BXBUPHjV/jccU1PHK3cNcjjOAJMejCTwaAAGLBUuyCJZmZWIpYWRgMgXGbxfjjxw1WPgGGW2KGDIzi/xhMWEBbFf9+ffOYsXDXQsYLhh4M3epGDKL/0KbNQQPNoLF4DTsOWUE59rUn13xvf/roe70++8+/DE/OMbzilr3N9YvhNqucPGTBNWjRC/Ro0/8sTAyMrJA77mBjN7CaEMQGdgXPvP/w0eP3r999EuJi0dwcHOBFoOh+AQE+Xl4+NjbWqW8/fDT6/vNXCdP//x/+C8sy/LH2ZWC+dYyB+Ruwy8nIfPL6kfceL5596zdwFIrg4mXC6OaB4ga0XYhXkEnh/UtGPmZiCieqT0JhZlBuoFs5uLF0G1FWYv/HWHmNukIb9ehcyDIDJHm0DcCM6EvBcbRWkLeyYKjF2qpB3QID7hr/+s/w8v5vaHpCaAVtCwJNOAjJsIErQsh124zwOepX93+CT6igx+QBaDniv/+QFd5Axx3/++ePPTCjiQEznA7QOTrIXR9gujz1+8+fEmClCp4hI6pwArW6gOpAFfGfP39wNNPAoQPMRAyKQMzPwsICaqXIAbEEVFwIXsFDWj2gWTNrqP2/gW49AOzypT958oSBH1gwATsmKFsU6F1/AQQQ3kVqwBYHaK3Grt9MTLlAR24EnfPzR8+U4TewRGG8toOBk+Uvw+WnPxaencN0PiGIe6a6A4MFaD/dP7RuEWgDrpgCM5NrGm/1iS1MhvdO/cj+c+vcA36+Rwy/WeUZfn95zsD55xvD/wdnGZiBXclfP34ysHKwMXx7+5uBUUERmPH4GP5+/8rAzMXJ8P/3d4b/oFsUWNkZmNi4XgG7bDE/fz89Jy4q2izAy8OFrZ0PbhGysTOICgomv/v4Sf/7z5/p/3/+OMcowMfw29CF4c8tLgbOT7cYuBn/v1iz/2Xkh/d/z5k5CTQLSbGyg44bRl5DCd1W8gt2vxb956BQ3cLFy8jAycOI/agobNtEcImjiaEcEMiIufCYEZ+nGLEwsallwq2fEct4NiMSH1QYoahhYkAcoIB8WAKdcpTwvy8Mr5i5ITOqwNbSsydPlklLS0uwsLGBCgZeYKsD1M1hBBZGL4CFy0VGyPQ6RssBfacEqKEAKozY2dhArRqG169fM8jJyeHr3/4CdiUjgLQhqBAEmvQeyLYCFlycQPGjSJG84Pfv31uB3TotRtBsGgPDc2CCPgcb1GAcBJMIAAFEcAUt0JGyPNxcaxiZmFv+/Pnd/P/Pn39/tI2BBYMAw/87RxmY/t0Gtnq4Lp3Z8dfr/u1/3faRbMkC4gygC/NQW9g/gZ1QYCZyiOTzEpNi33ls/c8sjh/f9v55fRV83pGdvBDDrzuPGFj/sTD8+PqRgYuLj4Hr4ReGq7cvMliZGDJ8vnGfQUxdkeHX24cM7CIyDALffjGw8XEz/AEt8GRh63v+7Pn5HwL804BNVg1w0/A/tm4eC4OwgIDJ529fd3z+9asAWNguA9/wKW/C8P6zNMOb8/uAtfE/hs9vf3WfWfrskqqTyFRZPQ5l0JEcfwfZHXagdAgqlGAF05AEZLqbiQmx5w/FLCwnw9JjPzBoP7/cvw8Mz5j4Gb4wsoPL3M9fv/4Edo8ecnJxPQTNQomKiUFb34iaDiQOSquw1hNo4TGoIGJjYwMXDiA2qHD6Dy0sfvz4wfD48WMGUJeLCdqKwgFA++N2IvHP4VAH6podHKzJAyCAYHUX3hELZibQwm7mBilJyXWiwiKyf3/9YPjPxc/w08Cd4be8HgM7C7AZ8e/3+1tnf6UcWPQ/+9GVf19gPTSUpu8fyGyaniu3mneu1FZhed5SYHiDjy8AX0kH3VPByALZS8EE7Ff+BRZUbPdOMzC9eczAeu8cA/PrBwzMQJr/0RUGljvHGTgu72FgfnEftJxj/8dPn9yevXq1CdS9Y8LSlod183i5uUUFREWXsnBz9//785uL+d8fhnecIgx3JA0ZOKUUwAP/v99833n90CfXqwc+7QB170g+N5yWefofpMUEwv9HJ+sGQRnLyMDOAGzd/PnO8PvvP4aPHz8yvH77FrQ0hv/9hw/iV69dY7hy5Qq4sAEVKuDd/dDCBbmFAiqc/v9Hu2EFUbjaAdXyg/SA94QCzfr16xd8fGY4AoAAYoLur/j4/z/+2x5Apbu8nIy/vKzUrr9//joBQ4bhFxs3g7CpC4OqhSPDL2AgsbICWx2vfk87MO+L5+V9/65Cjv5gxBi3+fXjH4OsNie7e5Zwl7Yt3xImJmaJPziuPAYdcfsf1FcEFlr/QSUe5FJ1YFJgZfj1j42H5fUjBrZj6xlYXtwFjVg/fvfpc+CRkyfrvnz//pcJ6fQ91Mz9nwG0dF+In7eAnY9vG7CZpsEILHD/sXExGPsEM7DK6YO7HMzM/+8/OvvG7/z2D80fXv39z8LKOOAz08CC6ScnD6TVBLuLbFjjf4RX1sPV0WY7I0EA2k/3ioGL4SUQMwErOg4ODgYLc3MGQwMDS3U1tSgjQ0OGFy9eMBw9epThLbDQAnalGP7j2E+Knu9Auyk4WFkNmJiZe4DdxQwmpNbScC+kAAKIheHDR1CwLP3Hz6cAbKlUMIIu4MKRGkB32LGysWowMjFt+fHrd+W/v38nsvz5wcCobMTAePMZA8efNwxM/9+DlrofObv9r8erp38mWvpzBvEKQ2bvkAHodEnQdT6+BZLR57d/1r6452Pqn9//zhCzKeP3z78MXPzsPnpeMq33T79a+uLC0y7my/sZPt+8ycBgbv/vxp17zQpy8pe/c7BPEuDnk2XEsncE3M0DivOJidr/+vVnJ9Pbt/lM//9uYOXgYvipagEaT2RgfX6WgYXxz+9Pb/7Wnd338bKaIdcEGRVWKUamATqRADTGxM9o/vcXUyEj5OAd/A7BM+bEiG/MiZFOY06MRI05MUJ3QWwC4ttY9GoCW7VezGyMoPvO/kMOwQP3tUCxdBzIOvafkfjTkckBIKfcB6YX0FlM4EPbGBkFgF0z0KLGG0D2dVZ2dlFggfQWWJD8+/DhA4OIiAiosgeNQQlAey+giZVvsJk+BsiZqR9A20P+/f8PWnogzPjv3zZmFpYvWpqaAlC1v5DT8u8/4FXQwB4IE8NwaEyD/AQQQCzgOXJGxm/ARmT1n79/zgIbmpOApbM0Po3s7GycrCKCE759/W747+u/YmDX6C0r6MYUPTOGv5f2MjC/AbZm2P4/Wbb1ffDzJ/+qvWN56sVUWFjBt4YiF3a/QbeaMDKYBgoaiMix7Tm48lXxj7f/5uKrIX8DG0TSmjxVTuka9Yqmoiw6rlJ6h2Zz6F87/Kro75NrL3l4/jBwsoiClr5t+HDj5o1faqpThfh4wacf/EW/cgh6RhE7K4ucirLSOlEx0cYf37+1MP788fefvjHDT15eBsYbhxnYgGnhyy+m1TdPfb/2/ePf2dx8TKBjJ5hIGjSkxvYVoBmKuqw2//79tyEq0zAyoB4iB9sIjHSoHGTjL/RQOVBhx/gPrh582BwD4rA5BpQbf3EcNgdvASBv4MV2EibyhmEmxOZetJMwQZd6fvnwj+HFvU/Pf//5fxsUjqCN21ygC1z/gsefrI19eXu4hVgh13iBzALt6wTK7Zr2su/7xz/HWNhoOzIOHu4Ctu7ZGVlhZzllACvuGKD4d2C6U2FnZX1tYmJiDBqKAo0z/QF234DivkD/TwSJAR39HKjWB9iaB20UBp0AkA3kuwILNGlgIlv4/9+/UmBm1QTq3QBUswTIBm243YOt5fX/378hXyhBxhWZGAACiAWWGEC1y99vX9cxXL1+g8HKagbTv3+2+HIJKwszAx8/Tzww8LR//v+fxfDz22nQwed/LAIZmO9fYmC5f4bhH/MfhrfP/7Zumvjhglkg71QdBy55kF3Is3mgBAWaEVMy5eUXlOKcc2T5a5PrJz9VcLH//4gyoP77H7C19UfGyE1xsn2iSgCfBBfDj0+/GfjFORk8S/Si+GXvax9eciud+8OLkzZsHxn+PxVjYGLkvvH1xw/vX1+/tQmLCBWCunLYBrZB027cnJyMwNqu4ev3r4bAnn8O0MInoG7ef5sgBuZzexmYPj9iYOJkuXr3yg93YGM6g42T5RuxAz6gDMbHy0adLgRoWA5yIDQRhRMws0KvEYcNIoOH4mB8JlQ5SOGEEIMVRkxwdcgnYTIQf9gc1uvIkY7DYWTEXjhBj7j58wss+QulZcUMPfyOmeEXB7Cw4uRlxiicgHJ0u0Je4P938AFx4F2XTEyTf3/9uvn3v38dvDw8En/+/q0Hpq2vsJM0QN0wDiYmFSD7DVBsDpCuAjXVQVtLoK0mMWhhA4oFCSBDA3T2ODs7O2iRpAZ0vRTuGmnwzWEQ31oCFt7iYmIMsrKyDAABxAK6TZONl5vhzLXrDGKcXAxS379f+/vnj+evn7+6ODg5svAZBBqcExDkM/n689fOL9IyhcDW10JQ4PxWMGBg5uZhYH6xB9iCAhZQL35tPbyc6fbn1wzTjHy4nbn4GFG7ef8h3TxBGTYG92zpDAFJVu1r+z+m/fn19wao6wLaiMsnwGZrHSU3zSxEToeZlRnUggLvaQTJgTKRbaySvpQa774D824X/Hj3fTbDtUMM/+UtGf4zyf/48+l90RsmpksCfLw9PFxcwn+QF8wgFVCgTM/NweX/TZBBBVhe5jD8+nmAgVuC4TeHHAMjnxAD08e7QMd8//zs+bduIRkOjP192MeIQKvVWahWOP0n9TLdf0iJihF7IoPJ/UcqRJDvFPuPZBRZJ2FiLZyIOAkTujwCa2MA6dAD8NrAv/+hhdN/cKH1/y8D3e48AG/B+s8EGs6AtJz+/2fj4OKayMHI+OP379/WQPwIdPYRzIvASrIW2DIoZADtdWNgSAfSV4AY+S6uX9ArvL+BNswCC6MmoJmg0dsqIP8L0Fs38BZOFMySILdc0Ndfgfd0MjMTbQYpBSUo/4HCyNTUlIGHmxs8hgYQQOD2NMhC0BqK36AmvKwMw/8/f79+//EjG6ggGdg3fofPESDMw8EmKGhhuoANGCH//vzhBa0b+CWhymDoFMDAIy4LvhsOWOPfOrfnrdfOaW+73zz6Az6jG93toEPfQPfh2cfL2DokSe8XluQK+vHlDxO/KHtOTKv+TstIOfBiNnCBhMUtf37+/f33429gRQUM1N9/wAvoQZuLQbN+wNp0wZ0HDz3vPnp0FtvgIySd/wefrMHFxaXNxc62nZGXNx+cwoH+YZTRZfit48zwn1sQ2Nv5DT1LmYEgBtnDx8MGW9k+CoblbB2wNGFiB3XVwJiVmbni99+/nD9+/vQBVuCQggnURYViYFoArRJfCky0oO65N5AOZIBshAUB0DIAadCmXCC2gqbtcCAFGgh1AdrlAOTfhuU9bJhwi5oRZ34GuVVKSooBtL/t8+fP8NlFsPuBfmMDXVcP3TKGvtDvO+gWo3//wF1LaOHKwIg2qfYLOiMJw4xIB56ByiHQ4XWgQX6QWoAAYoG6CtiWAXaZOdlf/1dQBF9NDdqzBdQz7+/nL5cZeHlmsbGxGuCrzTmYmRhY+PnzPjN8Nvj2/Uc6468fNzh5eRj+8DswsFx7DS6M/v/4+uvFvV9lOya/u2AWzN+rbsUt8e8/2lnlwNoP2GJi0HYUkhCS4liptu/taUs/KUsxRR7wzSmgZhIj0tk8LGxMDL++/mY4tuzBuXNrH6T9ffblLK+yIMPpb1wM/DwSDJLAavQ/Ewt4huTBo0engbWWiyAffx87O1siG+hkhL9Yrr4GLdpkZuZglJaa8OPfP5P///8VAQuo139lVBj+GfIzcPzeAUyNzyF9C7yJ9j9oPAtYE7BCrlEk7ZJgRvAxyZSeIU6lbh0T1Bz6tJyQxpxYsJ9eimw3TA0jtDIAd+sYcS9AB6sHzbz+g3QtwWwckxxAtYzMrEywm1PA7gLxGdFqG0bU6wgYgd2Tv0z//8sC9YGOJgFpf/sf2jgF1a//QVtaGBmfMkJXz4JaCqClBEC1B4FdwJXMTEzbGMB16/92ID5N6qJIRmhrBLSsBlSg/AJm+K/fIGPuwMoXXAght1rAu0KAhQM3sNViYGDAcPr0aYaHDx8yaGlpMYiKisJnA/9jaZzAxhH///9PcF0ZeAcKnlXx4EWoUDZAAOLO3qdqKArgp+1tS1F4IondSQQZYHgJJi4uhtXHH/AmBh2cDOE/cJfRQGIciDtMDCYufAwmxkWDLkzPFxJp++Kjrx/33es597aloITA4tR0aW/Ozfndc849HwpO+VCszs/NLeEGPeNpckA/8kbQ7OiTCwyf8GOL2SB97Xhu27ykiEv7ixZM3G08tmLnQxyEL9A93KKrz9vTaPBMTQIcbIPtCogj/n53M/wadfl6szXxkIpi68XDtF8Zum3+/Vvs6Wzj0VDod6Wt9bHmngVhJ4aPb769O9z/uTJiuwGzBPCZBYh+DWE0HZA0GwiXBIWb+ih4Nj4eBUG4LAz5xffvvXJtZ8wohHoRLHTKeabZzprNBxyM55AOPpsolztPWiDDEzCuqIsQSAYnCUB29kCY9nXSBaiTgX3ak6pP383hVE5Q+TsgXgbKS/hAHU5FN0wFMTiDWKn85fjo+sSVc/Eg47zSXgkndcNVjznJimwUr4t7qi+TWZcPDXIV+qwye8cc8lQq984oFy0odCCZcaFaRnBpRd0Mkj6N+irghLDKYsH+sZ347dRgblzV9ik4ORYkvzkrZcBQcIc/vsNRj+txaLa9hkr9FnVoB5WNzt/jnPMWAufU1A0WKZ6aX+IOcXy+xIVtkDFCxbLXTzcRKs27Si8owEEWiSr81XpdJXoSEKS+/NU3f7lqpV2lKfyvbPE/AoiFkZ1dEliqZPBzcooAPbPrz5/fJUDxmcygEu7NGwZGYBOPg53tzY1LV2JZuDjPa2lqNDNADjHHWkCBAl+Ah1uajYlpzcdPX9r/vnvX8v/H91+/5bSAiZ+bgfH2CQbmF0+Anue8eGHHR5c3d370WieKpwrLcoBP1WRAm80D3S7MyIS6XokRmGDZOFgY7p1682XPrFs1n558mMjG+IOBQVCS4bupNwOjkgoDw4vDoCrBjJebc8ZPJqZnP37/TJWXknrOyMfH8Pr1K2ACY5v0+f3Hi7/Y2WZw8/BoMDJiW9AIGb9gExIyAcbS3j8/f+b/B53WwM7FwCQgQXjwGrTfik+Y4cN7oH2PrkLu1yIO/Pn+lSHi+YP/XAz/KRg5YSQ8a48p8R+l2cPIQMwJmWinXjL+wzCKaIdiawEAy67v3xguwOLn35f/DODFu5AybNfeua88EcdrIdptv7/8ucsIGosCXZXKAlQArIo/fvy5fsfURzcYGZHCFXRex89/L/6x/2f4BczWrL8gY5LAiuHc/rkPPBiZUdejg4q0b79+vP/M+p6BCVgIghYQK/D8Zrj8DK7k2bt377xlZWXVgBkfdDIbaAzpO+wCSqDyfGCF+JNAoFwjKtSwFBy/cKx5YoTOrEJPwAS3oGAr1hlJ7ALSAwAEEMvJy5fcHO3sRH7+BB9RxMPCzDKDgY3R8P/fP6CbGT79AXaHzp89x/D/F+gy5f99X7//vASM5qm8PJxq2NwN6/Nyc3OxsHJw1H789cvgh5BgJuPvX08Z+MQYfum7MTCxHmVg+fAI2Df/9/nBvrdpnz4znLGKEO5WNuHj+/sXqZCABiZ8+hl0jAKwGwc6H+fUmoe3T6x6kP7p0+/9fBzMDN9ElBkYdV0Y/nELAFtZ3xi0NTSSJURF+oX5+Xl/8/wxfP/x0/4v339mMP75fYAJ2MLj5gTm+5+/Dn7/+d3xDyPDFD5unmDIEq+/mG0oYN3HwswswMTGtvAXE6Pxv39/yxn+/PtB1JEpoPPQ1axBJ44zMD+5Brkp4D/BVAdKM4f+/6H9iO5/UmX+EyiYqOYK1MtQ//1jRhoAB8UJI6zR9ezHr79Yj8Fl+gsZzwDrh5oHFHr448ufhxitXGhXENrPgdn7Dqh2J8a+ZiD8zfib4Q8Qwwbu+dkxMjUoIV3H4eGX1BiEp+R4dMYhMAYKEICyq2dpGIqi993XNB+2jRRL1YKL1OJeEKHg1EFcHfqH3Fz8I1JwcXJyKrgIUkGUOoiEglOxadIa73vNx0tSUYe7hCQkJe++c07vvYcfd7s94pmduFReCl/YptfuUEIaLExz/DR8hPpWHay1EnFV48V13T4t5Cbx6lYhVO9ZzMnDegthJskRTLvSCmq1E8+dPRD6GBHkgVmjKb3XtfEr4JQgdqF49zwY3yIWDzf3rFpB43KmNQsrvKPkVDQ1ooQ+3FwM+4OrUY8zvBe0xd9tw+f+EeiGBb47LRm6fr7T2D5bt21d8lvRXmAYG6hppzPPn/ieNxBlBZSABdKbLBAunbf3uW5ZHY24aaDSvEDdMmnX43hApNmmD/gamOoK8EPIVcLhy64tq9ilFZdiKLcqog0RM42vmL919tifAtn/r2GJHvVTQNa4N9Kz+O/X5oMlIctPVOQsxxUn42JYkD4fmdRMIRrTK2Ze8Xg+AtEwljs/YIm9Hld0SLbUl3L3XrA5uOiG01oBPhZlypJlsSlLKlStVmVnf+z/Fuos0fesSlaB1MmWPXbR3+kYIpxoPWGq7ILFa20VcspWi8saPzqmUjShLwkdNpUMwucTz+k4jhTFhd5UIbYRvQemIGcakQkaGLfkrHBOkiK68jusRGyKr8C3ANxdy0rDQBS9k8n0mVSFVmgq1YUuhG58FFxI9y6sG/Ur/Ay/wJ9wIe5EXLtQu3QhlGopFFtBUERS25Qk49wkU2Prg7p0Qkg2CTM3M2dyz8w9l5a3ypvCdVobfhFR6CzR9R3HsZuN+t3NyuoyJPUUvHV7uBrx6nB+3EX1AJWuM6YqYamLAR/B/QbHY9E0Vei21bM6ohNUMD0UEW6RqU0Df36ERFT8TNv95n3VOXpqWfnsQqKQmGReh/SNhcCkwkPVtM8Oavu3J809NgEvKouDnZoHe6nkqRaIei3qWvIwm8nsYhS344ayruJKREQUxjaEgeY4dyucEVM8hO6Xe3lxdZ4xsteUqiXxMVM8hEx81IBF0Y5TUbG2zxb/cqI5Ykng2hTQdm2UmPlpagRfUE6GAfmqqYrHyzCUF3bHmAUlcWn1Pf6OBAQvGTd8P6xbAh+bK1nET8uEHCLeD0Cl74ZTU/+pDIMToeQzrwV+OL0SHDZuEXcD+grBJARO9JsmfQVOXr3lvqyQrThmRa73IN4SLqapQSNfBCM3AznDgLQAJlwOR75VEsQ4DmToCQ9WrSQYyAEpA4G9wYu+vQAUBLWOaXpXFcFkWI7mH4PTuwDcnc1OwkAQgGf7Q1sqglQBlYNC9OCJJ9CLB8/GF/CljO9gYjTevBgTfQGNEg6aaIIHTAzY0lL650x/pBICxqOHpk1/ILud+Xa2MzvDq1mlUa/VdyetzWFUKp3n9gv5giLJ0q3rBS4RHmFEMR3IJ//KdZwHjnEIKDGXeNESOKX/WEEuSKq857hebWDb1zj9H1iCDNxaHRyjB173DRRV7b8+DU47zb5ZXJG3tWpWCAt+omDdX763z4/uDvsd+1g0TB+qFbA3doDhobe6DIHrHFRKSydlTduiJHP+mJsriGOOqN6dJGUa1tAuI2Au8I349G2o+diCxUqppRvmGbZrHe/ZTGoMTTCdGY5xz3j55tcmB00PEU5ctwPM+JiZHS4IvUrRSxRw9Kb8UrQ+wx3yYWMkJcDBQgCrjwKBQuY6U9Jlf0PJxn7+BE/XQVBzqOBCrG6xay4JdGJTpnTknXD9CG600TMBFyb2K2g8LJQYzBcZzOWj81YPdx0TRE1BS9X/c5DgOJzShAnCUuARnMQQTQwMtGxsbIeDguZwsdUby+RMOAWjPiM4RTUCon5KfoVnGeBeLOB1D0ymQhvBxPwwhW24blOIqpekHJAjhSWvGcFJjkMMfgAnpbR+rMz0fYj2BJN0JoL/DqcvAcQkIyN3DDQ6jwswAfsxkjLSFcwsrBuBhivCPPr7xw/wFCWw8Fp79PBRh1dv3u7/9xf3rb2ggOZgY2cQExaME+Tj3QtsDVj8//2DgYWTh+GmkDrDE0FN8GwfO/u/f+9f/Oxa1XMz8NjmFw9+fPzNsH/Ow70H5z50+PLl6wYWpj8MDCY2DP8sgxn+cfEy/PvxjZ2Tna1TRU5uhaiggBh4wAbHWg9QC+QnMII+vH2/6t+ffzWgyonh918GJhZWBilxMYZHDx4ycHJy3Pv69dsuQmdzA4OQh5GBBAjKlyxsDP+BbgYN0f4HLXEggJF3rcOuJwfNaoLwP7QNsf//M4HHZf79Y0Jc84RUKP15847h9+t3DP+ALV/8BQSoUGEGFywoOfcPaArxL3jQBudwFPoG3P+oM3iQog9WoJHZhAJd7MAEurL7HwIzII5GAeXLv5BJM9BBmOCC6TdQ/S/Gv+DtS4SKRtCUHSMbKwLjnJH9Dw4iyKnb/xmQsyyse4ZvbSApYz6MOC6XHe4AIABlV7OTMBCEpy3SQhCoIImK3kxMPOGRq4mJ4eAreDUxXnwEE3wDEk/6FOrJg4l65eTFRE2IQRHCT6HQLm2dKVutFUR72y7s7A7MN7O73+yG5jOZO0TxWwSd/GSvZdMZM1v4K1wxy9pjQ3YpI+q+1+tg6D1oNlsPuj7YqVn1oqom9yMReeyfj6IZMrhMOpXr9vTzrq4fIpSciuj2rew6sDkJxPINRMU+3Nf6Fw+lx+3N62bh5Vk/kSWnK4cjwFbz4GRzINCURrFWYhu50kI6XVAomrPG04I9z4XgZrY07chutY6FRNxySZdan8IQSGEo/tpuKilVLYqOc4D9FOwJJCNhlO5T/peBUYivt0FqVND2pb/Nojg/jYyNmbCoRIQ1nK0uEU5hHypDE55QdRUp9B2k3E0hMhhmgN3WEMANtzHR89KOmzyfcCklnJpCy2Johx345JRzkHLR0A5u4hH4xIZo7wi6BuK4ZFOZQRI/HqXwgpJwsdzDflfBdAYzPl35D9l04Iv8M10ftJDJ2f3WuGpBjquwS6sA3Q6c4Xg1vxxToPVHCcLOTwfmbqW7N5UKk+gdsziesKcfDKZELHRQQyywB0sJvwpvUvTNJOldA+g7o2NPqC7J64iA1AuIpLrfTlpVuCzDR+Cc9CzD6C656pSFhERQZgAUPZm0r96ZIpNuXKEcXZmP7c0/Rt5uCEYH3XnyPX1Rek7/QwDGria0iSAKv9nsJk2amIT8lCRKEpHiQalCDx78wR48CR7sxYt3EQXppfUkiOBRFGq9KHoSwR8EUbx4tEjxoBgCCjZQNKkJ+Wtsk+zu+L3dTZrWWhsILJuZzISZ+d73Xr63D26s1sViTsNzeqvrxrZlhL1ed8ZjmM/revc6qO/NlWbTbNXqFI3HmPU0y+XKJZz4hXAwcMs/7AttqcJ2rMYu/3B4byZ9HwB1GHRzWjON3+bucUwvSHphnpTiJ5wWd76x3MlrqklmIEKe9DhALEuytcKRylPxRGJuJBbLKqzrMP8NJPxZtdEo1BrNC6Cur5nJWBTUobV8HYpERkMj8bsAuQl2/4xtgAns6yPA9c3OXBRp2Wvp0ij4fYGUVtW63qneCe9EIksz6f3ybDiuJLUhW/DTXlWoWpbLpYL6/sciPei04aKKgRppYFEghVRR1+xaGP25WIvgOXJQPk1lZErXpQS4KT8XKVfI0TlF3ZiPZnD6kLKpgIQuKZGS1zKjNAHwaQEIVZ+foiCFaZcqtd5W0ztytfZL5EpffR8qNXoE0jrv8mxEBOGAlRT/ASnBzBBnot3dMj7GYtpgSD19/AzNsWLj1WNpLC3VZzX3YJa+tNSPHcHpRAGLFZlOfIlDElaZtC0mwVqzSFJe3XdATsJzM9gjX2uSuPFFThaJPg/hO5LrZvGiU1CTo4Ru+8nBVs02PswnYUAb+Xye2ZXn0NjYMxj9PTgTnAB8e9NGe4i9+g1eytQgOLtkPxp6AhZqVkj5BPdn1hVjfwEKj/0ObmYJYx0TwtZ59BTfg/+wC1tbxQB2ude5i0VznH5+HUWje2j3AiNMDfbthyLhXblU9Ypk5TtR1LnNZbCK6McJy3f4vPGD8/D7Ml6v96XljduAhCbCh7ZezO38HwEYu5beJKIofOfODIxgM0NbLBQSUyjgo0KwNjWNKxe6MdGVLt24IDE16gZX7voDjBt1Y7qjP8HHqpqYLlwYq8YUS22hLZbH8GYeneu5M5CAVNIFmQn3ZjLMcL/znXu+cw6XSqXoBT9EIuHE/KW5l8CK7EMNF8cJo5K4pOl6DBb9A3h4+fmFy0iRq11rtFzNH3xVXeILSRLnqKs2SHGJGUihbcbB7148fyYSb9VrCb3d/Eazu5XYdWSTGcQfbFIYQYbmQFrsGmLaGjLUNsMJ9qTnlPvpqCSdIEPq5VKmoIDLWiiV37QUJQHTtnhw4TQOo1KlAi7mmJXFbRi33F7Pc4cg+HUw/cOkRbqq/ijt7d/dLZfrx6r9zFjaYZ/8C9krGcAM27GBCVZKPHYFrUzHUIh2tMmm0c9mlUkrhiFI4+RcIIy9pyPMzfU1Ev28it+yPYmupoiUE5DLOT6g3wIG0HaMYDw1Q8IAaqa6YT9H0qUaafH2/vdNF7co9jcFpUDA87gdvEDipuaRdkjcY9T8DvrYkFEart8UnIzf7SMLgSiaDV3kZ4s5cu/7Gn6V2yJJ+Kc2BsLz5GiQ6nRYBoOgmLWR/1cXUTtk2NiM7aFTtH792Sh/f/2TvqxpRqO3zK8VHFHg/hXkngBE9TrMvTCjrCPVOBodTfIoYtkf4qYpMFGmurtBClM+sTxJdKBOI6hGaaj1kKjMOwjHL/BZ6sQMx2CM7pqlKcml6SFU+4RZlpqNAOpJamb6yDb7mDNMGW4SdfZ0SvW6ZVg5TpZcrgD6pygdBRzcCzqE3IbTIABTsFAsXv29vf2e6YzRiGIkHO7uUXWZ3iI2pVKHVO+IdrJZ5PF4zLpShJjJ+AFYM2yXDHT3qKzmKPwNwIfXAMCUKD8Db2wVBmrEaiN1B+Y+gu9WYO4fbLmqVK02aTI2Qp4wGG+0FeUknE9sZjLv/grA2BWENg1G4dcuTZomq3Ruox0dtbi5Msf00E0mgnoQBl48iKAXjwrbTsI8OBTPsoMX7wp6URDmQQQP4kH0soOsThHRztqDs226LsnfJvnje0k6ttmCgRD4afI38N6X973/e/8TCoVCoEtSHp6Ymv6NUz7AGw91Kx4koyfAEcXIpUxmeHw7Hr9mtax3tCxPiTPPUi1r1TSN8y3XudcXP3A1KokdaZ5XPIy/z42OnKpp9VcVrbbg2q3ndliF9MgkwMRRaLgO8LUiekkUuMH6Y5J0P5VKXlFkuWstUSjYGF83TCiWy8u2w2+rimxYyEPWPhVgdOwIuCbzQuuwoiwpqrokiVKka/QFOxL/lZqmzbcM4+d+YWi3w6GvNKtCaquIUch/ijB9OjeQy8OjXD48Wq8A//DSvduoOssHByL6+yIDZvL0bF65eewszPf0OKbdbDT3S7QoeatElX8dGSmXrrmfm004TfdYflv5jcEhv2HA7hdnGKTabG9tBy2C6nVYZyb14/PZ3491eFFcdy96jmyFQI678HXNSibT4p3pc6Hr/WmIzPSH51bfuEPfP7qXERA7ihB3gxTZEmm9mKEjNW1At3jTRrAcGOydPTwhn/TzPQCZMWF8ZKzvQvWP81joCXVJMfgUOEzL96W6p0XrxOoIdJpirMhYAqJR7v25es3dmExImzLy7E1kLm/dHdisBY/4gufTNsrzoHMJOfJwOk1jDjpxNagvq3fwDeqIS0nrRVVVbdM0bxFKb+m6t1VvLBZrHE8kKFLSeMBG6MoQvNoegWAhypI0316t7lXVhVQy+botxKRN8fhem98MzO/GUCrFK5XKIkU4v8plyGazCNL2VlQQAAFOK+MYtSyn8haRwJDzqYggPMFoaLtUKp2JKUqBury0uyLhfCs47wwCpzcQ8RPrDPx3V/D6DM9vPKjNo+f/FYCxq3ltIojib7K7k242aUw0JCWxYg6WQBEUP9BjRap4sf+ACILgIdCLCMVTQKTQm2D/BA89izcvHnJTNNqC1YOSQ7GJW7u6yX7N+t5skjYlCc0pC5PNm7c7b+Z9/H5P7QsqswuMvfFb7RtqQn/JDGORTQzqCSjNFOa72ezrfevfihDhup7UAd00eT5TON/tuu793bb5PpOeXk0lE1Oj6u36EXwcU0QZNloCVoligvmuL3JlKkoB+LBNAYzr6TOz64XcqfOULRRidOYnmo+Alrn3y7L+LtudzitV1WSOhQLRtBOcQ+OEL0lJ49qLVDZzV6GAixjTL492LBEIzzRrjMef4bV/3IwTFWBy3KXP7n0Fhq6ccszfEW9YvqQ+nLtqzCtxBt8/229/frNrJ3NMFplLFmMXms3tsIpvYHE6za7EO5YYxqCFMiMYSAzVETZScm8CzVS4cQBiF53fhk4LdjjJRwAKxwmHpkwGDQ1QO0RvRUsoUT2TaodO1wE+FdUCkZxeEO782BKPkif46cu39DtxlPvSTVjab1vVPzvumjqB+ph2VmrjVf/Uwk3Gh9iEqgbKOd5byC7nZlMxX6IKQnTbGFxY4NWP77obKIs7NvmI4xMZDsbiDIyjQuoVdqMjlwBNj+bnBx3LCWyHEgQO65dKCIAR7ccD4gInKIhki9WILuVAhEixwbDSB0+MoCwqnuhXUB+h63lP8/k8lIrFwUqK4cKjsEbfS9ja3Bx0IcJxS+Vy+aLrus/x8gEaudvJVOoafq8PGc0jKsGPgsbpMWGcGo3Gk2bv9ISyExoH8D5hAeWgWaj4X8zzqNalRu2nfE+SUH4hwzeiZVu9b+wPMReInh2gm0vgL+mqUqnAfwEou5rXJoIoPjuzH63ZJJs0qW0TWkrsIaIUG6HnFPHgRf+KoJeejEg9FT2JJw9V8OzBq4h40WtuAUMRlERqIZi6JKnbJtmd3e74ZjaVpEmKLizsYWZ58/He+817b96Tz7izQCV2vvsE3wFG3MZEKkoSmbiDToTbVDWA0Xcs378GM3kfBIMF5wCEajUkJZKI6ZHnzfbvzz3bfpGIG1mZjB7zWB+ZRPQQ0TRty2y21jqE3IOds8e1Gb6cLczOzz2Nz8SiGAVFJMcW8wD6HYcis90qNduHBVVWdvvlzINy5fivIXRjMTX/Ur8QWjm1SY1DX5xOh9IfLvM3Jdt+K3Kb/08ULtC50ttHqSkbeZL8z/1cyshiVr8dThiIOjzOhZbjCxqaDgX2QkyYCB1wgQlru7QYnSE3wssLY9AeyBbLHU2hIdKLkI48HRVhGnycdtc5PGp5w5dseY4vLwgWYmfQs89IBys6UnVVCCeiePAjuw95mPAY+rz4H3PR3peTndV88pZuyNJUBJDyOim8f3PwCimjiOH00WDdyr86qMTLwmvyRAcC3wu5lJ6/vnExz2HfcctFsVklKKe75q5/Lf+82Tvy3mEiTRQ81ME8T/45HjYhM7qypjNVV7hdBLnMc459ilyh/r1x5F2FdxvesKppyf1G4/WBaX7gIOAKoA0BBs7PIMA3W4Pbo2AFngBfPALUgeFIt4X6QZmD/X0WhMnkcrmByABcBMH0DXgPTg6hGDD/XeizCW1LgzwzQDvXZCbwwzPQkI9BQD3gw69UKg/r9Tq6lMkEQMIwhAOJT4xHhdzPAE08WwKrVqsf+W0Ty7JQBNotLy2JVDJDJpDhcQuHDACjVfjgtfXmYJzddDr96Y8AlF3NaxNBFJ/dnf1Mtkla00gKomCVahX8wpsXD+lFBY9ePBX0YBU8VL147MlLixT04kHwH/BUkaIe/aJFL4EgYorWhI2mu2n2K+N7s5ua0l2xgYVAZvLYZd/v/X5v3ryhCR6OV5c5zmyo0I9MN+apKBRTV/L4sUsyKRSHpzfszqTTca7DY1lh39aIlDWJmC+QruO9qresKXD4hXzOvKgBFU7KE/GeLsCKyqXiVJPSpZbdvq3IyvnS2TM3TdAPvA9rQm1Hv8htAyjv90bzse97dwCILAbOATKQeEFUzIYDj0xM3CiYQ3O6pmbQXlJPJkyUYkIc9O9yx/WuSQqt0l0u5TJsLVFfI86bt+Sz+P9zWbRST49XTo+pZp4Ico8oalsTIfgHgQgsghBQqzzUChF41NpWryYk5L/Y4DaPbUEFOaTkycYQr6HinSDCn5s+6j1he9OnXkIDqQiciCdpWaZmDa5uJdneGoebil0HJDu86waoytBlK/ZvuTGyLzeKQ8YOqQeX1r+Mf7W679KlMcgOYM23TuzlFd1plR3YB+zYuZGZPYdHpdqHX83V5fbryvT+yyIwmSIA4fhJf+b9ix/PkdGlQQFI5H4A/xc4eVQ3QzWrUYzXzG4E3VUrKm0oQAA4uoMzlWDaBSHKqeT1TObZMD8PUtxNWYAMz/8hsI91AJ4ncN0FJ/fhcx/XG/CUlsF76uF//30PKmDnFBi7auh64LnuA5BhV8D+JZgzCSDwKcWmAr8t+kFQh+9PAaBmkS5Vq9V75XI5yMT78bYYV0S1D8QreaFA6aYQ17mgz/VZnNVq8VNlEFBzpjnI2IIYSB/FCUX0y0W4x5d/BBALgbGPFb///L4K9NhMXm4uS9yR9x880yHAx2MJpHd++fO3EJgxlsMiAdS/BxZMj77//BX05cWrGgkRoToeLi4mbAdj/YPeTCEmKqLKxcW5CVSQgRarQe7zwjGtD/L8x4+fX719W/7r99/p7GzAbh+oJnzyjIFdgI/hPwcnqPUkDIykflNDg1gm8BEV/7CvtQEWTL+A/ewfn79M+MfGWs2IONuZJACakj775D7DfnZmBlJudYRsWfj/352RBZj4OIFa/zFIKPM53Dz1lpv5x7evTB//MfBz/GcQBF2L9R921AmuZgX2NUmMkPn7f8yswKY3GxN40AkYP38hM2eMGOs3/2NfmwEMYvb/zMBcD9luwoyi8DfoSqP/sAH0f29/fGf4zMLOKQZqibECe5NRusLCn979wnmrDbi7xgRqQUFPJ8C6xAVYgPGzmOnZS3oxMrMz3L/0eeOTGx+rX97/5aCgLyQESjNa1hKO106+t/3x7e9hXOEEbmX+/oezdQY71YSJhe0f0L/gMohHkOeftrk00H0MDCc+8YHdglYHHQRyQ4AtHVZgJcclIiLyBbSgkRHazftP3IFwwLBl4vn7+/dioF/YgPlgJrDnUff716+vwIp4JfjmXuRtMODKFpLpWSCH2YEExYD5KRnYJWQEtvk+ALtacsDMBDqrLROed1EPkGMEquEBunslMC+yAwuJucDuIair9v3t27cLeHl4UBd5QvzxE+oOZgVFRdAMzEPYSnhQAQUazgDdSAM6jgVknwAfH8pyJgbI0TAJQPop0Bw5oKIroLgDCCAWQou/gIXT5ZMnTnk6Odi1szMyZTIy4T6oCuRAPl4ecdY/f5Z9VlM1/M3BUQf0yQ9QbcHDDS5x/wKbmY1v3n04//Pn70mCgvzyzFhWnML2FPHxcoO7CZBSFtNeZvBdX38Ynrx4fgnYYsrk4+E9BmrFPXz0iEFAWIiBnwWyYBToZlMeTq6Zgvx8hkyMTOj9bJRk+vPPnzffHz8uZHjwYAmjjQ0w2H6QXDCBxpqYfn5jiFNhZ+BQkWUg9Uim3z/+/v7z4dd1YO0lBzqeWM1MSO/u+XcV9/e8qGV+zcAgLM3CwMrBy/DrP67znkAtjd8Mf5l/YJ92B61kZuL4/x86eAxO0DjyCmj7Ksb0OujsblD+gg5eol8aB27JMjKDrraFbv8BtqWA/bz/4BNI/4Nnx379/PT7x49v4FXwuAAbJw9QLxvOE0d///rLoGQklCehzM32/PanPye2PJ77i5Xx5ZkDL5bJavDmgFwmJMXBomYoUHB5/+vDLBw47IIubsV5yCN0hSfMv+B1f4JsDJK2EgygcbRv13gZ/r/CmEj8D5q2/w9Zh/TzH5YD2IgqnUB1D9BhP378mAtqwXBycMwGdvE6gWbpQc8+ggfOP2hlD7TXHki4ALuOz4GFTCpQHTMPD2gS7P8P6LVUkcCM3w3UeA+HW5igywwWAQsXYCHwe7a0tHTTn9+/Nf5CDkD7z4Aa69eZIIfkiQELOgegfWcZoYdYwleW424xgscBgAkEdLrndWCgnQLvMwQW4AABRFSVDnTQxz9//2UBWyaZwBL4M77QBXW9uIBdM2FDvVIOIaFNwBJXBdSfBw2QgfqikFXPDJvefvjo8er12wOgGhb3wVO4T/YD6fn6/TvDgydPV799/8Hj+4+fx0BNeVag+c8ePQb2eT9DjhRlYooXFhLcLiIkaIhrXAF2O8unL1/OfPr4yQPIXgJeeEgmACVBrj9fGNi+fGH4/e0Pw18S8f+f//4/uv5x3Zf3P8Hhyc7JzGATLlchKCsU8ReaCEFJBDQExsqCCA/4vixQd+//L3D3CyuEjiHBatr///Efm4EvrsH4H2TnP2wl+Hdg6+jh59/AbhnoVEgmBjYWJjFufhZ+SEL9x/Dt86+f/38zPefm5gDtu8TEnGwMnKCtHaDTRkAehe1NQcKg85zY2Fn0tCxFgkB2Xjn5dNfrr+9Ornj0lmHqjoczXt39/IUZfFjfXwYNC2HPf+yMJh++/2b49OsPBv4AxD/Bdx0SWt4B9S+0gP3z4w8YM/76i3qfFTxZQcaGULZrYNsYTmilNGh5ANAMYAtsPrDCygQdXsfJyRkNTbfgwAefUgnsZYAvBmBmLgaG9fc7d++6AAsUI6A6AyBfH5iPTYB+2AW6/w6oLQW0hQaEMSprpEIUKLcQ2DVLAzUsQN1CqDD6EtjXQPMWQ/WC1Ar9Rw0L+PpGIGb/B2uSo/qfBW43VC1AADER17aEGPLly9cZP779dP/65dtFfEvwIde6MDIIC/C78vFw7wYq84acDsAAnnb8+vUbKBBvfP/1w+v502cTvn7+gj4wh9ctoAh/9/nz74cPHlR9e/kqjImV9Tl4BgC0YIwJsrcKWPLysEpJThaTl1sgwM0tjL5gDKV1CIygj1++LPj+44c7MPLPMpKQcHAVTyJfXkDWS5FxWRtoOv/t068rbp54fRk0dPX75x8GEUl2Frdi/dn8qgIhv3/8QarimMAzIp8+fwDij2D85dsn8MwkA/5aBHr49j8GBnJv7PiPpB9prc0fYC6/9/knuKvz7RuwcOVhMRGS4BD+B9oqBCwYn1z7eI7hG/tdLkY+Bk4GXkz8HygOOvuL8T9SgYCK/wDDRE6LL1dajZvzzcMvDLfOfJgiocD7z0eDhUFL6PvVU4eergUVIH+BBYeYPBenugFPLuvXVwwcPzAx18+XwMT9moHQliWUMIO2CsELSZEyM2jhJTStsYP2soEyPqjgALHBm39hBRZkWpkV2gJhg/S0GeGtkf+QAXFWcCMUVOCwwPLu/9nQge1/SOuhQBd4Mty9dw/ENQfmAV9gml789evXa7/+/PkKujgBqOYrsDn0GYgngtfWMjOnsLGyyoBmD2Ez9v8h7gFdesKCXHgA7VsA7OKlAuX/oDd5kBqXbUDqABCrAf25HiinixaagkAwXUhIKAh2izF0XRUr1ChWYOZlh66MBx1JrAcQQCykpEVoC+f4r7fv3T7//z+Bh4c7EtSNwlVAgWoiYFdKAahm4/sPnxp+AT0ATAD/Pn/7xiDKCezmMTN//3PxfOFLQcHTvwwM+gW5OcXwDRaCj6oAJrjXr9/cefvhQy7jv787IFcXMTFwcXKCVuox/AbWHpJSElriYmIzxMVEbZmgs3VY10IxgddCff74+XPF73//pzFRbQ8TqCv6Ddit+QYaeCbLhL9M/z6d3v04V1SOa5u0Gg8XqECSUubk8WzUX7xv5nXBD+/+zGbjZ4GOvQBbAJ8/IQ+bMQiw8DFgXwCLutbnH3grxz+y9rqBN6b+/wdd3PgP3kViY2NiYAdhThaGz19/smiYCuVygxZyAuGH1z8ZLh9/NeXb75/A5hP2sAalMk5G6LKG/9jLRHZWZjVNa5FIUJ69ceb1ie/v/+zhYecDpgVuhl/ArH734pfJLx98DheVBy1h+cegbSsefHfjo46/739cxzjPHbyG+T9k8wYLA+6wAIfXP6i/YedgAyuP/6BTCuDnQcmBCiFgwaBw/sIFJlAhwghZr8SgqqrKALuxF5jO2Hi4ueWhrQlZ9FU2QD3yoAwNzazPQIsgQT0PyLquv7NA06HAltIMoGYu0BjWvYcPQRNCHHKysp3QIY/lqsrK8OvOnz9/DrnbjoFhj5Sk5CugXklm0Gzi37+pwFbjvz+QDctyQPeB7skTAuInaPl5/l+gnUBzQVe38aAu3QEXzu+AFUkIUKAFKJYOtPcCUPwo0O7bQD6fgry8AyhagW7ogbUGgYUx6HhwSXCUMzKugKwgYQRNIHAC7ckHCCAW8rIew6vfv/9Evf/4+SIfL1cjFwcHO66KBhTkPFyczKwsLM3AAsrg27fveUATnv3++5vh/IVzDNagVvvv38tevX5z4/sX9pkSoiImoHVM6GMp4GNDgYXM0+evdn759CkLWDDdY+LkYPj1Cdh1AjbLebm5Gf59/QpqRQTpGxhM5OfjlfmPuY4DHqCgcZcPHz7e+Pn7Z8Y/8OAlJUd3YR+mgHWjyAGgeuDH198HDy5/nOeaKDdTVIaT+df3PwwSCpwcHnlas/YveSTy6vGPdjboOAqk3mCEVwzAFi4DDx8X7hiEtwIg15sQPv0Za78bohc8HsPwB9yQAhV2wBbTj5+gExT+8aoY8nfqOQrbg1pBoBtzTm58uuj16y/LGbgZcYYNG2jPzG8mnA060KWqCiZ8GcBWE/eHV98Z7p37OIOVnek3M8s/Bh7Qkg1m8Ljd2RvH3+0UleP0/wNssUnIc3IruMhmPLj8MR+06h3H4iq8SeA/PMyQ2jdALMnzh+HBJ3ZY+jkOrAxBU/8vDQwMmCG9cMgZ4e+ArRvYWWGgApKLi2si0LVCQBNPodgBAQuAeDcwsX4AZ36021CAmXwmqGXDysT07C9QXEtbGyTPBszUe4B27WZhZb0G2+H/7ft3cPcNCkBz/3WgQhRYOLwGmsvKzMj4kwky+L4Q6IB9QD3vUQaEYHnm7995oNXhwO7dWxxB9BZYaGcCzZv25csXb1B3EuhHeWAe/AYEy4D6N1y6fPku7JxyoF2gKd5aqF4OaL0Emq8BlpHMuwACiIXstgF4sPxP5+dPX8//+ft/Ki8vtwrTfwasGRxy7Qsbg7iocPDb9x80v//+lQ4sHI78+PiJgVFVjYGRixPYTP957v2vn67AhN0tIiyQwgOasoQ2l0GRAmxt/T9//kKnAB9/HRsHx+//H74w/P/yGRi1wgz/f/xk+PMPGB0cHLWiIiI1wIIKvGkXVzfuJ7AG+fjp05pDBw8WmJoaP2VkZWOgOkA7PI6c0g00zf/x9a+5exY+ZrSPkJwsqcTN8QvYghIUZ2NwS5ZvO7D8qcDTW1/KsQ7sA1uRHL/ZgGaw4Fm/8w+8Hun/f/K7dZCTQ0GH+THJsrKzWDEyMX7jZGcSNtbk1zO2EY1RNRMwYudiYnj/8gfDyc3PZz+8/AlYODD///P/H0bQgFc5//sNTAu/GT4z4tyAC7pNR1bDViwetL708qEPN588/rGWh5OVgRnUqmGGzugzMzLcPv9xoratoI+AODuoMcOgYSsc8+Tet15Gpv+PsEUMdE4H7xjbv/9/UW4PAQ1NGol+Y7j6hoPh2x/QUSoMoIsJtjFCCh+4v0BbTmDbPKCFE6gZNAFP6M4iYix4JngMF9iq4mIDp+FPwMKjBZ4LoR6CrQaHFW5A98xhQLq+Cek2sHlEtJZnMxGYaQSaf/njx4+XQV1R2NKD169fMwgICIBbf0hHtbxggHQHsVbuAAHEQlH+A8UkC/Oub8+eu/xhYpzCr6zkw4prNu8f5LRCUWEhLS5Ojp3PXr2uYvz7b+J/OTkGxh/fGRi/fGVg4uP98Ovr19Tn37+dE5YQ7xDi5+MD6Xv55t2zT1+/5l+5em2NuYkJAzsfL+gCUAbmp08ZGCSkgOzv8jzcXFNFhQW9QUsP/vz9i5EhYSc0Artxv94/f970j4u77cePn7Q5B5cZmkP+kVc4wY4TAh/hx84E7Ar9mrN7wePXtqFS8xR0eIRABRToxlvHKKmy/cueMTy48qYcY/offE70DwYeFm6ctkBmn8i7JRY2oA6auQJN4OjYCVqpmfAdBbHZgG7m4gYmLTbIcTGPrn/+emDZk7Rvn34t4+ACJswfv7EW5sC+BcOXF9+A5v3BHm7/IVqN7KXT5DS5hX5++MWwZuvTaZeef/niqsQHsg5c2DKBrWZi+PH51/6bJ9/vsfATdwfN7EmrcAqJy3GkPL39rY6VDcuWFkb8Z+LBZuvAs4fQ8cG/QE0CbH8YdEW+MRx5xguMeqS910j7z/7R8iZepP2ljHhaff//0++icvTZOeRWH7FDJwABxEKNjMj47v3Dn+/fBb4Vk2jiZ2Mp4+TkYMbZLAYCYMuGS0aSZYKVtZXu71+/Spn+/HkPWssEam+CVpyysrNNf/X2zbWfP37MATY9P3y8eTuJVUbmMiPo4C/QqmNQ/54NMsUMrIGcpcXFpkmIiKiBBoexji9BV4F/+PT50devX3P+vXq1mVFRiYGojbukAtCMyfXrDE+vPQK2Uf+Rk87Aq7ZlNQQY3gHdrMDLCB4o/frpz8a9C58E2IRKLFM14ZP5A+zacAK7RvZh4mVfPn579ebqu17UBeyM4O4uzomL/9BmCLRPRtZFjP8hJTCoPrp/7cvj149/nAe2kth///j3S16bx0lSmYv7D7DA4RVkYmXnZuV+9eUHwzdgLP9nA3XpmDHGEz9++sVw6Dn+rSrSbCyiJnaSSeycDAxXDn14zfP+1yFvBQEJ0Am6f/79BZ+ExfAPcvkVExvT3zsXPm7TMOdz5xVmY2AG2qtqxp/0+P63Kb+Y/r1iZEBfzAtyFRP+yIGF1X/EdifQEil9YOF06Q0Xw48/oAmZ/yjjMbiW3ZCWLv5D1/qNnHOdAAKIhUrFJLCpzfrnz7fvVe9ffT77W1piEh8XpxSug7pAXS5uTg4GZRWl5Ndv3+t8ffM9g4WF9QJokyEjsNnHzgOq7f8d3LV7r5Wxmdkvtr9/PoKa1FLSUuDVwsCmEcM/YDeRVUK8WFJEuFWQm5MdfMwJltqJCXLECcObDx/3fPr0ORPYsrpDzK2l5BZMDDduMDCcPQu+9+c/ZBMMyS0S8B1F/1kYVtx8x+CuwMRgIsbN8BVYQ//89vfwmq6bnr7piqu0HYU0QWMvPALMDDaBUi2f3/09+ufXvxPIQQ62nRF0YC22Y0YoazkxMsBWoEP2db24//Xo+b0fIkGFBuiapkdXv6V7pknNAA2E8wmzsNkEiU7etOjHze8/fh9iZsYc32IBzVKCzo4X5WbAcTgAeCuNir5gopI2l9TPb78ZRGTYBSNzlXeCzof7h3wmGyN8Fh/cg+IAjW/9+8sAOtlBXpNLWkyWJf7l/U/doG4z5oIbTgZGHM0nyLIJWMsJMewEWu0gyP6HwVjsK8Ohp7zwJQmgWWDQwC8ovYE264K2gIC6NGpqauBLbJHtBQ1Wv3r1ikFaWhp66ibiREvQbCBowBrUNQSZycbGNiIKJ4AAYqGmYeDDQf79Xfvpy7frv378mi4kwGfHCj6uFMs4FHS/jbiIoPkHFua9nz59Kfj/88diVi4OhgfPnzH8/v6d4cf3769hu/+/ffsO2nrC8PfTF4Y/v3+LcYuJ9cvo6UVxs7KBNuZi3Q4DSp1fvn3///r9u15gV6+GEdLPp23BdOYMvNZkJGf10H/IbBtoMTPoiJBl19+Cd3DriXAw/AVa8eP19ytHem8EsfJq7lIz4pP9+f03g5QSO4e2hWDzlUPvPJhZmP4iF06///+BXDCJtVv2Fzrm9J+BVKdCugl/wfgfuAH9n5WTiwF8Y/M/5t8MD5+/m3l4y39zt3DpRNAQp6QiG7uNi9iso5teOfz99+MF6PIL5CEAkBNkOZgY0rUEwVfUMWJptPz981/IzEM4g5HzP8PHl79ArcmvLKwgHgNae+c/A3RvOrhZ+Obpzy+CEqw8oK4cOycTg6aRQMbbG19mMjMwf8LwE+iQPhbsV3rD/AsZN/oHxYzwQwE5/38FX/UowMsNGdsErevjBO9OALNBywnAN2Tz8IAvtfwLXeMHm/n7BT07CVRIgWwHnfIBGlNiQYwVgQs12PKE4Q4AAoiF2gZCm53XgIWCF7CW6eIXFMjiYmfFusoXds+dkJCgEAcnx8Ifv3/pAGuJRmCh9O3Hj58MUnIyDL9AA2gSEgz/oTeigi4X4OflnSklJmoIqkGwdeNAZoIyzJdv314fPXmymI2DfbGSogKwy/iHdgUTsCsHajHBB32oETngxZb/GRZdf8MQrynCoM7HAb4a6++XXzdOb3yWLSLFvpZfhIUVFAYKupx2D65y6DMxM5xD7ip9+foHPMCMf0D8P1kzleC5SOhgOkw3aOT5B+MPhnfAfH/h7K8SaUk+Q10nHoNfP/8wqJtxqb96yj3txsnfoZ+BtcWjr3/Q1sr8Z5DnYWYQBraK/yIXDoyQ0wOEJNmipDXYFf/+/stwfv+HFW+e/KoBNrZgS0CxORC8b/3Lq6+8ug5CK3QcBTVBXV05XS4lXhne8A+3Ps9mg19gAGmhMP34zcAowoS6xxCphIQtwkSsS4NM8v34zciw/z4zsHXzF+vYCvIiTFDhAhosBxVYyJUqrEK7cfMm+DIDI0NDzLFToBpQDwOU9pFv7R2OACCAWGhlMLBG+ApMf9lvb9w6+1tWqpdPUFCAEctsPWyVMjcnJ6OKgnzZxy9fjO4+fJgJTAJ3QNONjx4+ZuAUEQbvcAcmo2RRack+YUFBPiYcpwmAxH/9/sPw9OXLk7///8v4+u3bBQbSNluSGIIsNCmYQAsCf0FPafwDZK+794Eh1VCAgVuTBzxn//zb381XT3zca+Mr5AE6IoSLj4WN5c9ntU9Pvp5D3q8GkmPhEmRAXv4MWpzI9I+FEXww0z8mBgY8iw//M2MWW/8gvU5G+IJE6AA8aKgHdPospE8F0vvv3bH9z5MFpCQPyKpz8oLcYuoqEPj95b+iXWdeda94hHm6bKgKC4OoODPc77CC7+/f/zwqRpzZ3MBu7It7P/48OPy2n42V6S6XMg/k2idcV98BHfL57SeG6ycYpqqY8E1hAdYjnDxMDNpGXDnLdj5a9JkBcbklbIbIwEoadJge5ngRfNEqomACUWzAMDr1nInh6SfQ+VnEtzxxD+My420ZgcIXdlkBchePngPe9AAAAcRES8NBU5z/r16d9+HJc4+3nz5f+IvvAgTw7RIsDCKCAi4GOtr7lRQU/IANKIjc3798vNxcM2QkJeeICgnxMWKJCNiSgy/ffzA8f/16zovXr92AEXgBtBCRlgXTv6fPGP4BCybY5BxsgR7ZGNRZ+PefmZuXOVVDmF1MS4iDQV2QnUGQ7T/D7z9MDII8nAxcwG4DDzM7w+tHP7b++PYbMigNLLDeMvxkevDvB8PDf9/B+AEQv2D5ycDIDNl1j8D/oZcbQVsCYFuhfHSIcWsBfIU0aH6NEbaCG3x5+X9Ia4ybiQvYFWUGuuYHw+Ovr84d2/q29MvbP2B7OHgYGcx9+Fo5+VicYIU5cvyAjqEFHUgOWhYAw6DtIUJiLKHA1qEGaNzp+skPO95ef33q9ZWXDF8/fgevksea/oAF09fPvxn+8vEwvPnwf9mDq1/ug4+b+fmXQcWER++DvnDAST52htOCnBAswMFwToSL4Q8jI47Jwn+IcScoBK14/wZs1R19zEzp7Vck91BABRToaBLQplrQDS3DbbAcIIBYaB6IoMKBmenk63cfXH9++zZBVFg4mpODDetWAdjGSDkZaRkBAf7Vr968q2ZmYd4NLJgmSYqJ2oHuooMdMseI2ZVkePvp05c3T55WMDCzTGUGXXtE08iCDCTL/nnFwK4lDOwGUGcMAHI5AYOAqYvAVDERVt6J+172eSnwM4jz/mZgBe1P/AFq9fxlYAUdkPeH4f2fX8BCHdi6//Ht739uDv4XinI8iMYbaC3aN2CLE/2wOGCGAmpnBa9T+gvdqMvCyAFqcWGcEvAHc/gFekglG7CQAxdO4JMRmEDbNiAj0GyMbAy8zFxAx30G36337MWXmUd3vLFyChaJA21cEJRmYQ0IFJ/O8YfBYdODT8+f/vjL4KDAw6DJzwkshJkYvjL9Bd+wAnfCPwZ2FUOubF4BRoZ3L34x3Lj0Ydo3ZRZw6+zVx68MisJcWEfsQS3EL5/+MDAzsoC6ie9vnv0yT0GLoxm01ICFm5EhxU0kx/ww5xo2TiaUsQHwkTLI6fM/bHLyP2JAHNp6Ap+F+JyZ4cknYIAw/WP4j3RrDcp5S7DLNbFfFQ7Khxz/IYsS0QFscSLW0zFgNyf9gZ50wAldzzQc2lAAAcRCr1IeGHJvfv78Ffv61evzAoL8LXw8PBzYjkyBHsXHwMfNzcbCxNwtJMD/TZCPlwt2WiV6nQYaVwEdv/v6zdsbbz9/Smf68/sQEzPtvQU6O0fg23sGcYaPDIzC3MTfIEJc4SQmIs3CwMzKnf9jD8Oqb78YnoDupWQCXYsOzOzfQYc6/eFi4BVgs2LjABUU/xhePPhx7/tbpjPg25KRzGMFbZ5l+ofRBgAW+lzgMzFhg7ncjPy/+ZlRCidQ9Hz5+A88+8aIegYdqFXCBWqFgGf6mEFnjYMOnmBiYuNg/Ac++eE3J8MX0GWQQLPfMX5guHDhZ6G0FJehlg2H7s+ffxgMLbjU2N4Jzdgy63MgKDjFuUF74jgYvvz6By4cmJG6pfxCzL4KuhzGoMLm7sUvJ75/Y9wNWtAHK0i+f/vDwMnFglKggNz7DVgw//v1Hzx2B1qe8frR73nP7v7IkdNkF/8HNFdRn9366pkvvpfOvNwA0wNqvQoIcjDIKvIzIF+sCum6QltNkAFs8DwPaDX8nU98DIL87MAKA7xsIx+Iw0BzylycnOxA9lxgwTEbdNmmhJgYqOAwZ2NlBR1ClwzET4HyKUyMjElAzCQpIXELmMZLgOn/FbBbB7oCFrR62h/USgXq2w9kVwOtxXnTCmiwHDSOBVpwCTpRcqgDgABioadlwBD+/+/b9963f/9c+v3nzzQRISEVBhxDsaCExsnJARqL4oJciPAfYzgHNIvxHRgZ1+/eXX3r8tVcfROjl38Yad+2Bi8RADpa5uczBjYW0D44Kpr9H3yAvjQb+38WZT02uck58mtO7fmS9fXbj3OsLP/BfUdQ60lYmDlI24oznoX1H8OPj/8Z7p77OpGZ8c8n5Hku8AmjjJCLIFGbmsAMy8YoAIwOcOYChSsrB6MQuGOHdl3dX9iIL9ouT2YWJkEW1v/gTcegCoKZjUHo4c9frMygU2vB3Vsmhk8/mRh42P6CZx6BJeu7kwfepvCICe2SUWHnB3XxVRx4/BJui9U+uP+rUYKPmeHzb8hhguAbd6FjOn9//WdV1eUp4hVkZPj07vf/h9d/LODmYP0DK0RB6eTbF0jhhFwwgcLp+zfQ8gQWeLr5/ev/s/tXfmyVUWVJApWpvMJMjKoG7FXnj//Zxsz07xesrvz44S+DDCMveGkDbFwJfGvUf2B7Dlo4/fn97zfolFLQGgbQjDRo7IcV0tozBcqD9ovFAgsYUyA9lZWB4RwbH99ZZshmWnFgK84dmJ5Z2VhYZIFpeNbX799LQNs1gAXKdKD6AG1t7VkszMxVwFZRAbDrlsjDxfUdqHc2sEJ/9fffvxZG/JO98MF9RCt3aN57BxBALPS2ELIYhWn3uw+fHd68fTdNSV7ODzTrgG2tDWSQFXOMGbaI5c37D7+evX7d8PHzp67379//pcmiSmwFJzDDC/16yyD67x3Df3YmBmbqlnygO+cYP7//85dXiIlF247dXFCa6cC9Kyy7Pr9lPA/arqygJ2SmbszlJSrDzPT57V+G7Rs+zrl268sM0BQ4+rJCOV5mjFtaQd0xHgEOJWABCG4VgTM6M4P0g3u/wVeJIxeUbGyMDIICTKi3r/wBHbbGqMLJBTqzB3Q8LCMDC9d/mY1X3nL9/P//J+QIWQYGVSEmBn2Zfww/QacTMP5kuPvl5SmuXcy1vuIikzh4gZULDzAHxws3HNv05fuDp9/7gcrAl/P+gY21AwXE5NmS1M3YLZmBBfP7V79/fH7zezsz+Gg86BgVkP3r61+Gj29/MvAJs0Nn1BgYPr39DT5ADvl8ORYm0BKE3/t//fiXBFv7pGvDbfr8kXjOq6ff+xCtRkYGdm5m8M0zSBOZoLM0WWCLML+8+/Pi/cs/4POcfv/8h9yNAw2wg5YogM43eglMkyzffv5ke/vmDYOcjAz4gG5gaf4VdL7Vz1+/PnIyMV0AFm5pLKyskl+/fet+/+HDPtBJkUJCQnEvX76cCmxJrQFd5gEslPSZWVg4WP4TuVsTdoUUaOsKMH+BNg6D9tcNpUIKIAB1V8zSMBBGr0lskrZpRaEqVYvoYOmmi6sg6F5w0NFBFAQXcevq4CIOgj/AwU1wE/fqIOLgIohoNZpSExtN015yid9dqrTUQRfFLRmOj0vu3t139977hL8IynR5GD8UTk9mFUXJxxPx9YQc4T9ufb46QAg19CeBytpHT/rz/aOmLZu2fUgLGPwq74OWCLdtZGsYkR/6in8zwHHh4G0qOcwvpUfDk919HcmJmXgOgCAXXAZQQqaHrs5qxZszvL1zVNq6Mmttmo9xyHwGUgjVmgZ0kMaFJJ9EerVbx3Sx5/MdIVrctrMrykvQnRZ3PQdQwKy2UhFcSIm6eGmgrDqvVHXPwbLOu8hdGesZhPlufIq1KEhgk+nRAjtLAJhibfey8DaXzopZ4vgexOaGx8N5yyEjhkrWAG0q7OzKZ64RfakRcbVaIaZVIUhXXYMapn3xO1C1glnYWGcYvQAw1S3SZkDKnN+w/1K6wyaAE2NBwA4y1D8kLxoqtw8bygfU+L7UakUMOw0+GLUh5mK0si9tRK2BnzVyYZQ82DnDu+g3x6LglIEme7DgKpAt5HVdPwdwyZTK5WslFquKksSMCgRBsKE/89SgDdfr07IkLViCsAnPGwBK1MvEMnSd8Z1cQmSR42guW/zuGG2eb5FoFNUN41+B07sAYhlQy5lZfv7+9bv69fWbZ/8oK00R4ueTBI1XwLISejCCD9z69Yvh+fMXu799+JQJTBl3mQYosP8zMFJt2QBm95fh/99fDAevnvpw8N4VdgUpeQ5TYCtCnZ2LWRpk888fDK+e3v96lZuL4wCwK/EKNOiMlh7BGUoSGLusP0DbKxhRx4sYGX/dPPkz4saZvyyM/6HHxDEx/GRiBe/EwPTnf9SCH1QPvHzwr23PvS9T/sFuwIXc1/oIZTUkI2iUF3TfGSKZAbuOv64e/x5y/dQfQUbo6jdmcOPuPyszE2RaH9Q7YoGsrPx08/TP8Osnfv6B7jcEnbP3EdfM3LfPv8GB9/Uz5BgdbLuHvn9lOHx47TcrBqTTHCEb/hGXLYDmNj6/e8/w8dUv+LiXsCSPAAsrH3i288ObP78/vv17EuR4UEENPsEJsUyGDxik10CXXv74+fMXsGX0V1ZampuJmXn3g4cP+3i4uUGtKjZg4fOelZXVGOjK2cDaNg5Y+CwBxstWUTExr99//rQDu3NbgT2KrP+MjNuAXcZvrP//7wbq2wo0N52cNAVqPYF6KL9+/RoyhRNAALEMtAPA2ebL13XvPny8+v37jxniIsIOoBMM/v/7j9GNAx398PTli55fX7/XMf/9+52BkZVhuAJQTQwa/AZ2NR78+v7vwcvHwCY5Ewvkgitg0Lx+8ZOBX5OTgRlP+fj3P86llcBmBcNNcC/4P+pYBQngEfhKKMyeBFrhhnZsDOTM86dAu5/C4h/t0ERkAOz+MFxiRBoyw7eUB355Jv464yPQvI8o6Q+tW/3/yy8Gpj/cwDTHDZ2lA7bIhDjU2dj+gncHP7398+jfPz+vgbrAzOAS8C94ZhA8CMHI+Ax6UNx3UGsedP/ah/fvv0pISvbJycqCLqEFde2mANM06F66b79//z4JLBmXcXNzvwEWalxAXAxaePzj+/dKYRERPjVVVdAllMCG179TQHNryG75APXBTqMdKgAggFgGhSsgp1fe/PDpsz/oLBxxUZFc8JEp//4ywFpGbz5+fHvs6LFCWRnJxZygiyJptdp7EBdUoAP6wXuu/jHgvBhgFJAPQBe8soEWv97/CF6/ALvd4RewPSnsKOHAxsnA8P7lX4ZH1/5PYWZi/Q2+AJQBtP7sH7Av/JuBhQG8JasOdFkr+Ox6oP4PHz4wvHj5koGbh6cP2Cpa/e/vX/afv3/fAQ2gg06nfPbkSQofL688n6Ag6EKGm0A936CXdrwH8qOAbEXGf/9YgF3E2/+H6MA2uQAggFgGk2OAXbpPv//9yXvw8ME5YWGRfkkxUQHQhsjnL16d+PHnV/qTp08vSUmIkX9G0igYBbgKJmCmf/v9D8OBJ58ZfrMCq0rokgxQAeSlw2cur81q9BdYSF0+8GXtu/ufNoD26f2BDjj/5xVjYGSDr1L/gT4UgUTjGi96CMXYwP2RGicAAcQy2BwEqlHuXLu+4O6DR1cszcymf/vx49rjJ0/zxcVEPrBAzzseBaOA6ukO2Cq9+Po7w4XXX+H9QvDBl8CeXIo3f7mYNCP7uaN/Lt49/zOL8edX8JFT8G4g99/RAKQBAAgglsHqMGCNdObTp88Of/7//wYaLR2NqlFAS/Ad2CqyluBisJRArDYHXW0uIMaUYmXDGnjh6O+zl44yhAK71q/Aa8HgleRo0qQVAAigQVs4QQfBv462k0YBbdMZ7PA3yHot+EWwfxkYhcQZ4vRtmWZeP/Fn7a2Lf7KY2NlejTbc6QcAAohlNAhGwUgFkKvt/4GXDiDa5rDFiwyM7NyM1rcuMDS8uP+/mYkJconEv9FgoxsACDAANt/R/+XEszsAAAAASUVORK5CYII=" alt="Siraj Finance PJSC logo">
+    <div class="topband-text">
+      <h1>User Stories &amp; Prerequisites</h1>
+      <p>Role-by-role breakdown of the CRM &amp; Customer Lifecycle Management System</p>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+  <aside class="side">
+    <p class="side-label">Roles</p>
+    <div id="role-nav"></div>
+  </aside>
+  <main class="panel" id="panel"></main>
+</div>
+
+<footer>Derived from the Unique IT Solution Vision &amp; Scope document (v1.0) for Siraj Finance CRM &amp; Customer Lifecycle Management System.</footer>
+
+<script>
+const roles = [
+  {
+    id:"admin",
+    name:"System Administrator",
+    mandate:"Configures the platform, users and permissions so every other role can operate — holds no business approval rights.",
+    badge:"Configuration",
+    phases:["Phase 1"],
+    steps:[
+      {t:"Set up Branches & Hierarchy", d:"Configure branches, departments, reporting managers, regions and sales hierarchies.", tag:"System"},
+      {t:"Create User Accounts & Roles", d:"Create, update, activate or deactivate accounts, assigning role, branch and department.", tag:""},
+      {t:"Define Roles & Permissions", d:"Assign module-level and action-level permissions and configure approval authorities (RBAC).", tag:""},
+      {t:"Configure Checklist & FOL Templates", d:"Maintain document-checklist rules by customer type/product, and the FOL template library used later by CAD.", tag:""},
+      {t:"Monitor Audit Logs", d:"Review login history, account changes and permission-change logs for security and compliance.", tag:"Output"},
+    ]
+  },
+  {
+    id:"rm",
+    name:"RM / Sales Officer",
+    mandate:"Owns the customer relationship from first contact through document collection and case submission.",
+    badge:"Front Line",
+    phases:["Phase 1","Phase 2"],
+    steps:[
+      {t:"Capture the Lead", d:"Log a lead from website, referral, campaign, walk-in or manual entry.", tag:"System"},
+      {t:"Convert to a Customer Record", d:"Convert a qualified lead into a customer profile without re-entering data.", tag:"Output"},
+      {t:"Issue the Document Checklist", d:"System auto-generates a checklist by customer type/product and shares the secure upload link.", tag:"System"},
+      {t:"Monitor Onboarding Progress", d:"Verify document completeness, capture customer consent and track application status.", tag:""},
+      {t:"Communicate Through the CRM", d:"Email, SMS and WhatsApp are synced automatically into one customer timeline — nothing lives only in a personal inbox.", tag:"System"},
+      {t:"Submit the Case", d:"Once the file is complete, submit to Compliance/Credit and move to a restricted, view-only stage.", tag:"Gate"},
+    ]
+  },
+  {
+    id:"compliance",
+    name:"Compliance / AML Officer",
+    mandate:"Clears every case on KYC, AML, sanctions and risk before it can reach Credit underwriting.",
+    badge:"Regulatory Gate",
+    phases:["Phase 3"],
+    steps:[
+      {t:"Run KYC Verification", d:"Validate identity documents, personal information and corporate records.", tag:"System"},
+      {t:"Screen AML, PEP & Sanctions", d:"Screen customers, directors, shareholders, guarantors and UBOs against AML watchlists, PEP databases and UN/OFAC/EU/UK sanctions lists.", tag:""},
+      {t:"Review AI-Flagged Exceptions", d:"Check missing information, inconsistencies and mismatches the AI engine has surfaced — AI never decides, only flags.", tag:""},
+      {t:"Assign the Risk Rating", d:"Set Low/Medium/High based on KYC, AML, PEP and financial data.", tag:"Output"},
+      {t:"Verify Source of Funds & Wealth", d:"Capture SOF/SOW evidence for high-value or high-risk customers to support Enhanced Due Diligence.", tag:""},
+      {t:"Escalate EDD", d:"Route positive PEP/sanctions matches to senior management for enhanced due-diligence approval.", tag:"Gate"},
+    ]
+  },
+  {
+    id:"credit",
+    name:"Credit Officer / Manager",
+    mandate:"Underwrites cleared cases and routes them through configurable, SLA-monitored approval workflow.",
+    badge:"Underwriting",
+    phases:["Phase 3"],
+    steps:[
+      {t:"Receive the Compliance-Cleared Case", d:"Review the AI summary, screening results and RM notes in one place.", tag:"System"},
+      {t:"Route Through the Approval Workflow", d:"Applications move through configurable, SLA-monitored steps with full approval history.", tag:""},
+      {t:"Apply the Credit Decision", d:"Approve, approve with conditions, decline or return for information — supporting multi-level approvals.", tag:"Gate"},
+      {t:"Trigger Parallel Processing", d:"Kick off simultaneous Compliance/Legal/CAD tasks where the product allows it.", tag:""},
+      {t:"Monitor the Credit Dashboard", d:"Track pipeline, approval rate, TAT and department workload in real time.", tag:"Output"},
+    ]
+  },
+  {
+    id:"cad",
+    name:"CAD User",
+    mandate:"Turns an approved credit decision into a locked Facility Offer Letter and hands off for execution.",
+    badge:"Documentation",
+    phases:["Phase 4"],
+    steps:[
+      {t:"Verify Approval Conditions", d:"Confirm mandatory documents, collateral, pricing and facility details are complete.", tag:"Gate"},
+      {t:"Generate the Draft FOL", d:"Auto-populate the FOL from the template engine using approved credit terms.", tag:"System"},
+      {t:"Validate Against Approved Terms", d:"System checks the draft against the credit decision and flags any mismatch.", tag:""},
+      {t:"Issue the Locked FOL", d:"Generate a secure, non-editable PDF with a unique reference and version number.", tag:"Output"},
+      {t:"Manage Customer Acceptance", d:"Track review, digital acceptance or signed-copy upload via email or the portal.", tag:""},
+      {t:"Route for Execution", d:"Send the accepted file to Trade Finance or Lending Operations with full approval history.", tag:"Gate"},
+    ]
+  },
+  {
+    id:"trade",
+    name:"Trade Finance Officer",
+    mandate:"Turns an accepted trade-finance facility into an issued guarantee.",
+    badge:"Execution",
+    phases:["Phase 4"],
+    steps:[
+      {t:"Receive the Routed Application", d:"Get the accepted FOL package with full approval history from CAD.", tag:"System"},
+      {t:"Process the Guarantee", d:"Check guarantee format, margin and legal/compliance sign-off.", tag:""},
+      {t:"Issue the Guarantee", d:"Issue and record the guarantee, updating status as it progresses.", tag:"Output"},
+      {t:"Notify the Customer", d:"Automated notification confirms guarantee issuance through the customer's preferred channel.", tag:""},
+    ]
+  },
+  {
+    id:"lending",
+    name:"Lending Operations Officer",
+    mandate:"Turns an accepted lending facility into an active, disbursed finance.",
+    badge:"Execution",
+    phases:["Phase 4"],
+    steps:[
+      {t:"Receive the Routed Application", d:"Get finance terms, collateral and repayment details transferred from CAD.", tag:"System"},
+      {t:"Verify Conditions & Security", d:"Check cheque status, collateral and repayment schedule.", tag:""},
+      {t:"Activate & Disburse", d:"Activate the facility and process disbursement once conditions are met.", tag:"Output"},
+      {t:"Notify the Customer", d:"Automated notification confirms disbursement and repayment schedule.", tag:""},
+    ]
+  },
+  {
+    id:"customer",
+    name:"Customer",
+    mandate:"Self-serves through onboarding, acceptance and ongoing servicing via the web portal and mobile app.",
+    badge:"Self-Service",
+    phases:["Phase 1","Phase 4","Phase 5"],
+    steps:[
+      {t:"Receive the Upload Link", d:"Get a secure, case-specific document link once the checklist is generated.", tag:"System"},
+      {t:"Upload Documents & Consent", d:"Submit required documents and give consent for KYC/AML/data processing.", tag:""},
+      {t:"Track Application Status", d:"Follow progress in real time via the web portal or mobile app.", tag:""},
+      {t:"Review & Accept the FOL", d:"Digitally accept or upload a signed copy of the Facility Offer Letter.", tag:"Gate"},
+      {t:"Message & Get Notified", d:"Use secure two-way messaging and receive email/SMS/WhatsApp/push updates at every milestone.", tag:"Output"},
+    ]
+  },
+  {
+    id:"manager",
+    name:"Senior Management",
+    mandate:"Oversees the whole pipeline, approves exceptions and signs off before go-live.",
+    badge:"Oversight",
+    phases:["Phase 1","Phase 3","Phase 5","Phase 6"],
+    steps:[
+      {t:"Monitor Dashboards", d:"Track pipeline, TAT, approval rates and branch performance in real time.", tag:"System"},
+      {t:"Approve EDD Escalations", d:"Sign off on enhanced due-diligence cases escalated by Compliance.", tag:"Gate"},
+      {t:"Review the Incentive Report", d:"Validate the monthly commission report before it goes to payroll.", tag:""},
+      {t:"Sign Off UAT & Go-live", d:"Approve user-acceptance testing results and pilot-branch rollout before production release.", tag:"Gate"},
+    ]
+  },
+];
+
+const example = {
+  id:"example",
+  isExample:true,
+  name:"Example: Himanshu's Loan Journey",
+  mandate:"Himanshu wants to purchase a flat in Ahmedabad and applies for a home loan with Siraj Finance. Here is how his single case moves across every role, end to end.",
+  badge:"Worked Example",
+  steps:[
+    {t:"Himanshu Enquires About a Home Loan", d:"He wants to purchase a flat in Ahmedabad and approaches Siraj Finance for financing.", tag:"Customer"},
+    {t:"RM Logs the Lead", d:"The RM records the enquiry as a lead, capturing the flat's price, location and the indicative loan amount.", tag:"RM / Sales Officer"},
+    {t:"RM Qualifies & Converts the Lead", d:"Once eligibility is confirmed, the lead becomes a customer record — a Customer ID and Case ID are generated.", tag:"RM / Sales Officer",
+      auto:"Rule-based automation, not AI — the system runs duplicate-customer detection and auto-generates the Customer ID / Case ID. No document is read or interpreted."},
+    {t:"Checklist Issued & Shared", d:"The system generates a home-finance checklist (ID, salary certificate, bank statements, sale agreement) and sends Himanshu a secure upload link.", tag:"System Administrator",
+      auto:"Rule-based automation, not AI — a fixed checklist template is selected by customer type and product; nothing here is inferred or learned."},
+    {t:"Himanshu Uploads His Documents", d:"He submits his Emirates ID, salary certificate, bank statements and the flat's sale agreement through the link.", tag:"Customer",
+      ai:{ base:"The scanned/photographed document images he uploads, plus the checklist's expected document types.", output:"Each document classified by type, key fields OCR-extracted (name, ID number, expiry, salary figures), and exceptions flagged (missing, duplicate, expired or mismatched data) before the RM reviews the case." }},
+    {t:"RM Verifies & Submits the Case", d:"The RM confirms the checklist is complete and submits the case to Compliance — RM access becomes restricted from here.", tag:"RM / Sales Officer"},
+    {t:"Compliance Clears the Case", d:"KYC is verified, AML/PEP/sanctions screening comes back clean, and Himanshu is assigned a Low risk rating.", tag:"Compliance / AML Officer",
+      auto:"Rule-based automation, not AI — his details are matched against external watchlist databases and a risk-scoring formula, both deterministic lookups rather than AI inference."},
+    {t:"Credit Approves With Conditions", d:"The Credit Officer underwrites the case and approves the loan, subject to an independent property valuation report.", tag:"Credit Officer / Manager",
+      ai:{ base:"His OCR-extracted bank statement data, salary certificate figures, and AECB credit bureau report.", output:"An AI-generated financial summary (turnover, obligations, repayment capacity) with a confidence score — a recommendation only. The Credit Officer still makes the actual approve/decline/conditions decision." }},
+    {t:"CAD Issues the Facility Offer Letter", d:"Once the valuation report is in, CAD generates, validates and issues a locked, versioned FOL for the loan.", tag:"CAD User",
+      auto:"Rule-based automation, not AI — the FOL template engine fills in approved fields (amount, pricing, tenor) and validates them against the credit decision. It's a merge operation, not interpretation."},
+    {t:"Himanshu Accepts the FOL", d:"He reviews the offer and digitally accepts it through the customer portal.", tag:"Customer"},
+    {t:"CAD Routes to Lending Operations", d:"Since this is a lending product (not trade finance), CAD routes the accepted file straight to Lending Operations.", tag:"CAD User",
+      auto:"Rule-based automation, not AI — a simple if-this-product-then-that-department routing rule, no judgment involved."},
+    {t:"Loan Is Activated & Disbursed", d:"Lending Operations verifies the post-dated cheques and repayment schedule, then activates the facility and disburses the funds.", tag:"Lending Operations Officer"},
+    {t:"Himanshu Completes the Purchase", d:"He receives disbursement confirmation and completes the flat purchase in Ahmedabad.", tag:"Customer"},
+    {t:"Case Closes Out on the Dashboard", d:"Senior Management sees the case appear on the pipeline dashboard as a completed, disbursed facility.", tag:"Senior Management",
+      auto:"Rule-based automation, not AI — standard business-intelligence reporting, aggregating case status into the dashboard view."},
+  ],
+  implementation:[
+    { mod:"Lead & Customer Management", phase:"Vendor Phase 1", detail:"Himanshu's enquiry is captured as a Lead record, then converted to a Customer profile with an auto-generated Customer ID and Case ID — no duplicate data entry between the two." },
+    { mod:"Customer Onboarding & Document Management", phase:"Vendor Phase 1", detail:"The checklist engine reads his customer type and product (Individual + Home Finance) to auto-build the required document list, and issues him a secure, case-specific self-upload link. RMs see live completeness status." },
+    { mod:"Microsoft 365 & Communication Hub", phase:"Vendor Phase 2", detail:"Every email/SMS exchanged with Himanshu syncs automatically into his customer timeline via Graph API, so the case history stays with the CRM rather than the RM's inbox." },
+    { mod:"AI Document Intelligence", phase:"Vendor Phase 2", detail:"OCR classifies and extracts data from his Emirates ID, salary certificate and bank statements automatically, flagging anything inconsistent for the RM/Compliance to check before it moves forward." },
+    { mod:"KYC / AML / Risk Engine", phase:"Vendor Phase 3", detail:"Compliance runs his case through the built-in KYC, AML, PEP and sanctions screening; the risk-scoring engine computes his Low rating and stores the full screening trail against his profile." },
+    { mod:"Credit Workflow Engine", phase:"Vendor Phase 3", detail:"His case is routed through the configurable approval workflow to the Credit Officer, who applies an Approved-with-Conditions decision (property valuation). SLA timers track how long it sits at each stage." },
+    { mod:"CAD & FOL Template Engine", phase:"Vendor Phase 4", detail:"Once the valuation condition clears, CAD's template engine auto-populates his Facility Offer Letter from approved credit terms, validates it against the credit decision, and locks it as a versioned, non-editable PDF." },
+    { mod:"Customer Portal / Mobile App", phase:"Vendor Phase 5", detail:"Himanshu reviews and digitally accepts the FOL from the customer portal — the same portal where he uploaded documents and tracked status throughout." },
+    { mod:"Lending Operations Routing", phase:"Vendor Phase 4", detail:"CAD's routing rules detect this is a lending (not trade-finance) product and hand the accepted file to Lending Operations automatically, carrying finance terms, collateral and repayment schedule." },
+    { mod:"Disbursement & Notifications", phase:"Vendor Phase 4–5", detail:"Lending Operations verifies his post-dated cheques, activates the facility and disburses funds; automated notifications (email/SMS/push) keep him informed at each milestone." },
+    { mod:"Management Dashboard", phase:"Vendor Phase 5", detail:"The completed, disbursed case rolls up into Senior Management's real-time pipeline dashboard alongside every other case in flight." },
+  ]
+};
+
+const kycExplainer = {
+  id:"kyc-explainer",
+  isExplainer:true,
+  name:"How KYC / AML / PEP Will Work",
+  mandate:"Based on the Unique IT Solution proposal (Phase 3 — Compliance, Risk Assessment & Credit Workflow): what each check does, which vendor categories the CRM talks to, and how the interaction flows end to end.",
+  badge:"Vendor Phase 3",
+  checks:[
+    { name:"KYC Verification", detail:"Validates identity documents, personal information and corporate records against onboarding data; keeps a full verification history per customer for regulatory audit." },
+    { name:"AML Screening", detail:"Screens the customer against approved AML databases and internal watchlists to catch suspicious individuals, organizations or financial activity." },
+    { name:"PEP & Sanctions Screening", detail:"Screens the customer and their directors, shareholders, guarantors and UBOs against PEP databases and international sanctions lists — UN, OFAC, EU, UK and others. Any positive match is auto-flagged for Enhanced Due Diligence (EDD)." },
+    { name:"Customer Risk Assessment", detail:"Combines KYC results, AML findings, PEP/sanctions hits and profile/business/financial data into a Low / Medium / High risk rating." },
+    { name:"SOF / SOW Verification", detail:"For flagged or high-value customers, captures how their funds or wealth originated, supporting Enhanced Due Diligence." },
+  ],
+  guardrail:"The screening layer never approves, rejects or clears a customer itself — it only surfaces matches and risk scores. A human Compliance Officer makes the actual decision.",
+  vendors:[
+    { name:"AML Screening Service Providers", detail:"Category only — no specific vendor named in this proposal. The CRM is built integration-ready against whichever provider Siraj contracts." },
+    { name:"PEP Screening Databases", detail:"Same integration-ready approach; screens customers and related parties for political exposure." },
+    { name:"International Sanctions List Providers", detail:"UN, OFAC, EU, UK and other sanctions lists." },
+    { name:"Credit Bureau Integration", detail:"AECB or an approved equivalent — feeds the Credit Workflow Engine in parallel with compliance screening." },
+    { name:"Government Identity Verification Services", detail:"Confirms the submitted ID document itself is genuine and valid, where the service is available." },
+    { name:"Internal Risk Scoring Engine", detail:"Native to the CRM, not a third party — combines all the above into the Low/Medium/High rating." },
+    { name:"Notification Services", detail:"Email, SMS, WhatsApp — used to push status changes such as an EDD document request." },
+    { name:"Audit Logging Framework", detail:"Every screening call, match and human decision is logged here for regulatory defensibility." },
+  ],
+  flow:[
+    "Once onboarding documents are uploaded and AI document classification/OCR (Phase 2) has extracted identity data, the case becomes eligible for compliance screening.",
+    "The CRM sends the extracted identity data — name, ID number, DOB, nationality, and for corporates: directors, shareholders, UBOs — to the Government Identity Verification Service and the AML/PEP/Sanctions screening provider.",
+    "The provider responds with hit / no-hit results per screened party, typically with a confidence score and match detail.",
+    "Results are written back to the customer/case record with source and timestamp — this is what builds the complete verification history.",
+    "The Internal Risk Scoring Engine runs natively in the CRM, combining screening results, KYC outcome and financial profile into the Low/Medium/High rating.",
+    "Branch on the outcome: no hits + Low/Medium risk proceeds automatically to Credit review. A positive PEP/sanctions match or High risk blocks the case and routes it to Compliance for manual EDD, triggering SOF/SOW capture.",
+    "Separately, the CRM queries AECB (or the approved bureau) for credit history and liabilities to feed the Credit Workflow Engine in parallel.",
+    "Every screening call, match and human override is written to the Audit Logging Framework.",
+    "Status changes — such as an EDD document request — go out via Notification Services using the same template engine from Phase 2.",
+  ],
+  openItems:"Which specific AML/PEP/sanctions vendor to contract (World-Check, Dow Jones, LexisNexis or other); whether screening is real-time/blocking or asynchronous; the re-screening cadence for already-onboarded customers; and the API contract format and expected response SLA from the screening vendor — none of these are specified in this proposal and should be confirmed before build."
+};
+
+const glossary = {
+  id:"glossary",
+  isExplainer:true,
+  isGlossary:true,
+  name:"Glossary — Terms Used In This Flow",
+  mandate:"Plain-language explanations for every acronym and industry term that appears across the roles, the example journey and the KYC/AML/PEP page.",
+  badge:"Reference",
+  terms:[
+    { short:"RM", long:"Relationship Manager", def:"The staff member (also called Sales Officer) who owns the customer relationship — captures leads, collects documents and is the customer's main point of contact." },
+    { short:"CRM", long:"Customer Relationship Management", def:"The overall software system this whole document is about — it manages every customer, case and document from first enquiry to loan disbursement." },
+    { short:"CAD", long:"Credit Administration Department", def:"The team that takes an approved loan and turns it into an official offer letter — checking all conditions are met, generating the Facility Offer Letter, and handing the case off for execution." },
+    { short:"FOL", long:"Facility Offer Letter", def:"The official document Siraj Finance issues to the customer, stating the loan amount, pricing, repayment terms and conditions. Once locked, it can't be edited — any change creates a new version." },
+    { short:"KYC", long:"Know Your Customer", def:"The process of verifying a customer's identity — checking ID documents, personal details and (for companies) corporate records — before doing business with them." },
+    { short:"AML", long:"Anti-Money Laundering", def:"Checks that screen a customer against watchlists to make sure the business isn't unknowingly being used to launder illegally-obtained money." },
+    { short:"PEP", long:"Politically Exposed Person", def:"Someone who holds (or is closely linked to someone who holds) a prominent public position — e.g. a government official. PEPs carry higher corruption risk, so extra checks apply." },
+    { short:"UBO", long:"Ultimate Beneficial Owner", def:"The real person who actually owns or controls a company, even if the company is legally owned through other entities. Banks must identify the UBO, not just the company name on paper." },
+    { short:"SOF", long:"Source of Funds", def:"Evidence of where the specific money for this transaction came from — e.g. salary, business income, sale of an asset." },
+    { short:"SOW", long:"Source of Wealth", def:"Evidence of how a customer built their overall wealth over time (not just this one transaction) — used for high-value or high-risk customers." },
+    { short:"EDD", long:"Enhanced Due Diligence", def:"A deeper, manual level of investigation applied when a customer is flagged as higher risk — e.g. a PEP match or a sanctions-list hit." },
+    { short:"AECB", long:"Al Etihad Credit Bureau", def:"The UAE's national credit bureau — the CRM queries it to check a customer's existing debts and repayment history before approving a loan." },
+    { short:"OCR", long:"Optical Character Recognition", def:"Technology that reads text out of a scanned document or photo — e.g. automatically pulling the ID number and expiry date off a passport image." },
+    { short:"RBAC", long:"Role-Based Access Control", def:"A permissions system where what a person can see or do in the CRM depends on their job role — e.g. an RM can't approve their own loan." },
+    { short:"SLA", long:"Service Level Agreement", def:"An agreed time limit for how long a step should take — e.g. Compliance must clear a case within 2 days. The CRM tracks this and alerts if it's breached." },
+    { short:"TAT", long:"Turnaround Time", def:"The actual time it takes to complete a step or the whole process, measured for reporting — e.g. average days from application to approval." },
+    { short:"UAT", long:"User Acceptance Testing", def:"The final round of testing before go-live, where real business users try the system to confirm it actually works the way they need." },
+    { short:"API", long:"Application Programming Interface", def:"A defined way for two different software systems to talk to each other automatically — e.g. how the CRM sends a customer's details to an external screening vendor and gets a result back." },
+    { short:"OFAC", long:"Office of Foreign Assets Control", def:"A US government body that maintains a sanctions list of individuals and entities that businesses worldwide are legally barred from dealing with." },
+    { short:"KPI", long:"Key Performance Indicator", def:"A measurable number used to track how well the business or a team is performing — e.g. number of loans approved this month, or average approval time." },
+  ]
+};
+
+const objectivesTab = {
+  id:"objectives",
+  isObjectives:true,
+  name:"Project Objectives",
+  mandate:"The ten module objectives defined in the Vision & Scope document — what the CRM is meant to achieve, module by module.",
+  badge:"Vision & Scope",
+  items:[
+    { t:"Lead & Customer Management", d:"Capture leads from different sources and maintain a centralized customer profile linked to all applications, facilities and communications." },
+    { t:"Customer Onboarding & Document Management", d:"Digitize Individual and Corporate onboarding with secure document upload, document checklists, classification and completeness tracking." },
+    { t:"KYC / KYB / AML Screening", d:"Perform identity, business, UBO, sanctions, PEP, adverse media, geographic and SOF/SOW checks with risk identification and escalation." },
+    { t:"AI-Based Document & Financial Analysis", d:"Analyze bank statements, AECB reports, audited financials and customer documents to generate summaries, observations and risk indicators for Credit." },
+    { t:"Credit Underwriting & Approval", d:"Provide Credit with a complete case file, AI analysis and screening results to support underwriting, approval, conditional approval, rejection and escalation." },
+    { t:"Departmental Workflow & Case Management", d:"Route cases and tasks between Sales, Credit, Compliance, Legal, Shariah, CAD, Trade Finance and Lending Operations with ownership, SLA and status tracking." },
+    { t:"FOL & Customer Acceptance", d:"Generate approved Shariah-compliant Facility Offer Letters, validate terms, issue locked/version-controlled FOLs and capture customer acceptance and signed documents." },
+    { t:"Trade Finance & Lending Operations", d:"Manage post-approval activities including guarantees, securities, cheques, facility activation, finance disbursement and customer status updates." },
+    { t:"Email & Customer Communication Hub", d:"Centralize emails, WhatsApp, SMS, calls, messages, attachments and notifications against the customer/case so communication remains part of the institutional record." },
+    { t:"Incentives, Reporting & Audit", d:"Automate milestone-based incentives and provide management, Sales, Credit, Compliance and Audit dashboards, reports and complete activity/audit history." },
+  ]
+};
+
+const emailStructureTab = {
+  id:"email-structure",
+  isEmailStructure:true,
+  name:"Email-Centric CRM Structure",
+  mandate:"How official customer communication is meant to live inside the CRM rather than in any individual RM's personal inbox.",
+  badge:"Communication Model",
+  items:[
+    "All official customer emails shall be captured and linked to the Customer, Case, Facility, Product and Department.",
+    "Each case shall have a unique reference, e.g. [CASE-2026-000123], to help identify and track emails.",
+    "CRM shall integrate with approved Microsoft 365 / Exchange shared mailboxes.",
+    "RMs may use CRM or Outlook, but official customer emails must be captured in CRM.",
+    "Email attachments shall be linked to the case and used for document checklist processing.",
+    "All emails, documents, calls, meetings, approvals and major case activities shall appear in the Customer Timeline.",
+    "Access shall be controlled based on role, branch, department and case stage.",
+    "Official communication records shall be retained with an audit trail and shall not depend on an individual RM's mailbox.",
+    "Approved email templates shall be available for common customer communications.",
+    "SLA delays shall trigger reminders and escalations.",
+  ]
+};
+
+const techArchTab = {
+  id:"tech-arch",
+  isTechArch:true,
+  name:"Tech Architecture & Requirements",
+  mandate:"The functional requirements, recommended technology stack and key external dependencies behind the CRM build.",
+  badge:"Architecture",
+  functionalRequirements:[
+    { id:"FR-001", req:"Unique Customer and Case IDs" },
+    { id:"FR-002", req:"Branch and user hierarchy" },
+    { id:"FR-003", req:"Secure customer document upload" },
+    { id:"FR-004", req:"Document classification and checklist" },
+    { id:"FR-005", req:"Individual and corporate onboarding" },
+    { id:"FR-006", req:"KYC/KYB/UBO and screening" },
+    { id:"FR-007", req:"AECB/Credit Bureau integration" },
+    { id:"FR-008", req:"AI-assisted document analysis" },
+    { id:"FR-009", req:"Controlled access after Credit submission" },
+    { id:"FR-010", req:"Department workflow and task routing" },
+    { id:"FR-011", req:"Draft and final FOL generation" },
+    { id:"FR-012", req:"Final FOL protection" },
+    { id:"FR-013", req:"Signed FOL and security document capture" },
+    { id:"FR-014", req:"Guarantee and disbursement tracking" },
+    { id:"FR-015", req:"Incentive calculation" },
+    { id:"FR-016", req:"Email capture and case linking" },
+    { id:"FR-017", req:"Audit trail" },
+    { id:"FR-018", req:"Dashboards and reporting" },
+  ],
+  architecture:[
+    { area:"Frontend", approach:"Web CRM + Mobile-friendly Customer Portal" },
+    { area:"Backend", approach:"API-based application with workflow" },
+    { area:"Database", approach:"PostgreSQL / SQL Server" },
+    { area:"Documents", approach:"Secure document storage with versioning" },
+    { area:"Email", approach:"Microsoft 365 / Exchange" },
+    { area:"AI", approach:"AI-assisted document analysis" },
+    { area:"Screening", approach:"Approved AML/Sanctions Provider" },
+    { area:"Notifications", approach:"Email / SMS / WhatsApp" },
+    { area:"Workflow", approach:"Configurable stages, approvals and SLAs" },
+    { area:"Reporting", approach:"Dashboards and BI" },
+    { area:"Hosting", approach:"Enterprise-approved Cloud / On-Premise" },
+  ],
+  dependencies:[
+    "Microsoft 365 / Exchange access is required for email integration.",
+    "AECB/Credit Bureau integration requires approved API access.",
+    "AML screening requires an approved provider and API access.",
+    "WhatsApp/SMS requires an approved provider.",
+    "Core banking integration requires an available and approved API.",
+    "Final security, hosting, workflow and retention rules require Institutional IT/Risk approval.",
+  ]
+};
+
+const risksTab = {
+  id:"risks",
+  isRisks:true,
+  name:"Risks & Mitigation",
+  mandate:"The key delivery and operational risks identified for this CRM, and how each is mitigated by design.",
+  badge:"Risk Register",
+  items:[
+    { risk:"Emails remain outside CRM", mitigation:"Mandatory email capture through Microsoft 365 integration." },
+    { risk:"Customer relationship depends on RM", mitigation:"Maintain complete customer history in CRM, independent of individual RM." },
+    { risk:"AI provides inaccurate analysis", mitigation:"AI remains decision-support; final decisions remain with authorized users." },
+    { risk:"Sensitive documents are accessed by unauthorized users", mitigation:"Role, department and case-stage based access controls with audit logs." },
+    { risk:"FOL terms differ from approved terms", mitigation:"Validate FOL against approved Credit terms before issuance." },
+    { risk:"Sales influence affects Credit decisions", mitigation:"Restrict Sales access after Credit submission and log all interactions." },
+    { risk:"AML screening produces incorrect matches", mitigation:"Compliance review and approved screening provider with escalation process." },
+    { risk:"Complex workflow affects user adoption", mitigation:"Implement in phases with MVP, pilot and user training." },
+    { risk:"Uncontrolled template changes", mitigation:"Central approved templates with version control." },
+    { risk:"Incentive calculation disputes", mitigation:"System-based calculation using approved rules and verified milestones." },
+  ]
+};
+
+const navEl = document.getElementById('role-nav');
+const panelEl = document.getElementById('panel');
+
+function renderPanel(role){
+  if(role.isGlossary){ renderGlossaryPanel(role); return; }
+  if(role.isObjectives){ renderObjectivesPanel(role); return; }
+  if(role.isEmailStructure){ renderEmailStructurePanel(role); return; }
+  if(role.isTechArch){ renderTechArchPanel(role); return; }
+  if(role.isRisks){ renderRisksPanel(role); return; }
+  if(role.isExplainer){ renderExplainerPanel(role); return; }
+
+  const stepsHtml = role.steps.map((s,i)=>`
+    <div class="step">
+      <div class="step-rail">
+        <div class="step-num">${i+1}</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-card" data-title="${s.t.replace(/"/g,'&quot;')}" data-caption="${s.d.replace(/"/g,'&quot;')}">
+        <div class="sc-top">
+          <h3>${s.t}</h3>
+          <div style="display:flex; gap:6px; flex-shrink:0;">
+            ${s.ai ? `<span class="tag ai">AI-Assisted</span>` : ''}
+            ${s.auto ? `<span class="tag auto">Automated</span>` : ''}
+            ${role.isExample
+              ? `<span class="tag role">${s.tag}</span>`
+              : (s.tag ? `<span class="tag ${s.tag==='Gate'?'gate':s.tag==='Output'?'out':'sys'}">${s.tag}</span>` : '')}
+          </div>
+        </div>
+        <p>${s.d}</p>
+        ${s.ai ? `
+          <div class="ai-block">
+            <span class="ai-label">Where AI comes in</span>
+            <div class="ai-row"><span class="ai-k">Base data</span><span class="ai-v">${s.ai.base}</span></div>
+            <div class="ai-row"><span class="ai-k">AI output</span><span class="ai-v">${s.ai.output}</span></div>
+          </div>
+        ` : ''}
+        ${s.auto ? `<p class="auto-note">${s.auto}</p>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  panelEl.innerHTML = `
+    <div class="role-head">
+      <div class="rh-top">
+        <div>
+          <h2>${role.name}</h2>
+          <p class="mandate">${role.mandate}</p>
+        </div>
+        <span class="badge">${role.badge}</span>
+      </div>
+      ${role.isExample ? `
+        <div style="display:flex; gap:18px; margin-top:16px; flex-wrap:wrap; font-size:15px; color:var(--steel-600);">
+          <span style="display:flex; align-items:center; gap:6px;"><span class="tag ai">AI-Assisted</span> = AI reads/interprets data and produces a recommendation</span>
+          <span style="display:flex; align-items:center; gap:6px;"><span class="tag auto">Automated</span> = system automation on fixed rules, no AI involved</span>
+        </div>
+      ` : ''}
+    </div>
+    <div class="flow">${stepsHtml}</div>
+    ${role.isExample ? renderImplementation(role) : ''}
+  `;
+}
+
+function renderGlossaryPanel(role){
+  const items = role.terms.map(t => `
+    <div class="gloss-item">
+      <div class="gloss-term">
+        <span class="gt-short">${t.short}</span>
+        <span class="gt-long">${t.long}</span>
+      </div>
+      <p class="gloss-def">${t.def}</p>
+    </div>
+  `).join('');
+
+  panelEl.innerHTML = `
+    <div class="role-head">
+      <div class="rh-top">
+        <div>
+          <h2>${role.name}</h2>
+          <p class="mandate">${role.mandate}</p>
+        </div>
+        <span class="badge">${role.badge}</span>
+      </div>
+    </div>
+    <div class="explain-card">
+      <div class="glossary-grid">${items}</div>
+    </div>
+  `;
+}
+
+function renderObjectivesPanel(role){
+  const items = role.items.map((it,i) => `
+    <div class="flow-num-item">
+      <div class="fn-badge">${i+1}</div>
+      <div class="fn-text"><b>${it.t}</b><br>${it.d}</div>
+    </div>
+  `).join('');
+
+  panelEl.innerHTML = `
+    <div class="role-head">
+      <div class="rh-top">
+        <div>
+          <h2>${role.name}</h2>
+          <p class="mandate">${role.mandate}</p>
+        </div>
+        <span class="badge">${role.badge}</span>
+      </div>
+    </div>
+    <div class="explain-card">
+      <div class="flow-num-list">${items}</div>
+    </div>
+  `;
+}
+
+function renderEmailStructurePanel(role){
+  const items = role.items.map(f => `<li>${f}</li>`).join('');
+
+  panelEl.innerHTML = `
+    <div class="role-head">
+      <div class="rh-top">
+        <div>
+          <h2>${role.name}</h2>
+          <p class="mandate">${role.mandate}</p>
+        </div>
+        <span class="badge">${role.badge}</span>
+      </div>
+    </div>
+    <div class="explain-card">
+      <h3>How official communication is structured</h3>
+      <ul class="simple-list">${items}</ul>
+    </div>
+  `;
+}
+
+function renderTechArchPanel(role){
+  const frRows = role.functionalRequirements.map(f => `
+    <tr><td class="chk-name mono"><span class="fr-id">${f.id}</span></td><td>${f.req}</td><td><span class="priority-pill">Must Have</span></td></tr>
+  `).join('');
+
+  const archRows = role.architecture.map(a => `
+    <tr><td class="chk-name">${a.area}</td><td>${a.approach}</td></tr>
+  `).join('');
+
+  const depItems = role.dependencies.map(d => `<li>${d}</li>`).join('');
+
+  panelEl.innerHTML = `
+    <div class="role-head">
+      <div class="rh-top">
+        <div>
+          <h2>${role.name}</h2>
+          <p class="mandate">${role.mandate}</p>
+        </div>
+        <span class="badge">${role.badge}</span>
+      </div>
+    </div>
+
+    <div class="explain-card">
+      <h3>1. Functional Requirements</h3>
+      <table class="check-table">
+        <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+        <tbody>${frRows}</tbody>
+      </table>
+    </div>
+
+    <div class="explain-card">
+      <h3>2. Recommended Technology Architecture</h3>
+      <table class="check-table">
+        <thead><tr><th>Area</th><th>Recommended Approach</th></tr></thead>
+        <tbody>${archRows}</tbody>
+      </table>
+    </div>
+
+    <div class="explain-card">
+      <h3>3. Key Technical Dependencies</h3>
+      <ul class="simple-list">${depItems}</ul>
+    </div>
+  `;
+}
+
+function renderRisksPanel(role){
+  const rows = role.items.map(r => `
+    <tr><td class="chk-name">${r.risk}</td><td>${r.mitigation}</td></tr>
+  `).join('');
+
+  panelEl.innerHTML = `
+    <div class="role-head">
+      <div class="rh-top">
+        <div>
+          <h2>${role.name}</h2>
+          <p class="mandate">${role.mandate}</p>
+        </div>
+        <span class="badge">${role.badge}</span>
+      </div>
+    </div>
+    <div class="explain-card">
+      <h3>Risk Register</h3>
+      <table class="check-table">
+        <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderExplainerPanel(role){
+  const checkRows = role.checks.map(c => `
+    <tr><td class="chk-name">${c.name}</td><td>${c.detail}</td></tr>
+  `).join('');
+
+  const vendorItems = role.vendors.map(v => `
+    <li><b>${v.name}</b><span>${v.detail}</span></li>
+  `).join('');
+
+  const flowItems = role.flow.map((f,i) => `
+    <div class="flow-num-item">
+      <div class="fn-badge">${i+1}</div>
+      <div class="fn-text">${f}</div>
+    </div>
+  `).join('');
+
+  panelEl.innerHTML = `
+    <div class="role-head">
+      <div class="rh-top">
+        <div>
+          <h2>${role.name}</h2>
+          <p class="mandate">${role.mandate}</p>
+        </div>
+        <span class="badge">${role.badge}</span>
+      </div>
+    </div>
+
+    <div class="explain-card">
+      <h3>1. What each check does</h3>
+      <table class="check-table">
+        <thead><tr><th>Check</th><th>What it does</th></tr></thead>
+        <tbody>${checkRows}</tbody>
+      </table>
+      <p style="margin-top:18px;"><b style="color:var(--navy-950);">Guardrail: </b>${role.guardrail}</p>
+    </div>
+
+    <div class="explain-card">
+      <h3>2. The vendor / API integration model</h3>
+      <p>These are the third-party integration categories named in the proposal for this phase — the CRM is built integration-ready against whichever provider Siraj ultimately contracts.</p>
+      <ul class="vendor-list">${vendorItems}</ul>
+    </div>
+
+    <div class="explain-card">
+      <h3>3. How the interaction flows, step by step</h3>
+      <div class="flow-num-list">${flowItems}</div>
+    </div>
+
+    <div class="explain-card">
+      <h3>4. What's still open</h3>
+      <div class="open-item"><b>Not specified in this proposal — confirm before build:</b>${role.openItems}</div>
+    </div>
+  `;
+}
+
+function renderImplementation(role){
+  const rows = role.implementation.map(m => `
+    <div class="impl-row">
+      <div class="impl-mod">${m.mod}<span class="impl-phase">${m.phase}</span></div>
+      <div class="impl-detail">${m.detail}</div>
+    </div>
+  `).join('');
+  return `
+    <div class="impl-card">
+      <h3>How this will be implemented in the CRM</h3>
+      <p>Mapping Himanshu's journey to the actual CRM modules and configuration that make each step happen, in the order they fire.</p>
+      ${rows}
+    </div>
+  `;
+}
+
+function renderNav(activeId){
+  navEl.innerHTML = '';
+
+  const extraTabs = [objectivesTab, emailStructureTab, techArchTab, risksTab];
+  extraTabs.forEach(tab => {
+    const btn = document.createElement('button');
+    btn.className = 'example-btn' + (tab.id === activeId ? ' active' : '');
+    btn.innerHTML = `<span>${tab.name}</span>`;
+    btn.onclick = () => { renderNav(tab.id); renderPanel(tab); window.scrollTo({top:0, behavior:'smooth'}); };
+    navEl.appendChild(btn);
+  });
+
+  const divider = document.createElement('hr');
+  divider.className = 'nav-divider';
+  navEl.appendChild(divider);
+
+  roles.forEach(role=>{
+    const btn = document.createElement('button');
+    btn.className = 'role-btn' + (role.id === activeId ? ' active' : '');
+    btn.innerHTML = `<span class="rb-dot"></span><span>${role.name}</span><span class="role-count">${role.steps.length}</span>`;
+    btn.onclick = () => { renderNav(role.id); renderPanel(role); window.scrollTo({top:0, behavior:'smooth'}); };
+    navEl.appendChild(btn);
+  });
+}
+
+renderNav(roles[0].id);
+renderPanel(roles[0]);
+
+// ---------- Step illustrations ----------
+const ICONS = {
+  enquire: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="55" y="70" width="60" height="46" rx="8" fill="#122c4f"/><path d="M65 116 L65 132 L85 116 Z" fill="#122c4f"/><circle cx="72" cy="93" r="5" fill="#fff"/><circle cx="90" cy="93" r="5" fill="#fff"/><circle cx="108" cy="93" r="5" fill="#fff"/><rect x="120" y="55" width="34" height="34" rx="17" fill="#c9a13b"/><text x="137" y="78" text-anchor="middle" font-family="Arial" font-size="20" fill="#fff">?</text></svg>`,
+  formLead: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="60" y="45" width="80" height="110" rx="8" fill="#fff" stroke="#122c4f" stroke-width="4"/><line x1="74" y1="72" x2="126" y2="72" stroke="#9fb0c6" stroke-width="5"/><line x1="74" y1="90" x2="126" y2="90" stroke="#9fb0c6" stroke-width="5"/><line x1="74" y1="108" x2="110" y2="108" stroke="#9fb0c6" stroke-width="5"/><circle cx="140" cy="130" r="26" fill="#c9a13b"/><path d="M130 130 l7 7 l14 -14" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  idCard: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="40" y="70" width="120" height="76" rx="10" fill="#fff" stroke="#122c4f" stroke-width="4"/><circle cx="70" cy="100" r="14" fill="#122c4f"/><path d="M52 130 q18 -18 36 0" fill="#122c4f"/><line x1="98" y1="92" x2="146" y2="92" stroke="#9fb0c6" stroke-width="5"/><line x1="98" y1="106" x2="146" y2="106" stroke="#9fb0c6" stroke-width="5"/><line x1="98" y1="120" x2="132" y2="120" stroke="#9fb0c6" stroke-width="5"/><rect x="130" y="42" width="40" height="40" rx="20" fill="#0f6e56"/><path d="M120 62 h20 M130 52 v20" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>`,
+  checklistLink: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="55" y="40" width="90" height="120" rx="8" fill="#fff" stroke="#122c4f" stroke-width="4"/><rect x="80" y="32" width="40" height="16" rx="4" fill="#122c4f"/><circle cx="76" cy="76" r="6" fill="#0f6e56"/><line x1="90" y1="76" x2="128" y2="76" stroke="#9fb0c6" stroke-width="5"/><circle cx="76" cy="100" r="6" fill="#0f6e56"/><line x1="90" y1="100" x2="128" y2="100" stroke="#9fb0c6" stroke-width="5"/><circle cx="76" cy="124" r="6" fill="#dde4ee"/><line x1="90" y1="124" x2="128" y2="124" stroke="#dde4ee" stroke-width="5"/><circle cx="150" cy="140" r="24" fill="#c9a13b"/><path d="M141 140 h18 M150 131 v18" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>`,
+  uploadCloud: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><path d="M55 130 a24 24 0 0 1 4 -47 a34 34 0 0 1 65 -12 a26 26 0 0 1 -3 51 Z" fill="#fff" stroke="#122c4f" stroke-width="4"/><path d="M100 120 v-38 M86 96 l14 -14 l14 14" stroke="#c9a13b" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  checkPerson: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><circle cx="85" cy="80" r="24" fill="#122c4f"/><path d="M50 150 q35 -40 70 0 Z" fill="#122c4f"/><circle cx="145" cy="130" r="30" fill="#0f6e56"/><path d="M132 130 l9 9 l18 -18" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  shieldCheck: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><path d="M100 40 l45 16 v46 c0 34 -22 54 -45 60 c-23 -6 -45 -26 -45 -60 v-46 Z" fill="#fff" stroke="#122c4f" stroke-width="4"/><path d="M78 100 l16 16 l30 -32" stroke="#0f6e56" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  handshakeCheck: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><path d="M45 95 l30 -18 l20 12 l20 -12 l30 18 l-14 24 l-16 -9 l-20 12 l-20 -12 l-16 9 Z" fill="#122c4f"/><circle cx="150" cy="140" r="26" fill="#c9a13b"/><path d="M140 140 l7 7 l14 -14" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  lockedDoc: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="58" y="40" width="84" height="110" rx="8" fill="#fff" stroke="#122c4f" stroke-width="4"/><line x1="72" y1="66" x2="128" y2="66" stroke="#9fb0c6" stroke-width="5"/><line x1="72" y1="82" x2="128" y2="82" stroke="#9fb0c6" stroke-width="5"/><line x1="72" y1="98" x2="110" y2="98" stroke="#9fb0c6" stroke-width="5"/><rect x="76" y="118" width="48" height="34" rx="6" fill="#c9a13b"/><path d="M86 118 v-10 a14 14 0 0 1 28 0 v10" fill="none" stroke="#c9a13b" stroke-width="6"/><circle cx="100" cy="134" r="5" fill="#fff"/></svg>`,
+  signPen: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="50" y="55" width="90" height="110" rx="8" fill="#fff" stroke="#122c4f" stroke-width="4"/><line x1="64" y1="80" x2="116" y2="80" stroke="#9fb0c6" stroke-width="5"/><line x1="64" y1="96" x2="116" y2="96" stroke="#9fb0c6" stroke-width="5"/><path d="M64 122 q10 -14 20 0 t20 0 t20 0" stroke="#0f6e56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M118 150 l30 -30 l10 10 l-30 30 l-14 4 Z" fill="#c9a13b" stroke="#122c4f" stroke-width="3" stroke-linejoin="round"/></svg>`,
+  routeArrows: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="35" y="80" width="46" height="40" rx="6" fill="#122c4f"/><rect x="120" y="80" width="46" height="40" rx="6" fill="#0f6e56"/><path d="M83 100 h32" stroke="#c9a13b" stroke-width="6" stroke-linecap="round"/><path d="M107 90 l12 10 l-12 10" fill="none" stroke="#c9a13b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  coinsBank: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><path d="M55 90 l45 -30 l45 30 Z" fill="#122c4f"/><rect x="60" y="90" width="14" height="46" fill="#122c4f"/><rect x="93" y="90" width="14" height="46" fill="#122c4f"/><rect x="126" y="90" width="14" height="46" fill="#122c4f"/><rect x="50" y="140" width="100" height="12" rx="2" fill="#122c4f"/><circle cx="140" cy="150" r="22" fill="#c9a13b"/><text x="140" y="157" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="20" fill="#fff">$</text></svg>`,
+  houseKey: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><path d="M55 100 l35 -30 l35 30 Z" fill="#122c4f"/><rect x="65" y="100" width="50" height="46" fill="#fff" stroke="#122c4f" stroke-width="4"/><rect x="83" y="118" width="14" height="28" fill="#122c4f"/><circle cx="142" cy="125" r="16" fill="none" stroke="#c9a13b" stroke-width="6"/><path d="M154 136 l16 16 M164 146 l8 8 M172 138 l8 8" stroke="#c9a13b" stroke-width="6" stroke-linecap="round"/></svg>`,
+  barChart: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="52" y="60" width="96" height="100" rx="6" fill="#fff" stroke="#122c4f" stroke-width="4"/><rect x="68" y="110" width="16" height="36" fill="#9fb0c6"/><rect x="92" y="90" width="16" height="56" fill="#0f6e56"/><rect x="116" y="72" width="16" height="74" fill="#c9a13b"/></svg>`,
+  gear: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><circle cx="100" cy="100" r="34" fill="none" stroke="#122c4f" stroke-width="10"/><circle cx="100" cy="100" r="10" fill="#122c4f"/><g stroke="#122c4f" stroke-width="10" stroke-linecap="round"><line x1="100" y1="46" x2="100" y2="58"/><line x1="100" y1="142" x2="100" y2="154"/><line x1="46" y1="100" x2="58" y2="100"/><line x1="142" y1="100" x2="154" y2="100"/><line x1="63" y1="63" x2="71" y2="71"/><line x1="129" y1="129" x2="137" y2="137"/><line x1="137" y1="63" x2="129" y2="71"/><line x1="71" y1="129" x2="63" y2="137"/></g></svg>`,
+  messageNotify: `<svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#eef2f7"/><rect x="45" y="65" width="110" height="76" rx="10" fill="#fff" stroke="#122c4f" stroke-width="4"/><path d="M45 72 l55 40 l55 -40" fill="none" stroke="#122c4f" stroke-width="4"/><circle cx="148" cy="60" r="18" fill="#c9a13b"/><text x="148" y="66" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="18" fill="#fff">!</text></svg>`,
+};
+
+function pickIcon(title){
+  const t = title.toLowerCase();
+  if(t.includes('enquir')) return ICONS.enquire;
+  if(t.includes('lead') && !t.includes('convert')) return ICONS.formLead;
+  if(t.includes('convert') || t.includes('customer record') || t.includes('customer &')) return ICONS.idCard;
+  if(t.includes('checklist')) return ICONS.checklistLink;
+  if(t.includes('upload') || t.includes('document')) return ICONS.uploadCloud;
+  if(t.includes('verif') || t.includes('monitor')) return ICONS.checkPerson;
+  if(t.includes('kyc') || t.includes('aml') || t.includes('complian') || t.includes('screen') || t.includes('risk')) return ICONS.shieldCheck;
+  if(t.includes('credit') || t.includes('approv') || t.includes('condition') || t.includes('decision')) return ICONS.handshakeCheck;
+  if(t.includes('fol') || t.includes('offer letter') || t.includes('lock')) return ICONS.lockedDoc;
+  if(t.includes('accept') || t.includes('sign')) return ICONS.signPen;
+  if(t.includes('rout')) return ICONS.routeArrows;
+  if(t.includes('disburs') || t.includes('activat') || t.includes('cheque') || t.includes('incentive') || t.includes('guarantee')) return ICONS.coinsBank;
+  if(t.includes('purchase') || t.includes('flat') || t.includes('facility activ')) return ICONS.houseKey;
+  if(t.includes('dashboard') || t.includes('report')) return ICONS.barChart;
+  if(t.includes('notif') || t.includes('messag') || t.includes('communicat') || t.includes('email')) return ICONS.messageNotify;
+  if(t.includes('branch') || t.includes('hierarchy') || t.includes('role') || t.includes('permission') || t.includes('admin') || t.includes('template') || t.includes('audit')) return ICONS.gear;
+  return ICONS.gear;
+}
+
+function openIllustration(title, caption){
+  document.getElementById('illusTitle').textContent = title;
+  document.getElementById('illusArt').innerHTML = pickIcon(title);
+  document.getElementById('illusCaption').innerHTML = caption;
+  document.getElementById('illusPanel').classList.add('open');
+  document.getElementById('illusBackdrop').classList.add('open');
+}
+function closeIllustration(){
+  document.getElementById('illusPanel').classList.remove('open');
+  document.getElementById('illusBackdrop').classList.remove('open');
+}
+
+// Attach click handlers to every rendered step card (delegated, survives re-renders)
+panelEl.addEventListener('click', (e) => {
+  const card = e.target.closest('.step-card');
+  if(!card) return;
+  const title = card.dataset.title;
+  const caption = card.dataset.caption;
+  if(title) openIllustration(title, caption);
+});
+</script>
+
+<div class="illus-backdrop" id="illusBackdrop" onclick="closeIllustration()"></div>
+<div class="illus-panel" id="illusPanel">
+  <div class="illus-head">
+    <h3 id="illusTitle">Step</h3>
+    <button class="illus-close" onclick="closeIllustration()" aria-label="Close">&times;</button>
+  </div>
+  <div class="illus-art" id="illusArt"></div>
+  <div class="illus-caption" id="illusCaption"></div>
+</div>
+
+</body>
+</html>
