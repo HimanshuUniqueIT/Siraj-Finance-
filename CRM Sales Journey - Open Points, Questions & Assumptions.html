@@ -1,0 +1,685 @@
+<title>CRM Questions &amp; Assumptions</title>
+<meta name="description" content="Companion to the 3 September 2026 CRM – Sales Journey minutes: Unique IT Solution’s working assumptions, the consolidated open-question list, and the risk register.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+  :root{
+    --paper:#f7f5f0;
+    --surface:#ffffff;
+    --surface-2:#f1eee5;
+    --ink:#1b2a33;
+    --muted:#5c6870;
+    --faint:#8a949a;
+    --primary:#0f4c5c;
+    --primary-soft:#dceaed;
+    --accent:#a9702e;
+    --accent-soft:#f0e2cf;
+    --line:#e3ddd0;
+    --line-strong:#cfc7b5;
+    --open:#9a5a15;
+    --open-bg:#f6e9d5;
+    --agree:#2f6b4f;
+    --agree-bg:#dcece2;
+    --shadow:0 1px 2px rgba(27,42,51,.05),0 8px 28px rgba(27,42,51,.06);
+    --maxw:760px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#12171a;
+      --surface:#1a2227;
+      --surface-2:#212b31;
+      --ink:#e9e4d8;
+      --muted:#a3adb3;
+      --faint:#77828a;
+      --primary:#3f9fb4;
+      --primary-soft:#1b333a;
+      --accent:#d4a05f;
+      --accent-soft:#33291a;
+      --line:#2c363c;
+      --line-strong:#3a464d;
+      --open:#e0a860;
+      --open-bg:#2e2313;
+      --agree:#79c2a0;
+      --agree-bg:#16281f;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12171a;
+    --surface:#1a2227;
+    --surface-2:#212b31;
+    --ink:#e9e4d8;
+    --muted:#a3adb3;
+    --faint:#77828a;
+    --primary:#3f9fb4;
+    --primary-soft:#1b333a;
+    --accent:#d4a05f;
+    --accent-soft:#33291a;
+    --line:#2c363c;
+    --line-strong:#3a464d;
+    --open:#e0a860;
+    --open-bg:#2e2313;
+    --agree:#79c2a0;
+    --agree-bg:#16281f;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;
+    line-height:1.62;
+    margin:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 24px 96px;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    border-bottom:2px solid var(--primary);
+    padding:56px 0 22px;
+    margin-bottom:6px;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:"Source Serif 4","Iowan Old Style",Georgia,serif;
+    font-weight:600;
+    font-size:clamp(1.9rem,5vw,2.6rem);
+    line-height:1.14;
+    letter-spacing:-.01em;
+    text-wrap:balance;
+    margin:0 0 6px;
+  }
+  .subtitle{
+    font-family:"Source Serif 4",Georgia,serif;
+    font-size:1.06rem;
+    color:var(--muted);
+    font-style:italic;
+    margin:0;
+  }
+
+  /* ---------- meta grid ---------- */
+  .meta{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:2px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+    margin:28px 0 8px;
+  }
+  .meta div{
+    background:var(--surface);
+    padding:12px 14px;
+  }
+  .meta dt{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--faint);
+    margin:0 0 3px;
+  }
+  .meta dd{
+    margin:0;
+    font-size:14px;
+    font-weight:500;
+  }
+
+  .provenance{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    font-size:13px;
+    line-height:1.5;
+    color:var(--muted);
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 15px;
+    margin:20px 0 0;
+  }
+  .provenance svg{flex:0 0 auto;margin-top:2px}
+
+  /* ---------- sections ---------- */
+  section{margin-top:52px}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    border-bottom:1px solid var(--line-strong);
+    padding-bottom:8px;
+    margin-bottom:22px;
+  }
+  .sec-num{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    color:var(--accent);
+    font-weight:500;
+    flex:0 0 auto;
+  }
+  h2{
+    font-family:"Source Serif 4",Georgia,serif;
+    font-weight:600;
+    font-size:1.4rem;
+    letter-spacing:-.01em;
+    margin:0;
+    text-wrap:balance;
+  }
+  h3{
+    font-family:"IBM Plex Sans",sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    margin:30px 0 8px;
+    color:var(--ink);
+  }
+  h3 .tag{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:400;
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--faint);
+    margin-left:8px;
+  }
+  p{margin:0 0 14px}
+  a{color:var(--primary)}
+  strong{font-weight:600}
+
+  ul,ol{margin:0 0 16px;padding-left:22px}
+  li{margin:0 0 7px}
+  li::marker{color:var(--accent)}
+  ul.tight li{margin:0 0 4px}
+
+  .lead{
+    font-family:"Source Serif 4",Georgia,serif;
+    font-size:1.12rem;
+    line-height:1.6;
+    color:var(--ink);
+  }
+
+  /* ---------- attendee cards ---------- */
+  .orgs{display:grid;gap:16px}
+  @media(min-width:620px){.orgs{grid-template-columns:1fr 1fr}}
+  .org{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    box-shadow:var(--shadow);
+  }
+  .org h4{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 3px;
+  }
+  .org .role-line{font-size:12.5px;color:var(--faint);margin:0 0 12px}
+  .person{padding:8px 0;border-top:1px solid var(--line)}
+  .person:first-of-type{border-top:none}
+  .person .nm{font-weight:600;font-size:14.5px}
+  .person .rl{font-size:13px;color:var(--muted)}
+  .absent{
+    display:inline-block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:9.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--open);
+    background:var(--open-bg);
+    border-radius:4px;
+    padding:1px 6px;
+    margin-left:6px;
+    vertical-align:middle;
+  }
+
+  /* ---------- callouts ---------- */
+  .callout{
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    background:var(--surface);
+    border-radius:0 8px 8px 0;
+    padding:14px 18px;
+    margin:18px 0;
+  }
+  .callout .k{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:block;
+    margin-bottom:5px;
+  }
+  .callout p:last-child{margin-bottom:0}
+
+  /* ---------- decisions strip ---------- */
+  .decisions{
+    background:var(--agree-bg);
+    border:1px solid color-mix(in srgb,var(--agree) 35%,transparent);
+    border-radius:10px;
+    padding:6px 20px 8px;
+  }
+  .decisions li{margin:10px 0}
+  .decisions li::marker{content:"✓  ";color:var(--agree);font-weight:700}
+
+  /* ---------- tables ---------- */
+  .table-scroll{overflow-x:auto;margin:6px 0 8px;-webkit-overflow-scrolling:touch}
+  table{
+    border-collapse:collapse;
+    width:100%;
+    font-size:13.5px;
+    min-width:560px;
+  }
+  th,td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  thead th{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--faint);
+    border-bottom:1px solid var(--line-strong);
+    background:var(--surface-2);
+  }
+  tbody tr:last-child td{border-bottom:none}
+  .id-cell{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:500;
+    color:var(--accent);
+    white-space:nowrap;
+  }
+  .chip{
+    display:inline-block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;
+    letter-spacing:.04em;
+    padding:2px 8px;
+    border-radius:999px;
+    white-space:nowrap;
+    border:1px solid var(--line-strong);
+    color:var(--muted);
+  }
+  .chip.uit{background:var(--primary-soft);color:var(--primary);border-color:transparent}
+  .chip.gt{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+  .chip.sf{background:var(--open-bg);color:var(--open);border-color:transparent}
+
+  /* ---------- open items ---------- */
+  .open-list{list-style:none;padding:0;margin:0}
+  .open-list li{
+    position:relative;
+    padding:9px 0 9px 26px;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .open-list li:last-child{border-bottom:none}
+  .open-list li::before{
+    content:"";
+    position:absolute;
+    left:4px;top:16px;
+    width:8px;height:8px;
+    border-radius:2px;
+    background:var(--open);
+  }
+  .owner-note{color:var(--faint);font-size:12.5px;font-family:"IBM Plex Mono",monospace}
+
+  footer{
+    margin-top:64px;
+    padding-top:18px;
+    border-top:1px solid var(--line-strong);
+    font-size:12.5px;
+    color:var(--faint);
+    line-height:1.55;
+  }
+
+  :where(a,button):focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+    border-radius:3px;
+  }
+
+  @media print{
+    body{background:#fff;font-size:11.5pt;line-height:1.45}
+    .wrap{max-width:none;padding:0}
+    .provenance,.org,.callout,.decisions{box-shadow:none}
+    section{margin-top:26px;break-inside:avoid}
+    .sec-head{break-after:avoid}
+    h3{break-after:avoid}
+    table{min-width:0;font-size:9.5pt}
+    .table-scroll{overflow:visible}
+    a{color:inherit;text-decoration:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Companion to the Minutes &nbsp;&middot;&nbsp; Confidential &nbsp;&middot;&nbsp; Level&nbsp;1 Review</p>
+    <h1>Open Points, Questions &amp; Assumptions</h1>
+    <p class="subtitle">Everything Unique IT Solution is assuming, and everything Siraj Finance / GT still needs to answer, from the CRM &ndash; Sales Journey proposal review.</p>
+
+    <dl class="meta">
+      <div><dt>Meeting</dt><dd>CRM &ndash; Sales Journey &mdash; proposal walkthrough</dd></div>
+      <div><dt>Date</dt><dd>Thursday, 3 September 2026</dd></div>
+      <div><dt>Parties</dt><dd>Unique IT Solution &amp; Gibraltar Technologies</dd></div>
+      <div><dt>Companion to</dt><dd>CRM Sales Journey &mdash; Minutes of Meeting</dd></div>
+      <div><dt>Status</dt><dd>To be issued to Siraj Finance for answers</dd></div>
+      <div><dt>Still pending</dt><dd>+ compliance specialist&rsquo;s ~49 AML/KYC questions</dd></div>
+    </dl>
+
+  </header>
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>Assumptions register</h2></div>
+    <p>Every assumption Unique IT Solution is currently working to, drawn from the proposal and this walkthrough. <strong>All are provisional</strong> until confirmed by Siraj Finance / GT; the matching questions are in &sect;2.</p>
+
+    <h3>Engagement &amp; delivery model</h3>
+    <ul class="tight">
+      <li>AI is used as a developer assistant to compress the timeline; all development, testing and QA are done by Unique IT Solution&rsquo;s team.</li>
+      <li>Commercials quoted cover the full <strong>10&ndash;12 month enterprise scope</strong>. A 6&ndash;7 month track would deliver the email communication hub only and move SMS / WhatsApp and the wider notification system to Phase 2.</li>
+      <li>Project Manager and Business Analyst effort is <strong>not billed</strong>; billing is for UI/UX, .NET backend, frontend and AI developers on a critical-path basis, not all full-time.</li>
+      <li>90-day warranty after production go-live, then AMC (T&amp;M / resource / bug-based).</li>
+      <li>Change requests follow BRD &rarr; proposal / PO &rarr; sign-off &rarr; versioned release.</li>
+      <li>Default cloud is <strong>AWS</strong> (region me-central-1); Azure and on-prem are offered on request.</li>
+      <li>Deployment infrastructure is provided by Siraj Finance; capacity is sized from Siraj Finance&rsquo;s volume data.</li>
+    </ul>
+
+    <h3>Lead capture &amp; onboarding</h3>
+    <ul class="tight">
+      <li>Leads arrive from multiple sources; the RM / sales officer performs initial qualification.</li>
+      <li>Deduplication is provided by the core-banking or AML system and consumed via API &mdash; not built inside the CRM.</li>
+      <li>Two customer types (Individual, Corporate) with separate checklists and KYC/AML programmes; one checklist per product; all configurable by the System Administrator.</li>
+      <li>Corporate onboarding covers UBO / director / signatory / guarantor identification.</li>
+      <li>Siraj Finance supplies all document checklists, email templates and the Sharia-compliant FOL templates.</li>
+    </ul>
+
+    <h3>Customer portal</h3>
+    <ul class="tight">
+      <li>A unique, secure link per customer; Case ID + password generated on case creation and emailed; access restricted to that one customer.</li>
+      <li>The portal shows the full case timeline from day one; Phase 1 delivers the web portal + secure messaging.</li>
+    </ul>
+
+    <h3>AI document intelligence &amp; OCR</h3>
+    <ul class="tight">
+      <li>PaddleOCR with Unique IT Solution&rsquo;s own models / logic; no external OCR API.</li>
+      <li>Phase 1 targets English documents; Arabic / mixed / scanned / handwritten to be validated by experiment.</li>
+      <li>Siraj Finance defines the fields to extract, validation rules and the expected AI summary per document type.</li>
+    </ul>
+
+    <h3>AML / KYC / screening</h3>
+    <ul class="tight">
+      <li>Screening is performed by Siraj Finance&rsquo;s existing compliant system; the CRM only sends data and stores results (&ldquo;postman&rdquo;), so the CRM needs no separate regulatory certification.</li>
+      <li>Screening providers are subscription-based with APIs (LSEG World-Check One, Sumsub, LexisNexis, &hellip;); the CRM is integration-ready for 3&ndash;4 configurable providers.</li>
+      <li>FIU / regulatory reporting and the policy engine (data localisation, etc.) stay in Siraj Finance&rsquo;s systems.</li>
+      <li>AI findings are reconciled against the screening system&rsquo;s findings (&ldquo;AI limits&rdquo;).</li>
+    </ul>
+
+    <h3>Risk, credit, CAD &amp; FOL</h3>
+    <ul class="tight">
+      <li>Siraj Finance provides the risk-rating algorithm and the Low / Medium / High parameters.</li>
+      <li>Overrides require a mandatory reason / justification.</li>
+      <li>The credit officer decides manually; AI is decision-support only; CAD verifies every stage before FOL generation.</li>
+      <li>Pre-built, configurable conditions support &ldquo;approve with condition&rdquo;.</li>
+      <li>FOL lifecycle: draft &rarr; legal review &rarr; issue from the communication hub &rarr; acceptance &rarr; CAD document perfection &rarr; version-controlled, locked, non-editable final PDF.</li>
+      <li>Generic Sharia benchmarks are adequate for v1; Siraj Finance guides on the specifics.</li>
+    </ul>
+
+    <h3>Trade finance, lending operations &amp; LOS</h3>
+    <ul class="tight">
+      <li>Siraj Finance runs its own core banking / LOS for trade finance and lending.</li>
+      <li>Unique IT Solution&rsquo;s scope ends at onboarding + CAD verification + offer acceptance; Siraj&rsquo;s team then punches the case into the LOS.</li>
+      <li>The CRM retains disbursement-milestone data (amount, conditional approval); disbursement executes in the LOS.</li>
+    </ul>
+
+    <h3>Communication hub &amp; Microsoft 365</h3>
+    <ul class="tight">
+      <li>Microsoft 365 Graph API captures inbound and tracks outbound email; every RM&ndash;customer email is tied to the customer timeline.</li>
+      <li>Phase 1 = email channel only; SMS &amp; WhatsApp are Phase 2.</li>
+    </ul>
+
+    <h3>Repository, incentives, reporting &amp; configuration</h3>
+    <ul class="tight">
+      <li>A centralised, searchable document repository holds accepted letters, FOL snapshots and audit trails.</li>
+      <li>Incentives are system-calculated from transparent rules + milestone evidence + management approval; the current model is a placeholder pending the full structure and hierarchy rules from Siraj Finance.</li>
+      <li>Role-based dashboards per function (Head of Business, Sales, Credit, CAD, Compliance).</li>
+      <li>The System Administrator configures branch / sales hierarchy, RBAC, checklists, templates, conditions and workflow; template / workflow / permission changes need formal approval + version control.</li>
+      <li>English + Arabic throughout.</li>
+    </ul>
+
+    <h3>Integrations</h3>
+    <ul class="tight">
+      <li>Siraj Finance holds the required subscriptions for AECB (Al Etihad Credit Bureau), Emirates ID and other government APIs.</li>
+      <li>Integrations are built to each provider&rsquo;s published API spec and certification.</li>
+      <li>Connectors are configurable multi-provider (URL / port / ID / password).</li>
+    </ul>
+
+    <h3>Non-functional</h3>
+    <ul class="tight">
+      <li>2FA, SSO readiness, password policy, session timeout, device / IP monitoring.</li>
+      <li>PII / sensitive-field masking per regulator; access only to privileged roles.</li>
+      <li>Production + backups + disaster recovery.</li>
+      <li>Hosting is subject to Siraj Finance security-team approval.</li>
+      <li>Not currently certified for NIST AI RMF; open to pursuing certification.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>Open points &amp; questions</h2></div>
+    <p>One consolidated list &mdash; the step-wise questions Unique IT Solution had already prepared, merged with every clarification raised during this meeting. Unless noted, each item is for <strong>Siraj Finance</strong> to answer, with GT co-ordinating. Items already answered in the call are marked.</p>
+
+    <h3>Lead capture &amp; deduplication</h3>
+    <ul class="tight">
+      <li>How many lead-capture channels exist today, and which must work at go-live?</li>
+      <li>How are duplicate customers / leads identified today &mdash; a proprietary algorithm, or the core-banking / AML system&rsquo;s? Which matching keys (name / phone / Emirates ID)?</li>
+      <li>Is the assumption that deduplication is handled by core banking / AML and consumed via API stated in the proposal?</li>
+      <li>How does lead assignment work today (manual / automatic / geotag / nearest branch), and how should it work?</li>
+      <li>Required display format / structure for the Case ID.</li>
+    </ul>
+
+    <h3>Checklist, templates &amp; customer portal</h3>
+    <ul class="tight">
+      <li>Confirm a distinct document checklist per product &mdash; and provide each checklist (individual &amp; corporate).</li>
+      <li>Provide the email templates for each onboarding step.</li>
+      <li>Customer portal: a unique link per customer; Case ID + password generated on case creation and emailed; access restricted to that customer. Confirm the auth model (Case ID + password vs OTP / SSO).</li>
+      <li>Is a native mobile app required in Phase 1, or web-responsive only?</li>
+      <li>Branding, accessibility and language (English + Arabic) requirements for the customer-facing UI.</li>
+    </ul>
+
+    <h3>Document upload, DMS &amp; government APIs</h3>
+    <ul class="tight">
+      <li>Is a maker&ndash;checker workflow needed for document verification / approval?</li>
+      <li>Are documents uploaded by the customer, or fetched via sign-on / API?</li>
+      <li>For Emirates ID / Passport &mdash; integrate with government APIs to validate / fetch data? Is there a UIDAI/Aadhaar-equivalent service for Emirates ID?</li>
+      <li>When fetching via API, the far side must be authenticated / secured &mdash; has this been considered, or is it assumed on the provider side? <span class="owner-note">&mdash; open for the discovery phase</span></li>
+      <li>Is a DMS in use today? Which, and how is it managed? If not, build / integrate a DMS (RBAC, document-level permissions, versioning, audit trails, secure access)?</li>
+    </ul>
+
+    <h3>AI document review &amp; OCR</h3>
+    <ul class="tight">
+      <li>Provide sample documents + expected results per document type to train / configure the module: fields to extract, expected values, validation rules, expected summary / output, and examples of valid / invalid / missing / inconsistent data.</li>
+      <li>When you &ldquo;generate document summaries,&rdquo; how does that work end to end? How does the AI run, and where does the data go?</li>
+      <li>You cited PaddleOCR (open-source) but also &ldquo;your own model&rdquo; &mdash; what is the own model?</li>
+      <li>Have you tested PaddleOCR on Arabic / mixed Arabic-English / scanned / handwritten bank statements? Any experiments or accuracy figures? <span class="owner-note">&mdash; Unique IT to run experiments</span></li>
+      <li>Confirm the Arabic-language volume and document quality to size the OCR effort; target extraction accuracy / confidence threshold and exception handling.</li>
+      <li>Is the CRM compliant with the NIST AI Risk Management Framework (how data is used and controlled)? <span class="owner-note">&mdash; Unique IT: not currently</span></li>
+    </ul>
+
+    <h3>AML / KYC / PEP / sanctions screening</h3>
+    <ul class="tight">
+      <li>Which AML / KYC / sanctions screening application or service is in use, and is it subscription-based?</li>
+      <li>How is screening performed today (forward / backward, on-demand / batch)?</li>
+      <li>Is there an API for the current screening solution? Provide API documentation + a sandbox / test environment.</li>
+      <li>Required parameters / data fields for KYC screening.</li>
+      <li>Is live video verification (liveness) part of KYC? How is video captured / submitted today?</li>
+      <li>Are Sumsub / LSEG World-Check One / similar in use? Which provider?</li>
+      <li>If an external provider is used: provide API docs, credentials / configuration and sandbox.</li>
+      <li>Confirm the CRM acts only as a capture-and-reporting layer with screening validation outside it. <span class="owner-note">&mdash; Unique IT: &ldquo;partially right&rdquo;</span></li>
+      <li>Does the policy engine (data localisation and other regulatory requirements) stay with Siraj Finance&rsquo;s software?</li>
+      <li>Is the &ldquo;already available with Siraj Finance, we call the API&rdquo; position documented as an assumption in the proposal?</li>
+    </ul>
+
+    <h3>Risk rating &amp; overrides</h3>
+    <ul class="tight">
+      <li>Provide the risk-assessment algorithm / rules and weightings for Low / Medium / High indicators.</li>
+      <li>Company risk-override process &mdash; should an override require a justification / reason / comment?</li>
+      <li>Maker&ndash;checker workflow for overrides? Clarify the approval hierarchy (e.g. L1 &rarr; L2 &rarr; L3 &rarr; Compliance).</li>
+    </ul>
+
+    <h3>Credit review &amp; AECB</h3>
+    <ul class="tight">
+      <li>How does the AI-generated summary (bank statement + credit report) reach the CAD / credit team today, and how should it integrate?</li>
+      <li>Integrate AECB (Al Etihad Credit Bureau) for retrieving / processing the credit report &mdash; provide current AECB API details and credentials.</li>
+      <li>How are conditional approvals / conditions and their deadlines managed today (manual?).</li>
+      <li>Approval hierarchy and segregation-of-duties rules for the credit decision.</li>
+    </ul>
+
+    <h3>Facility Offer Letter &amp; Sharia compliance</h3>
+    <ul class="tight">
+      <li>Provide the FOL template(s), including required serial numbering and formatting.</li>
+      <li>When you say the FOL template is &ldquo;Sharia compliant,&rdquo; what exactly are you proposing / assuming? How do you ensure Sharia compliance from your side &mdash; which rules and benchmarks?</li>
+      <li>Which specific Sharia rules must the FOL enforce beyond the generic benchmarks?</li>
+      <li>How do customers review / accept the FOL today (manual / electronic / existing platform)?</li>
+      <li>E-signature provider in use? Specify it and share API / integration details.</li>
+      <li>Expected workflow: FOL generation &rarr; digital signing &rarr; customer acceptance &rarr; final document storage.</li>
+    </ul>
+
+    <h3>Lending operations, disbursement &amp; LOS</h3>
+    <ul class="tight">
+      <li>Provide the disbursement checklist for each product.</li>
+      <li>Maker&ndash;checker workflow for disbursement? Clarify the approval hierarchy.</li>
+      <li>How is the process managed today with the existing LOS (Loan Origination System)?</li>
+      <li>Integrate with the existing LOS, or does the new system handle this independently?</li>
+      <li>If integrating: provide the LOS API / integration details and workflow.</li>
+    </ul>
+
+    <h3>Technology stack &amp; architecture</h3>
+    <ul class="tight">
+      <li>Explain the reasoning behind specific design choices (e.g. .NET).</li>
+      <li>Give examples where you have used event-driven architecture &mdash; which frameworks, and why it applies here. What is MediatR, and how is it used?</li>
+      <li>Are .NET / Angular chosen for team competence, or after evaluating alternatives? <span class="owner-note">&mdash; answered: reliability, UX, state management, licensing fit</span></li>
+    </ul>
+
+    <h3>Cloud, hosting &amp; infrastructure</h3>
+    <ul class="tight">
+      <li>Have the hardware / infrastructure needs been addressed &mdash; what is assumed to be provided by Siraj Finance, and what is the minimum?</li>
+      <li>Given a Microsoft .NET stack and Microsoft Exchange / M365 for mail, why AWS and not Azure? Isn&rsquo;t a single Microsoft OEM more cost-effective and lower-risk for support (single point of failure)?</li>
+      <li>Indicative recurring annual cloud-subscription costs, and the price difference between Microsoft / Azure and AWS.</li>
+      <li>What infrastructure is required for deployment, and what are the recurring cloud-hosting expenses?</li>
+      <li>Is on-prem an option? <span class="owner-note">&mdash; Unique IT: yes; needs 5-yr historic + 5-yr projected load data</span></li>
+      <li>Current customer onboarding volume &mdash; average new customers / daily footfall.</li>
+      <li>Existing Disaster Recovery site / DR infrastructure &mdash; details of the current setup.</li>
+      <li>Preferred infrastructure &mdash; AWS cloud or on-prem (separate plans for both); estimated onboarding volume for the next 6 months, 1 year, 3 years and beyond.</li>
+      <li>If a different technology stack is chosen, will the timelines and milestones change? <span class="owner-note">&mdash; Unique IT: window up to ~1&ndash;1.5 months; to be captured as a risk with impact assessment</span></li>
+    </ul>
+
+    <h3>Security, data protection &amp; compliance</h3>
+    <ul class="tight">
+      <li>Have the UAE data-protection policies been analysed? State compliance yes / no as an evaluation checklist item.</li>
+      <li>Unique IT Solution to review Siraj / GT&rsquo;s compliance document and gap-fill the proposal. <span class="owner-note">&mdash; GT to share the document</span></li>
+    </ul>
+
+    <h3>Scope, phasing &amp; timeline</h3>
+    <ul class="tight">
+      <li>Are some notification elements being de-scoped to a second phase (as discussed with Siraj Finance)? <span class="owner-note">&mdash; confirmed</span></li>
+      <li>Is the quoted cost for the first phase or the full / entire phase? <span class="owner-note">&mdash; answered: full 10&ndash;12 months</span></li>
+      <li>Does the reporting scope include the items still needing clarification / additional scope? <span class="owner-note">&mdash; answered: yes</span></li>
+      <li>Confirm you are working to the full 12-month scope. <span class="owner-note">&mdash; confirmed</span></li>
+      <li>Has a separate 6&ndash;7 month proposal been submitted? <span class="owner-note">&mdash; answered: no; first meeting since the proposal</span></li>
+    </ul>
+
+    <h3>Support, SLA, delivery &amp; commercials</h3>
+    <ul class="tight">
+      <li>SLA per step; on breach, who is notified (reporting hierarchy); escalation hierarchy and Escalation IDs.</li>
+      <li>Expected TAT per step.</li>
+      <li>What is the SLA &mdash; first level, and turnaround ranges for L1 / L2 / L3 issues, post go-live?</li>
+      <li>Have stakeholder responsibilities been captured in a RACI matrix? <span class="owner-note">&mdash; Unique IT to prepare</span></li>
+      <li>Per milestone: the deliverable and the acceptance criteria; is a discovery / requirement-specification document and sign-off required before design; is turnaround / waiting time budgeted into the timeline?</li>
+      <li>For mobilisation / the first week: deliverables, onsite headcount, prerequisites for people, environment readiness?</li>
+      <li>Is a Gantt chart / concise phase summary available?</li>
+      <li>Is the average rate USD 11 / hour correct? <span class="owner-note">&mdash; reconciling totals vs timeline and resource count</span></li>
+      <li>Is resourcing on a critical-path basis with not-all-full-time resources? <span class="owner-note">&mdash; answered: yes</span></li>
+      <li>Is a blended rate provided for future change requests? <span class="owner-note">&mdash; not currently; Unique IT to discuss internally</span></li>
+    </ul>
+
+    <h3>Company &amp; engagement</h3>
+    <ul class="tight">
+      <li>Any existing UAE / Middle East customers? <span class="owner-note">&mdash; answered: no (India, Canada, US)</span></li>
+      <li>Is the session being recorded, and from when? <span class="owner-note">&mdash; answered: yes, from the start</span></li>
+    </ul>
+
+    <h3>Compliance specialist&rsquo;s list</h3>
+    <ul class="tight">
+      <li>Unique IT Solution&rsquo;s compliance / AML specialist holds <strong>~49 further AML / KYC / checklist questions</strong> to be shared with Siraj Finance ahead of the next meeting.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Risk register</h2></div>
+
+    <h3>From the proposal / BRD Draft V1.0</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>Emails remain outside the CRM</td><td>Make CRM email capture mandatory; integrate with Microsoft 365; disable business-critical customer communication outside approved channels</td></tr>
+          <tr><td>RM ownership of the customer relationship creates continuity risk</td><td>Customer history belongs to the CRM; all records customer-tagged, not RM-tagged</td></tr>
+          <tr><td>AI generates an inaccurate recommendation</td><td>AI is decision-support only; final approval stays with an authorised officer; AI outputs logged and reviewable</td></tr>
+          <tr><td>Sensitive documents exposed to unauthorised users</td><td>Role-based access, case-stage restrictions, document permissions, audit logs and data masking</td></tr>
+          <tr><td>FOL terms differ from the credit approval</td><td>System validation compares the FOL against approved terms and flags a mismatch before issuance</td></tr>
+          <tr><td>Sales pressure compromises underwriting</td><td>Once submitted to Credit, Sales access becomes restricted and all interactions are logged</td></tr>
+          <tr><td>AML screening false positives / negatives</td><td>Use an approved screening vendor, compliance review, periodic model / vendor testing and escalation rules</td></tr>
+          <tr><td>Workflow complexity delays adoption</td><td>Implement in phases, start with an MVP, run a branch pilot and provide user training</td></tr>
+          <tr><td>Template changes not controlled</td><td>Central template library with version control and an approval workflow</td></tr>
+          <tr><td>Incentive disputes</td><td>System-calculated incentives based on transparent rules, milestone evidence and management approval</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Raised or implied in this meeting</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>A technology-stack change (AWS &rarr; Azure / on-prem) shifts the timeline and cost</td><td>Prepare an impact assessment with pros / cons; cap the variation window near ~1 month; carry it as a risk &amp; mitigation item in the revised proposal</td></tr>
+          <tr><td>Arabic / mixed-language / scanned / handwritten OCR accuracy is unproven</td><td>Run experiments to establish an accuracy ratio before commitment; train the model on local dialects and statement formats over time</td></tr>
+          <tr><td>A multi-vendor stack (AWS + Microsoft) adds support dependencies and a single point of failure</td><td>Evaluate a single-OEM Microsoft (Azure) option; keep the design portable across clouds</td></tr>
+          <tr><td>Heavy dependency on Siraj Finance inputs (templates, algorithms, API docs, sandboxes)</td><td>Consolidate every open item into one questions document; close it at a meeting with Siraj Finance present before sign-off</td></tr>
+          <tr><td>Timeline compressed to 6&ndash;7 months on unconfirmed assumptions</td><td>Keep the compressed track assumption-based / MVP; defer SMS &amp; WhatsApp to Phase 2; issue no compressed proposal until assumptions are confirmed</td></tr>
+          <tr><td>No Siraj Finance representative in the review &mdash; business / compliance answers unresolved</td><td>Route all such questions in writing; hold the next meeting with Siraj Finance stakeholders present</td></tr>
+          <tr><td>Government / credit-bureau API authentication &amp; security not yet designed</td><td>Resolve in the discovery phase; build to each authority&rsquo;s published API spec and certification</td></tr>
+          <tr><td>CRM not certified for NIST AI RMF; UAE data-protection compliance unstated</td><td>Evaluate the certification path; answer a compliance yes / no checklist; review Siraj / GT&rsquo;s compliance document and gap-fill</td></tr>
+          <tr><td>SLA and severity tiers undefined</td><td>Define with Siraj Finance; the vendor educates on tier definitions while the customer&rsquo;s ITSM process owns severity classification</td></tr>
+          <tr><td>Vendor&rsquo;s first finance-sector CRM and first UAE / Middle East client &mdash; regulatory learning curve</td><td>A 20-plus-year compliance specialist on the team; discovery sessions; phased rollout with a branch pilot</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>Prepared from the meeting recording (<span style="font-family:'IBM Plex Mono',monospace">CRM&nbsp;-&nbsp;Sales&nbsp;Journey-20260903_101043UTC</span>, 1:48:00). Transcribed on-device with Whisper; names and figures are phonetic best-effort and must be verified. Circulated for correction &mdash; please send amendments before the next meeting.</p>
+    <p>Confidential &mdash; subject to the NDA between Siraj Finance PJSC and Unique IT Solution.</p>
+  </footer>
+
+</div>
