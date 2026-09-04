@@ -2,6 +2,9 @@
 
 Working documents for the Siraj Finance AI-driven CRM engagement (Unique IT Solution).
 
+**Index page:** [`index.html`](index.html) — once GitHub Pages is enabled, browse everything at
+<https://himanshuuniqueit.github.io/Siraj-Finance-/>.
+
 ## Meeting minutes — CRM · Sales Journey (3 September 2026)
 
 Proposal walkthrough between Unique IT Solution and Siraj Holding / Gibraltar Technologies.

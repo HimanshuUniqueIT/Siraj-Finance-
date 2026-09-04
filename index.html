@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siraj Finance CRM — Documents</title>
+<meta name="description" content="Index of the Siraj Finance CRM working documents — meeting minutes, customer journey, onboarding flows and role definitions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+<style>
+  :root{
+    --paper:#f7f5f0; --surface:#ffffff; --surface-2:#f1eee5;
+    --ink:#1b2a33; --muted:#5c6870; --faint:#8a949a;
+    --primary:#0f4c5c; --primary-soft:#dceaed;
+    --accent:#a9702e; --accent-soft:#f0e2cf;
+    --line:#e3ddd0; --line-strong:#cfc7b5;
+    --shadow:0 1px 2px rgba(27,42,51,.05),0 8px 28px rgba(27,42,51,.06);
+    --maxw:780px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#12171a; --surface:#1a2227; --surface-2:#212b31;
+      --ink:#e9e4d8; --muted:#a3adb3; --faint:#77828a;
+      --primary:#3f9fb4; --primary-soft:#1b333a;
+      --accent:#d4a05f; --accent-soft:#33291a;
+      --line:#2c363c; --line-strong:#3a464d;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12171a; --surface:#1a2227; --surface-2:#212b31;
+    --ink:#e9e4d8; --muted:#a3adb3; --faint:#77828a;
+    --primary:#3f9fb4; --primary-soft:#1b333a;
+    --accent:#d4a05f; --accent-soft:#33291a;
+    --line:#2c363c; --line-strong:#3a464d;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px; line-height:1.6; margin:0; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px 90px}
+
+  header.masthead{border-bottom:2px solid var(--primary); padding:52px 0 20px; margin-bottom:8px}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 12px;
+  }
+  h1{
+    font-family:"Source Serif 4","Iowan Old Style",Georgia,serif; font-weight:600;
+    font-size:clamp(1.9rem,5vw,2.5rem); line-height:1.14; letter-spacing:-.01em;
+    margin:0 0 6px; text-wrap:balance;
+  }
+  .subtitle{font-family:"Source Serif 4",Georgia,serif; font-size:1.05rem; color:var(--muted); font-style:italic; margin:0}
+  .repo-meta{
+    font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--faint);
+    margin-top:14px; display:flex; flex-wrap:wrap; gap:6px 18px;
+  }
+  .repo-meta a{color:var(--primary)}
+
+  .filter-row{margin:26px 0 6px}
+  #filter{
+    width:100%; font:inherit; font-size:14px; padding:10px 14px;
+    border:1px solid var(--line-strong); border-radius:8px;
+    background:var(--surface); color:var(--ink);
+  }
+  #filter::placeholder{color:var(--faint)}
+  #filter:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+  .count{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--faint); margin:8px 2px 0}
+
+  h2.group{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent);
+    margin:38px 0 12px; padding-bottom:7px; border-bottom:1px solid var(--line-strong);
+  }
+  .doc{
+    display:block; text-decoration:none; color:inherit;
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:15px 17px; margin:10px 0; box-shadow:var(--shadow);
+    transition:border-color .12s ease, transform .12s ease;
+  }
+  .doc:hover{border-color:var(--accent); transform:translateY(-1px)}
+  .doc:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .doc .t{
+    font-family:"Source Serif 4",Georgia,serif; font-weight:600; font-size:1.12rem;
+    letter-spacing:-.01em; margin:0 0 3px; color:var(--ink);
+  }
+  .doc .d{font-size:13.5px; color:var(--muted); margin:0 0 9px}
+  .doc .m{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--faint);
+    display:flex; flex-wrap:wrap; gap:4px 14px;
+  }
+  .doc .m .k{color:var(--primary)}
+  .no-match{display:none; color:var(--faint); font-size:14px; padding:14px 2px}
+  .no-match.show{display:block}
+
+  footer{
+    margin-top:52px; padding-top:16px; border-top:1px solid var(--line-strong);
+    font-size:12px; color:var(--faint); line-height:1.55;
+  }
+  @media print{
+    body{background:#fff} .wrap{max-width:none} .doc{box-shadow:none}
+    .filter-row,.count{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Siraj Finance &nbsp;&middot;&nbsp; CRM</p>
+    <h1>Project documents</h1>
+    <p class="subtitle">Working material for the Siraj Finance AI-driven CRM engagement — pick a document to open.</p>
+    <div class="repo-meta">
+      <span>repo: <a href="https://github.com/HimanshuUniqueIT/Siraj-Finance-">HimanshuUniqueIT/Siraj-Finance-</a></span>
+      <span>5 documents</span>
+      <span>updated 4 Sep 2026</span>
+    </div>
+  </header>
+
+  <div class="filter-row">
+    <input id="filter" type="search" placeholder="Filter documents…" autocomplete="off" aria-label="Filter documents">
+    <p class="count" id="count"></p>
+  </div>
+
+  <section data-group>
+    <h2 class="group">Meeting minutes — CRM · Sales Journey (3 Sep 2026)</h2>
+
+    <a class="doc" href="CRM%20Sales%20Journey%20-%20Minutes%2C%20Actions%20%26%20Next%20Steps.html">
+      <p class="t">1 · Minutes, Actions &amp; Next Steps</p>
+      <p class="d">Purpose &amp; context, attendees, the full discussion (4.1–4.11), decisions &amp; agreements, action items A1–A13, and next steps.</p>
+      <p class="m"><span class="k">updated 4 Sep 2026</span><span>42 KB</span><span>HTML</span></p>
+    </a>
+
+    <a class="doc" href="CRM%20Sales%20Journey%20-%20Open%20Points%2C%20Questions%20%26%20Assumptions.html">
+      <p class="t">2 · Open Points, Questions &amp; Assumptions</p>
+      <p class="d">Assumptions register, one consolidated question list grouped by topic, and the risk register (BRD Draft V1.0 + risks raised in the meeting).</p>
+      <p class="m"><span class="k">updated 4 Sep 2026</span><span>35 KB</span><span>HTML</span></p>
+    </a>
+  </section>
+
+  <section data-group>
+    <h2 class="group">CRM design &amp; requirements</h2>
+
+    <a class="doc" href="customer_journey.html">
+      <p class="t">Customer Journey Presentation</p>
+      <p class="d">Siraj Finance PJSC — the customer journey, screen by screen.</p>
+      <p class="m"><span class="k">updated 2 Sep 2026</span><span>4.3 MB</span><span>HTML</span></p>
+    </a>
+
+    <a class="doc" href="onboarding_flow.html">
+      <p class="t">Customer Onboarding Flows</p>
+      <p class="d">Email-centric onboarding flow — compare approaches.</p>
+      <p class="m"><span class="k">updated 31 Aug 2026</span><span>2.2 MB</span><span>HTML</span></p>
+    </a>
+
+    <a class="doc" href="siraj-crm-roles.html">
+      <p class="t">User Stories &amp; Prerequisites</p>
+      <p class="d">Siraj CRM — roles, user stories and prerequisites per stakeholder.</p>
+      <p class="m"><span class="k">updated 31 Aug 2026</span><span>119 KB</span><span>HTML</span></p>
+    </a>
+  </section>
+
+  <p class="no-match" id="noMatch">No documents match that filter.</p>
+
+  <footer>
+    Confidential — subject to the NDA between Siraj Finance PJSC and Unique IT Solution.
+    GitHub renders <code>.html</code> as source; open this page via GitHub Pages, or use the repo README&rsquo;s rendered links.
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var input = document.getElementById('filter');
+    var docs = Array.prototype.slice.call(document.querySelectorAll('.doc'));
+    var groups = Array.prototype.slice.call(document.querySelectorAll('[data-group]'));
+    var count = document.getElementById('count');
+    var noMatch = document.getElementById('noMatch');
+
+    function apply() {
+      var q = input.value.trim().toLowerCase();
+      var shown = 0;
+      docs.forEach(function (d) {
+        var hit = !q || d.textContent.toLowerCase().indexOf(q) !== -1;
+        d.hidden = !hit;
+        if (hit) shown++;
+      });
+      groups.forEach(function (g) {
+        var any = g.querySelector('.doc:not([hidden])');
+        g.hidden = !any;
+      });
+      noMatch.classList.toggle('show', shown === 0);
+      count.textContent = q ? (shown + ' of ' + docs.length + ' shown') : (docs.length + ' documents');
+    }
+
+    input.addEventListener('input', apply);
+    apply();
+  })();
+</script>
+</body>
+</html>
