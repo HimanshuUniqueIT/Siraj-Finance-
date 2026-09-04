@@ -408,6 +408,10 @@
       <li>GT had <strong>not yet read</strong> the written proposal at the time of the call. The session was a live, module-by-module walkthrough of the BRD and Unique IT&rsquo;s response, aimed at surfacing gaps and assumptions.</li>
       <li>Recording was confirmed to have run from the start, with permission from the Unique IT Solution team.</li>
     </ul>
+    <div class="callout">
+      <span class="k">Related documents &middot; same repository</span>
+      <p><a href="https://himanshuuniqueit.github.io/Siraj-Finance-/customer_journey.html">Customer Journey Presentation</a> &mdash; the customer journey, screen by screen &nbsp;&middot;&nbsp; <a href="https://himanshuuniqueit.github.io/Siraj-Finance-/onboarding_flow.html">Customer Onboarding Flows</a> &mdash; email-centric onboarding, approaches compared &nbsp;&middot;&nbsp; <a href="https://himanshuuniqueit.github.io/Siraj-Finance-/siraj-crm-roles.html">User Stories &amp; Prerequisites</a> &mdash; roles and prerequisites per stakeholder.</p>
+    </div>
   </section>
 
   <section>
@@ -461,7 +465,7 @@
     </ul>
 
     <h3>4.2&nbsp;&nbsp;CRM functional walkthrough (against the BRD)</h3>
-    <p>Unique IT Solution walked the ~15-step onboarding &ldquo;sales journey&rdquo; described in the BRD:</p>
+    <p>Unique IT Solution walked the ~15-step onboarding &ldquo;sales journey&rdquo; described in the BRD &mdash; the same path mapped screen-by-screen in the <a href="https://himanshuuniqueit.github.io/Siraj-Finance-/customer_journey.html">Customer Journey Presentation</a> and the <a href="https://himanshuuniqueit.github.io/Siraj-Finance-/onboarding_flow.html">Customer Onboarding Flows</a>:</p>
     <ul class="tight">
       <li>Lead / inquiry capture from multiple sources &rarr; RM / sales-officer qualification &rarr; duplicate check &rarr; case-ID creation.</li>
       <li>Product-specific document checklist &rarr; secure customer upload link (sent from the in-CRM communication hub) &rarr; customer uploads &rarr; RM tracks checklist completion.</li>
@@ -470,7 +474,7 @@
       <li>Credit approval &rarr; system drafts the Facility Offer Letter (FOL) from findings + product eligibility &rarr; FOL emailed to customer &rarr; customer accepts on the portal.</li>
       <li>Issuance &amp; disbursement of the loan / lending order &rarr; incentive update for RM / sales officer / supervisor.</li>
     </ul>
-    <p><strong>Roles &amp; hierarchy modelled:</strong> Head of Investment &amp; Business, Head of Sales, Branch Supervisor, Senior RM, Sales Officer, Credit team, CAD, Trade Finance, Lending Operations, Internal Audit, System Administrator &mdash; each with its own dashboard and permissions, driven by role-based access control.</p>
+    <p><strong>Roles &amp; hierarchy modelled:</strong> Head of Investment &amp; Business, Head of Sales, Branch Supervisor, Senior RM, Sales Officer, Credit team, CAD, Trade Finance, Lending Operations, Internal Audit, System Administrator &mdash; each with its own dashboard and permissions, driven by role-based access control. Detailed per stakeholder in <a href="https://himanshuuniqueit.github.io/Siraj-Finance-/siraj-crm-roles.html">User Stories &amp; Prerequisites</a>.</p>
     <p><strong>Microsoft 365 Graph API:</strong> capture inbound and track outbound email; every RM&ndash;customer email tied to the customer timeline; RM email routing, attachments, access control, legal hold and auditing. <strong>Email / FOL / checklist templates (Sharia-compliant) to be provided by Siraj Finance.</strong></p>
     <p><strong>Customer types:</strong> Individual and Corporate, with different document sets and KYC/AML programmes. Corporate onboarding checks guarantors, UBOs, directors and signatories. Trade-finance specifics (guarantee format, contract, PO) and LOS case generation are covered.</p>
     <p><strong>Also covered:</strong> centralised, searchable document repository (accepted letters, FOL snapshots &amp; audit trails); English + Arabic multilingual readiness; incentive automation; role-based reporting &amp; dashboards; immutability controls (a case cannot be edited after submission to credit; a locked final FOL cannot be edited after CAD lock); full audit trail on every stage transition; AECB credit-bureau integration via approved API.</p>
@@ -516,7 +520,7 @@
     </ul>
 
     <h3>4.7&nbsp;&nbsp;Navigational prototype</h3>
-    <p>Unique IT demonstrated a clickable navigational prototype built on their reading of the BRD, tracing the full journey: inquiry capture &rarr; lead stages (new / called / connected / qualified) &rarr; case ID &rarr; product-based secure upload link &rarr; checklist tracking &rarr; AI document review &rarr; documents fetched via government APIs where available (Emirates ID, credit report) or uploaded manually (e.g. bank statements) &rarr; AI summary &rarr; compliance / AML officer &rarr; risk-rating computation (parameters to be supplied by Siraj Finance) &rarr; consolidated report with override &rarr; credit officer decision &rarr; CAD verification &rarr; FOL &rarr; customer acceptance on portal &rarr; data handoff to LOS. The customer portal shows the full timeline from day one.</p>
+    <p>Unique IT demonstrated a clickable navigational prototype built on their reading of the BRD, tracing the full journey: inquiry capture &rarr; lead stages (new / called / connected / qualified) &rarr; case ID &rarr; product-based secure upload link &rarr; checklist tracking &rarr; AI document review &rarr; documents fetched via government APIs where available (Emirates ID, credit report) or uploaded manually (e.g. bank statements) &rarr; AI summary &rarr; compliance / AML officer &rarr; risk-rating computation (parameters to be supplied by Siraj Finance) &rarr; consolidated report with override &rarr; credit officer decision &rarr; CAD verification &rarr; FOL &rarr; customer acceptance on portal &rarr; data handoff to LOS. The customer portal shows the full timeline from day one. It follows the same path as the <a href="https://himanshuuniqueit.github.io/Siraj-Finance-/customer_journey.html">Customer Journey Presentation</a>.</p>
     <p><strong>GT questions raised:</strong> which deduplication algorithm (proprietary vs core-banking); and how the far side of each government API is authenticated / secured. Unique IT: government authorities provide subscription-based API access that banks already hold, and they build to each authority&rsquo;s API spec and certification (e.g. AECB / Experian / CIBIL). GT: still an open question &mdash; to be resolved in the discovery phase.</p>
 
     <h3>4.8&nbsp;&nbsp;Technology stack &amp; architecture</h3>
